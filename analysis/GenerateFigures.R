@@ -27,7 +27,8 @@ library(scales)
 library(reshape)
 library(mgcv)
 library(RColorBrewer)
-
+library(splines)
+library(MASS)
 
 # Sets the bounds based on the number of ticks
 number_ticks <- function(n)
@@ -99,7 +100,7 @@ for (num_queens in unique(summary_solution[, queen]))
     
     p <- p + geom_line(size=1.25) + 
          scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
-         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1))) +
+         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1.25))) +
          scale_color_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1")))
     
     file <- paste("sol_gen_", num_queens, "q.png", sep="")
@@ -111,8 +112,18 @@ for (num_queens in unique(summary_solution[, queen]))
 }
 
     
-    
-    
+
+# Plot a bar chart of the best solutions with a trendline for fixed and variable mutation
+ggplot(data=best_solution, aes(x=queen, y=solution)) + 
+    geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) + 
+    stat_smooth(se=FALSE, data=best_solution[mutation == "variable"], 
+                aes(x=queen + 0.25, y=solution), method = "rlm", formula = y ~ ns(x,3), size=1.5, colour="#377EB8") + 
+    stat_smooth(se=FALSE, data=best_solution[mutation != "variable"], 
+                aes(x=queen - 0.25, y=solution), method = "rlm", formula = y ~ ns(x,3), size=1.5, colour="#E41A1C") +
+    scale_fill_manual(values = c(brewer.pal(8, "Set2")))
+
+
+
     
 p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation)
 p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
