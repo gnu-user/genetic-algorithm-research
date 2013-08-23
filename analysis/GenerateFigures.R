@@ -105,6 +105,9 @@ for (num_queens in unique(summary_solution[, queen]))
     file <- paste("sol_gen_", num_queens, "q.png", sep="")
     file <- paste(figure_dir, file, sep="/")
     ggsave(filename=file, plot=p, width=12, height=6)
+    
+    rm(fixed_rates)
+    gc()
 }
 
     

@@ -32,33 +32,6 @@ library(psych)
 #nqueens_dir
 
 
-# The directory containing the data to analyze
-data_dir <- "/home/jon/Research/Genetic Algorithm/Data/"
-
-# The output directory to store the results and aggregated data
-output_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/data/"
-
-
-# Mapping of the number of queens to the number solutions
-map_queen_solution <- data.table(queen=seq(1,32), 
-                                 solution=c(1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 
-                                            73712, 365596, 2279184, 14772512, 95815104, 666090624, 
-                                            rep(2147483647, 14)))
-setkey(map_queen_solution, queen)
-
-summary_similarity <- data.table()
-summary_fitness <- data.table()
-summary_mutation <- data.table()
-summary_solution <- data.table()
-
-# Best number of solutions found for fixed mutation compared to variable
-best_solution <- data.table()
-
-
-# Get a list of the nqueens results directories
-nqueens_dirs <- list.fitles(data_dir, pattern="\\d_q$")
-
-
 # Parses the file provided and combines it with a table containing the number of queens and mutation
 add_queens_mutation <- function(file, nqueens, mutation_rate)
 {
@@ -118,9 +91,40 @@ add_queens <- function(file, nqueens)
 
 
 
+# The directory containing the data to analyze
+data_dir <- "/run/media/jon/TOSHIBA/RESEARCH_DATA/Genetic_Algorithm/n_queens/"
+
+# The output directory to store the results and aggregated data
+output_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/data/"
+
+
+# Mapping of the number of queens to the number solutions
+map_queen_solution <- data.table(queen=seq(1,32), 
+                                 solution=c(1, 0, 0, 2, 10, 4, 40, 92, 352, 724, 2680, 14200, 
+                                            73712, 365596, 2279184, 14772512, 95815104, 666090624, 
+                                            rep(2147483647, 14)))
+setkey(map_queen_solution, queen)
+
+summary_similarity <- data.table()
+summary_fitness <- data.table()
+summary_mutation <- data.table()
+summary_solution <- data.table()
+
+# Best number of solutions found for fixed mutation compared to variable
+best_solution <- data.table()
+
+
+# Get a list of the nqueens results directories
+nqueens_dirs <- list.files(data_dir, pattern="\\d_q$")
+
+
+
+
 # For each nqueens solution directory get a list of the mutation rates
 for (nqueens_dir in nqueens_dirs)
 {
+    print(nqueens_dir)
+    
     # Reinitialize temporary tables for parsed data
     similarity <- data.table()
     fitness <- data.table()
@@ -400,6 +404,6 @@ for (nqueens_dir in nqueens_dirs)
 write.csv(summary_fitness, paste(output_dir, "summary_fitness.csv", sep="/"), row.names = FALSE)
 write.csv(summary_mutation, paste(output_dir, "summary_mutation.csv", sep="/"), row.names = FALSE)
 write.csv(summary_similarity, paste(output_dir, "summary_similarity.csv", sep="/"), row.names = FALSE)
-write.csv(summary_similarity, paste(output_dir, "summary_solution.csv", sep="/"), row.names = FALSE)
+write.csv(summary_solution, paste(output_dir, "summary_solution.csv", sep="/"), row.names = FALSE)
 
 write.csv(best_solution, paste(output_dir, "best_solution.csv", sep="/"), row.names = FALSE)
