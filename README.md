@@ -11,11 +11,11 @@ Introduction
 
 Our initial course project was to implement a solution to the 
 [8 Queens Puzzle](https://en.wikipedia.org/wiki/8_queens) our solution to the 
-problem involved using variable mutation rather than a fixed mutation rate
-performed extremely well. The purpose of this research is to further investigate
-the potential applications for using our method of variable mutation rate rather
-than a constant fixed mutation rate by evaluating the effectiveness of variable
-mutation rate for larger size of the N Queens problem.
+problem using a variable mutation rate rather than a fixed mutation rate
+performed extremely well. As a result, the purpose of this research is to further 
+investigate the potential applications for using our method of a variable mutation 
+rate rather than a constant fixed mutation rate by evaluating the effectiveness of 
+a variable mutation rate for larger size of the N Queens Puzzle.
 
 Our implementation uses a standard Genetic Algrorithm **(GA)** with roulette 
 wheel selection method as well as cross-over, mutation, and cloning for the 
