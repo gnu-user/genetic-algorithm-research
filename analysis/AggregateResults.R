@@ -32,7 +32,12 @@ library(psych)
 #nqueens_dir
 
 
+# The directory containing the data to analyze
 data_dir <- "/home/jon/Research/Genetic Algorithm/Data/"
+
+# The output directory to store the results and aggregated data
+output_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/data/"
+
 
 # Mapping of the number of queens to the number solutions
 map_queen_solution <- data.table(queen=seq(1,32), 
@@ -390,3 +395,11 @@ for (nqueens_dir in nqueens_dirs)
 
 
 
+
+# Save the summary statistics and the best solutions for fixed and variable mutation
+write.csv(summary_fitness, paste(output_dir, "summary_fitness.csv", sep="/"), row.names = FALSE)
+write.csv(summary_mutation, paste(output_dir, "summary_mutation.csv", sep="/"), row.names = FALSE)
+write.csv(summary_similarity, paste(output_dir, "summary_similarity.csv", sep="/"), row.names = FALSE)
+write.csv(summary_similarity, paste(output_dir, "summary_solution.csv", sep="/"), row.names = FALSE)
+
+write.csv(best_solution, paste(output_dir, "best_solution.csv", sep="/"), row.names = FALSE)
