@@ -29,6 +29,17 @@ library(mgcv)
 library(RColorBrewer)
 
 
+# Sets the bounds based on the number of ticks
+number_ticks <- function(n)
+{
+    function(limits) pretty(limits, n)
+}
+
+
+# The output directory for the figures
+figure_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/figures"
+
+
 # Default plot, log scale with smoothed lines
 p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation))
 p + stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + scale_y_log10(labels = comma) + scale_x_continuous()
@@ -45,14 +56,83 @@ p + geom_line(size=1.5) + scale_y_continuous(labels = comma) + scale_x_continuou
 
 
 
-# Default plot, log scale without smoothed lines
-p <- ggplot(summary_solution[mutation %in% c("0.80", "0.85", "0.90", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation))
-p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1.5) + scale_y_continuous(labels = comma) + scale_x_continuous()
+# Default plot with smoothed lines
+p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], 
+     aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
+p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
+     scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+     scale_colour_brewer(palette="Set1")
 
 
 
-    stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + 
-    scale_y_continuous(labels = comma) + scale_x_continuous()
+
+# Plot the top 5 fixed mutation rates compared to the results for variable mutation for each N Queens
+for (num_queens in unique(summary_solution[, queen]))
+{
+    # Get the top 5 fixed mutation rates based on max number of solution and minimum generations
+    fixed_rates <- summary_solution[queen == num_queens & mutation != "variable", 
+                                    list(solution=max(solution), mean_generation=last(mean_generation)), by="mutation"]
+
+    fixed_rates <- fixed_rates[order(-solution, mean_generation)]
+    best_fixed <- fixed_rates[1:5, mutation]
+    
+
+    # Plot the best fixed compared to variable mutation for the current N Queens (smoothed line)
+    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
+         aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
+    
+    p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1.25) + 
+         scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1))) +
+         scale_color_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1")))
+    
+    file <- paste("sol_gen_", num_queens, "q", "_smooth.png", sep="")
+    file <- paste(figure_dir, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    
+    
+    # Plot the best fixed compared to variable mutation for the current N Queens (actual line)
+    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
+                aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
+    
+    p <- p + geom_line(size=1.25) + 
+         scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1))) +
+         scale_color_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1")))
+    
+    file <- paste("sol_gen_", num_queens, "q.png", sep="")
+    file <- paste(figure_dir, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+}
+
+    
+    
+    
+    
+p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation)
+p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
+    scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+    scale_colour_brewer(palette="Set1")
+
+
+
+
+
+
+file <- paste(figure_dir, "solution_generation.png", sep="/")
+ggsave(filename=file, plot=p, width=12, height=6)
+
+
+
+
+
+
+
+
+stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + 
+scale_y_continuous(labels = comma) + scale_x_continuous()
 
 
 
