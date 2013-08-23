@@ -80,3 +80,9 @@ pip-log.txt
 *.vrb
 *.xdy
 *.tdo
+
+# R git ignores
+.Rhistory
+*-Ex.R
+.RData
+.Rproj.user
