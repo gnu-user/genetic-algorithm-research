@@ -378,7 +378,15 @@ for (nqueens_dir in nqueens_dirs)
     
     
     # Add the max generations to the number of solutions found for the last entry
-    max_gen <- 10000000
+    if (nqueens == 32)
+    {
+        max_gen <- 50000000
+    }
+    else
+    {
+        max_gen <- 10000000
+    }
+    
     for (mutation_rate in unique(summary_solution[queen == nqueens, mutation]))
     {
         entry <- last(summary_solution[queen == nqueens & mutation == mutation_rate])
