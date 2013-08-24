@@ -189,11 +189,15 @@ p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 # PLOTTING MUTATION RATE
 # stat_smooth(aes(ymin=Q1_mutation, ymax=Q3_mutation), size=2.5)   stat_smooth(fullrange=TRUE, size=2.5)
 
-p <- ggplot(summary_mutation[queen == 22], aes(x=generation, y=mean_mutation))
-p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=FALSE, size=2, colour="#000000") + 
+p <- ggplot(summary_mutation[queen == 12], aes(x=generation, y=mean_mutation))
+p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=TRUE, aes(ymin=min_mutation, ymax=max_mutation), size=2, colour="#000000") + 
     scale_colour_gradientn(colours = rainbow(7)) +
     scale_y_continuous(limits=c(0.73,0.76))
 
+            
+p <- ggplot(summary_similarity[queen == 32 & mutation == "0.65"], aes(x=generation, y=mean_similarity))
+p + geom_point(aes(colour = mean_similarity), size=3, shape=20) + stat_smooth(se=FALSE, size=2, colour="#000000") + 
+    scale_colour_gradientn(colours = rainbow(7))
 
 
 # PLOTTING FITNESS geom_point(aes(alpha = mean_fitness), size=3, shape=1)
