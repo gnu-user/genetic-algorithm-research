@@ -38,7 +38,7 @@ number_ticks <- function(n)
 
 
 # The output directory for the figures
-figure_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/figures"
+figure_dir <- "C:\\Users\\Daniel Smullen\\Documents\\GitHub\\genetic-algorithm-research\\figures\\"
 
 
 # Default plot, log scale with smoothed lines
@@ -117,10 +117,19 @@ for (num_queens in unique(summary_solution[, queen]))
 ggplot(data=best_solution, aes(x=queen, y=solution)) + 
     geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) + 
     stat_smooth(se=FALSE, data=best_solution[mutation == "variable"], 
-                aes(x=queen + 0.25, y=solution), method = "rlm", formula = y ~ ns(x,3), size=1.5, colour="#377EB8") + 
+                aes(x=queen + 0.25, y=solution), method = "rlm", formula = y ~ ns(x,13), size=1.5, colour="#377EB8") + 
     stat_smooth(se=FALSE, data=best_solution[mutation != "variable"], 
-                aes(x=queen - 0.25, y=solution), method = "rlm", formula = y ~ ns(x,3), size=1.5, colour="#E41A1C") +
+                aes(x=queen - 0.25, y=solution), method = "rlm", formula = y ~ ns(x,13), size=1.5, colour="#E41A1C") +
     scale_fill_manual(values = c(brewer.pal(8, "Set2")))
+
+
+# Plot a bar chart of the best solutions using the actual best solutions rather than a trendline
+ggplot(data=best_solution, aes(x=queen, y=solution)) + 
+    geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) + 
+    geom_line(data=best_solution[mutation == "variable"], aes(x=queen + 0.25, y=solution), size=1.5, colour="#377EB8") +
+    geom_line(data=best_solution[mutation != "variable"], aes(x=queen - 0.25, y=solution), size=1.5, colour="#E41A1C") +
+    scale_fill_manual(values = c(brewer.pal(8, "Set2")))
+    
 
 
 
@@ -180,10 +189,10 @@ p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 # PLOTTING MUTATION RATE
 # stat_smooth(aes(ymin=Q1_mutation, ymax=Q3_mutation), size=2.5)   stat_smooth(fullrange=TRUE, size=2.5)
 
-p <- ggplot(summary_mutation[queen == 12], aes(x=generation, y=mean_mutation))
+p <- ggplot(summary_mutation[queen == 22], aes(x=generation, y=mean_mutation))
 p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=FALSE, size=2, colour="#000000") + 
     scale_colour_gradientn(colours = rainbow(7)) +
-    scale_y_continuous(limits=c(0.79,0.82))
+    scale_y_continuous(limits=c(0.73,0.76))
 
 
 
