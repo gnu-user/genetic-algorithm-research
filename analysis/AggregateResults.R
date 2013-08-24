@@ -153,6 +153,7 @@ nqueens_dirs <- list.files(data_dir, pattern="\\d_q$")
 # For each nqueens solution directory get a list of the mutation rates
 for (nqueens_dir in nqueens_dirs)
 {
+    # Print progress, the current n queens directory
     print(nqueens_dir)
     
     # Reinitialize temporary tables for parsed data
@@ -170,6 +171,9 @@ for (nqueens_dir in nqueens_dirs)
     
     for (mutation_dir in mutation_dirs)
     {
+        # Print progress, the current mutation directory
+        print(mutation_dir)
+        
         cur_dir <- paste(data_dir, nqueens_dir, mutation_dir, sep="/")
         
         # Get the current mutation rate
