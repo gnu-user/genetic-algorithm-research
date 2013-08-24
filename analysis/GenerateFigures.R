@@ -125,7 +125,7 @@ ggplot(data=best_solution, aes(x=queen, y=solution)) +
 
 
     
-p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation)
+p <- ggplot(summary_solution[queen == 11 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation)
 p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
     scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
     scale_colour_brewer(palette="Set1")
@@ -180,8 +180,10 @@ p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 # PLOTTING MUTATION RATE
 # stat_smooth(aes(ymin=Q1_mutation, ymax=Q3_mutation), size=2.5)   stat_smooth(fullrange=TRUE, size=2.5)
 
-p <- ggplot(summary_mutation, aes(x=generation, y=mean_mutation))
-p + geom_point(aes(alpha = mean_mutation), size=3, shape=1) + stat_smooth(size=2.5) + scale_y_continuous(limits=c(0.79,0.83)) 
+p <- ggplot(summary_mutation[queen == 12], aes(x=generation, y=mean_mutation))
+p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=FALSE, size=2, colour="#000000") + 
+    scale_colour_gradientn(colours = rainbow(7)) +
+    scale_y_continuous(limits=c(0.79,0.82))
 
 
 
