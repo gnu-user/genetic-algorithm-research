@@ -35,7 +35,16 @@ library(psych)
 # Parses the file provided and combines it with a table containing the number of queens and mutation
 add_queens_mutation <- function(file, nqueens, mutation_rate)
 {
-    data <- fread(file)
+    if (nqueens == 32)
+    {
+        max_rows <- 50000
+    }
+    else
+    {
+        max_rows <- 10000
+    }
+    
+    data <- fread(file, nrow=max_rows)
     n <- NROW(data)
     
     queen_mutation <- data.table(queen=rep(nqueens, n), 
@@ -56,7 +65,19 @@ add_queens_mutation <- function(file, nqueens, mutation_rate)
 # for the solution generation data
 add_queens_mutation_sol <- function(file, nqueens, mutation_rate)
 {
+    if (nqueens == 32)
+    {
+        max_gen <- 50000000
+    }
+    else
+    {
+        max_gen <- 10000000
+    }
+    
     data <- fread(file)
+    data <- data[generation <= max_gen]
+    gc()
+    
     n <- NROW(data)
     
     queen_mutation <- data.table(queen=rep(nqueens, n), 
@@ -73,7 +94,16 @@ add_queens_mutation_sol <- function(file, nqueens, mutation_rate)
 # the mutation rate of in variable mutation
 add_queens <- function(file, nqueens)
 {
-    data <- fread(file)
+    if (nqueens == 32)
+    {
+        max_rows <- 50000
+    }
+    else
+    {
+        max_rows <- 10000
+    }
+    
+    data <- fread(file, nrow=max_rows)
     n <- NROW(data)
     
     queens <- data.table(queen=rep(nqueens, n), 
