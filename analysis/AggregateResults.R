@@ -537,4 +537,12 @@ write.csv(summary_mutation, paste(output_dir, "summary_mutation.csv", sep="/"), 
 write.csv(summary_similarity, paste(output_dir, "summary_similarity.csv", sep="/"), row.names = FALSE)
 write.csv(summary_solution, paste(output_dir, "summary_solution.csv", sep="/"), row.names = FALSE)
 
+
+# Save the summary statistics for all generations
+write.csv(all_fitness, paste(output_dir, "all_fitness.csv", sep="/"), row.names = FALSE)
+write.csv(all_mutation, paste(output_dir, "all_mutation.csv", sep="/"), row.names = FALSE)
+write.csv(all_similarity, paste(output_dir, "all_similarity.csv", sep="/"), row.names = FALSE)
+
+
 write.csv(best_solution, paste(output_dir, "best_solution.csv", sep="/"), row.names = FALSE)
+
