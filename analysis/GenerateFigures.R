@@ -37,37 +37,67 @@ number_ticks <- function(n)
 }
 
 
+# Generations the best solution figure data for comparing the best results for fixed mutation rate to variable
+gen_best_data <- function(data)
+{
+    # Maximum number of generations, should be the size of the smallest value for all nqueens problems
+    max_gen <- 10000000
+ 
+    best_data <- data.table()
+    
+    for (num_queens in unique(data[, queen]))
+    {
+        # Find the best number of solutions found for fixed mutation compared to variable
+        if (num_queens == 32)
+        {
+            fixed_rates <- data[queen == num_queens & mutation != "variable" & min_generation < max_gen][solution == max(solution), 
+                                                                                                         list(queen, mutation, solution, mean_generation=min_generation)]
+            
+            variable_rate <- data[queen == num_queens & mutation == "variable" & min_generation < max_gen][solution == max(solution), 
+                                                                                                           list(queen, mutation, solution, mean_generation=min_generation)]
+        }
+        else
+        {
+            fixed_rates <- data[queen == num_queens & mutation != "variable" & mean_generation < max_gen][solution == max(solution), 
+                                                                                                          list(queen, mutation, solution, mean_generation)]
+            
+            variable_rate <- data[queen == num_queens & mutation == "variable" & mean_generation < max_gen][solution == max(solution), 
+                                                                                                            list(queen, mutation, solution, mean_generation)]
+        }
+        setkey(fixed_rates, mean_generation)
+        
+        results <- fixed_rates[1]
+        results <- rbind(results, variable_rate)
+        
+        
+        if (NROW(best_data) > 0)
+        {
+            best_data <- rbind(best_data, results)
+        }
+        else
+        {
+            best_data <- results
+        }
+        
+        # Set keys
+        setkey(best_data, queen, mutation)
+    }
+    
+    return(best_data)
+}
+
+
 # The output directory for the figures
 figure_dir <- "C:\\Users\\Jon\\Documents\\GitHub\\genetic-algorithm-research\\figures\\"
 
 
-# Default plot, log scale with smoothed lines
-p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
-p + stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + scale_y_log10(labels = comma) + scale_x_continuous()
-
-p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
-p + geom_line(size=1.5) + scale_y_log10(labels = comma) + scale_x_continuous()
 
 
-
-
-p <- ggplot(summary_solution[mutation %in% c("0.5", "0.75","0.80", "0.85", "0.90", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
-p + geom_line(size=1.5) + scale_y_continuous(labels = comma) + scale_x_continuous()
-
-
-
-
-# Default plot with smoothed lines
-p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], 
-     aes(x=solution, y=mean_generation, colour=mutation, linetype=mutation))
-p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
-     scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
-     scale_colour_brewer(palette="Set1")
-
-
-
-
+##########################################################################
+#
 # Plot results for each N Queens problem
+#
+###########################################################################
 for (num_queens in unique(summary_solution[, queen]))
 {
     dir.create(paste(figure_dir, num_queens, sep="/"), showWarnings = FALSE, recursive = TRUE)
@@ -236,38 +266,33 @@ for (num_queens in unique(summary_solution[, queen]))
 
 
 
-# Plot a bar chart of the best solutions with a trendline for fixed and variable mutation
-ggplot(data=best_solution, aes(x=queen, y=solution)) + 
-    geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) + 
-    stat_smooth(se=FALSE, data=best_solution[mutation == "variable"], 
+
+##########################################################################
+#
+# Plot a bar chart of the best solutions with a trendline for fixed and 
+# variable mutation
+#
+###########################################################################
+# Generate the figure data for plotting best fixed compared to variable
+best_figure_data <- gen_best_data(summary_solution)
+
+
+# Plot the figure with a smoothed line
+p <- ggplot(data=best_figure_data, aes(x=queen, y=solution))
+
+p <- p + geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) +
+     stat_smooth(se=FALSE, data=best_figure_data[mutation == "variable"], 
                 aes(x=queen + 0.25, y=solution), method = "rlm", formula = y ~ ns(x,13), size=1.5, colour="#377EB8") + 
-    stat_smooth(se=FALSE, data=best_solution[mutation != "variable"], 
+     stat_smooth(se=FALSE, data=best_figure_data[mutation != "variable"], 
                 aes(x=queen - 0.25, y=solution), method = "rlm", formula = y ~ ns(x,13), size=1.5, colour="#E41A1C") +
-    scale_fill_manual(values = c(brewer.pal(8, "Set2")))
+     scale_y_continuous(labels = comma) + scale_x_continuous(breaks = number_ticks(25)) + 
+     scale_fill_manual(values = c(brewer.pal(8, "Set2"))) +
+     labs(x = "Number of Queens", y = "Numer of Solutions", 
+          title = "Best Fixed Mutation Rate Compared to Variable, All Queens",
+          fill = "Mutation Rate")
 
-
-# Plot a bar chart of the best solutions using the actual best solutions rather than a trendline
-ggplot(data=best_solution, aes(x=queen, y=solution)) + 
-    geom_bar(aes(fill=mutation), stat="identity", position=position_dodge()) + 
-    geom_line(data=best_solution[mutation == "variable"], aes(x=queen + 0.25, y=solution), size=1.5, colour="#377EB8") +
-    geom_line(data=best_solution[mutation != "variable"], aes(x=queen - 0.25, y=solution), size=1.5, colour="#E41A1C") +
-    scale_fill_manual(values = c(brewer.pal(8, "Set2")))
-    
-
-
-
-    
-p <- ggplot(summary_solution[queen == 11 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation)
-p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
-    scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
-    scale_colour_brewer(palette="Set1")
-
-
-
-
-
-
-file <- paste(figure_dir, "solution_generation.png", sep="/")
+file <- "best_solution_all_queens.png"
+file <- paste(figure_dir, file, sep="/")
 ggsave(filename=file, plot=p, width=12, height=6)
 
 
@@ -276,21 +301,6 @@ ggsave(filename=file, plot=p, width=12, height=6)
 
 
 
-
-stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + 
-scale_y_continuous(labels = comma) + scale_x_continuous()
-
-
-
-
-p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, colour=mutation))
-p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
-
-
-
-# TEST
-#p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, colour=mutation)) + stat_smooth() geom_smooth() geom_line(size=1) + stat_smooth()
-#p + scale_y_log10(labels = comma) + scale_x_continuous()
 
 
 # Display the plots with min and max outline
@@ -305,22 +315,4 @@ p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 # Plot the area
 #p <- ggplot(summary_solution[mutation %in% c("0.5", "0.75","0.80", "0.85", "0.90", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation))
 #p + geom_area(aes(colour = mutation, fill= mutation), position = 'stack')
-
-
-
-
-
-
-
-
-
-
-# PLOTTING FITNESS geom_point(aes(alpha = mean_fitness), size=3, shape=1)
-#p <- ggplot(summary_fitness, aes(x=generation, y=mean_fitness, ymin=Q1_fitness, ymax=Q3_fitness))
-#p + stat_smooth(aes(colour = mutation), size=2.5)
-
-
-p <- ggplot(summary_fitness, aes(x=generation, y=mean_fitness,  ymin=Q1_fitness, ymax=Q3_fitness, colour = mutation)) 
-p + stat_smooth(se=TRUE, size=2)
-
 
