@@ -26,7 +26,7 @@ library(ggplot2)
 library(scales)
 library(reshape)
 library(mgcv)
-library(RColorBrewer)
+library(RcolourBrewer)
 library(splines)
 library(MASS)
 
@@ -38,20 +38,20 @@ number_ticks <- function(n)
 
 
 # The output directory for the figures
-figure_dir <- "C:\\Users\\Daniel Smullen\\Documents\\GitHub\\genetic-algorithm-research\\figures\\"
+figure_dir <- "C:\\Users\\Jon\\Documents\\GitHub\\genetic-algorithm-research\\figures\\"
 
 
 # Default plot, log scale with smoothed lines
-p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation))
+p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
 p + stat_smooth(se=FALSE, method=loess, formula=y~log(x), fullrange=TRUE, size=1.5) + scale_y_log10(labels = comma) + scale_x_continuous()
 
-p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation))
+p <- ggplot(summary_solution[mutation %in% c("0.01", "0.1", "0.25", "0.5", "0.75", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
 p + geom_line(size=1.5) + scale_y_log10(labels = comma) + scale_x_continuous()
 
 
 
 
-p <- ggplot(summary_solution[mutation %in% c("0.5", "0.75","0.80", "0.85", "0.90", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation))
+p <- ggplot(summary_solution[mutation %in% c("0.5", "0.75","0.80", "0.85", "0.90", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation))
 p + geom_line(size=1.5) + scale_y_continuous(labels = comma) + scale_x_continuous()
 
 
@@ -59,7 +59,7 @@ p + geom_line(size=1.5) + scale_y_continuous(labels = comma) + scale_x_continuou
 
 # Default plot with smoothed lines
 p <- ggplot(summary_solution[queen == 8 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], 
-     aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
+     aes(x=solution, y=mean_generation, colour=mutation, linetype=mutation))
 p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
      scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
      scale_colour_brewer(palette="Set1")
@@ -67,9 +67,17 @@ p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) 
 
 
 
-# Plot the top 5 fixed mutation rates compared to the results for variable mutation for each N Queens
+# Plot results for each N Queens problem
 for (num_queens in unique(summary_solution[, queen]))
 {
+    dir.create(paste(figure_dir, num_queens, sep="/"), showWarnings = FALSE, recursive = TRUE)
+    
+    
+    ##########################################################################
+    #
+    # Plot the top 5 fixed mutation rates compared to variable 
+    #
+    ###########################################################################
     # Get the top 5 fixed mutation rates based on max number of solution and minimum generations
     fixed_rates <- summary_solution[queen == num_queens & mutation != "variable", 
                                     list(solution=max(solution), mean_generation=last(mean_generation)), by="mutation"]
@@ -77,41 +85,156 @@ for (num_queens in unique(summary_solution[, queen]))
     fixed_rates <- fixed_rates[order(-solution, mean_generation)]
     best_fixed <- fixed_rates[1:5, mutation]
     
-
-    # Plot the best fixed compared to variable mutation for the current N Queens (smoothed line)
-    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
-         aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
-    
-    p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1.25) + 
-         scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
-         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1))) +
-         scale_color_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1")))
-    
-    file <- paste("sol_gen_", num_queens, "q", "_smooth.png", sep="")
-    file <- paste(figure_dir, file, sep="/")
-    ggsave(filename=file, plot=p, width=12, height=6)
-    
-    
-    
     
     # Plot the best fixed compared to variable mutation for the current N Queens (actual line)
     p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
-                aes(x=solution, y=mean_generation, color=mutation, linetype=mutation))
+                aes(x=solution, y=mean_generation, colour=mutation))
     
     p <- p + geom_line(size=1.25) + 
-         scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
-         scale_linetype_manual(values = c(rep("solid", 5), rep("dashed", 1.25))) +
-         scale_color_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1")))
+        scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+        scale_colour_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1"))) +
+        labs(x = "Solutions Found", y = "Generations", 
+             title = paste("Best Fixed Mutation Rates Compared to Variable - ", num_queens, " Queens", sep=""),
+             colour = "Mutation Rate")
     
     file <- paste("sol_gen_", num_queens, "q.png", sep="")
-    file <- paste(figure_dir, file, sep="/")
+    file <- paste(figure_dir, num_queens, file, sep="/")
     ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    # Plot the best fixed compared to variable mutation for the current N Queens (smoothed line)
+    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
+                aes(x=solution, y=mean_generation, colour=mutation))
+    
+    p <- p + stat_smooth(se=FALSE, n=10000, size=1.25) + 
+        scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+        scale_colour_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1"))) +
+        labs(x = "Solutions Found", y = "Generations", 
+             title = paste("Best Fixed Mutation Rates Compared to Variable - ", num_queens, " Queens", sep=""),
+             colour = "Mutation Rate")
+    
+    file <- paste("sol_gen_", num_queens, "q", "_smooth.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    # Plot the best fixed compared to variable mutation for the current N Queens (smoothed line v2)
+    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
+         aes(x=solution, y=mean_generation, colour=mutation))
+    
+    p <- p + stat_smooth(se=FALSE, n=10000, method = "gam", formula = y ~ s(x, k = 25), size=1.25) + 
+         scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+         scale_colour_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1"))) +
+         labs(x = "Solutions Found", y = "Generations", 
+              title = paste("Best Fixed Mutation Rates Compared to Variable - ", num_queens, " Queens", sep=""),
+              colour = "Mutation Rate")
+    
+    file <- paste("sol_gen_", num_queens, "q", "_smooth_2.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    # Plot the best fixed compared to variable mutation for the current N Queens (smoothed line v3)
+    p <- ggplot(summary_solution[queen == num_queens & mutation %in% c(best_fixed, "variable")], 
+                aes(x=solution, y=mean_generation, colour=mutation))
+    
+    p <- p + stat_smooth(se=FALSE, n=10000, method = "gam", formula = y ~ s(x, k = 35), size=1.25) + 
+        scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
+        scale_colour_manual(values = c(brewer.pal(5, "Set2"), brewer.pal(1, "Set1"))) +
+        labs(x = "Solutions Found", y = "Generations", 
+             title = paste("Best Fixed Mutation Rates Compared to Variable - ", num_queens, " Queens", sep=""),
+             colour = "Mutation Rate")
+    
+    file <- paste("sol_gen_", num_queens, "q", "_smooth_3.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
     
     rm(fixed_rates)
     gc()
+    
+    
+    
+    
+    ##########################################################################
+    #
+    # Plot the changing mutation rate for variable mutation
+    #
+    ###########################################################################
+    # Get the bounds for the plot (0.01%, 99.99% quantiles)
+    lower <- quantile(summary_mutation[queen == num_queens, mean_mutation], 0.0001)
+    upper <- quantile(summary_mutation[queen == num_queens, mean_mutation], 0.9999)
+    
+    p <- ggplot(summary_mutation[queen == num_queens], aes(x=generation, y=mean_mutation))
+    p <- p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=TRUE, aes(ymin=min_mutation, ymax=max_mutation), size=1.5, colour="#000000") + 
+         scale_colour_gradientn(colours = rainbow(7)) +
+         scale_y_continuous(labels = comma, limits=c(lower, upper)) + scale_x_continuous(labels = comma) +
+         labs(x = "Generations", y = "Mutation Rate", 
+              title = paste("The Changes in Mutation Rate for Variable Mutation - ", num_queens, " Queens", sep=""),
+              colour = "Mutation Rate")
+    
+    file <- paste("mutation_", num_queens, "q.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    
+    
+    ##########################################################################
+    #
+    # Plot the changing chromosome similarity for each mutation rate
+    #
+    ###########################################################################
+    for (mutation_rate in unique(summary_similarity[queen == num_queens, mutation]))
+    {
+        # Get the bounds for the plot (0.01%, 99.99% quantiles)
+        lower <- quantile(summary_similarity[queen == num_queens & mutation == mutation_rate, mean_similarity], 0.0001)
+        upper <- quantile(summary_similarity[queen == num_queens & mutation == mutation_rate, mean_similarity], 0.9999)
+        
+        p <- ggplot(summary_similarity[queen == num_queens & mutation == mutation_rate], aes(x=generation, y=mean_similarity))
+        p <- p + geom_point(aes(colour = mean_similarity), size=3, shape=20) + 
+             stat_smooth(se=TRUE, aes(ymin=min_similarity, ymax=max_similarity), size=1.5, colour="#000000") + 
+             scale_colour_gradientn(colours = rainbow(7)) +
+             scale_y_continuous(labels = comma, limits=c(lower, upper)) + scale_x_continuous(labels = comma) +
+             labs(x = "Generations", y = "Chromosome Similarity", 
+                  title = paste("Chromosome Population Similarity, ", mutation_rate, " Mutation Rate - ", num_queens, " Queens", sep=""),
+                  colour = "Chromosome Similarity")
+        
+        file <- paste("similarity_", mutation_rate, "_", num_queens, "q.png", sep="")
+        file <- paste(figure_dir, num_queens, file, sep="/")
+        ggsave(filename=file, plot=p, width=12, height=6)
+    }
+    
+    
+    
+    
+    ##########################################################################
+    #
+    # Plot the changing population fitness for each mutation rate
+    #
+    ###########################################################################
+    for (mutation_rate in unique(summary_fitness[queen == num_queens, mutation]))
+    {
+        # Get the bounds for the plot (0.01%, 99.99% quantiles)
+        lower <- quantile(summary_fitness[queen == num_queens & mutation == mutation_rate, mean_fitness], 0.0001)
+        upper <- quantile(summary_fitness[queen == num_queens & mutation == mutation_rate, mean_fitness], 0.9999)
+        
+        p <- ggplot(summary_fitness[queen == num_queens & mutation == mutation_rate], aes(x=generation, y=mean_fitness))
+        p <- p + geom_point(aes(colour = mean_fitness), size=3, shape=20) + 
+            stat_smooth(se=TRUE, aes(ymin=min_fitness, ymax=max_fitness), size=1.5, colour="#000000") + 
+            scale_colour_gradientn(colours = rainbow(7)) +
+            scale_y_continuous(labels = comma, limits=c(lower, upper)) + scale_x_continuous(labels = comma) +
+            labs(x = "Generations", y = "Fitness", 
+                 title = paste("Mean Population Fitness, ", mutation_rate, " Mutation Rate - ", num_queens, " Queens", sep=""),
+                 colour = "Fitness")
+        
+        file <- paste("fitness_", mutation_rate, "_", num_queens, "q.png", sep="")
+        file <- paste(figure_dir, num_queens, file, sep="/")
+        ggsave(filename=file, plot=p, width=12, height=6)
+    }
 }
 
-    
+
 
 # Plot a bar chart of the best solutions with a trendline for fixed and variable mutation
 ggplot(data=best_solution, aes(x=queen, y=solution)) + 
@@ -134,7 +257,7 @@ ggplot(data=best_solution, aes(x=queen, y=solution)) +
 
 
     
-p <- ggplot(summary_solution[queen == 11 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, color=mutation)
+p <- ggplot(summary_solution[queen == 11 & mutation %in% c("0.8", "0.85", "0.9", "0.95", "1.0", "variable")], aes(x=solution, y=mean_generation, colour=mutation)
 p <- p + stat_smooth(se=FALSE, method=gam, formula=y ~ s(x, bs = "cs"), size=1) + 
     scale_y_continuous(labels = comma) + scale_x_continuous(labels = comma) +
     scale_colour_brewer(palette="Set1")
@@ -160,23 +283,23 @@ scale_y_continuous(labels = comma) + scale_x_continuous()
 
 
 
-p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, color=mutation))
+p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, colour=mutation))
 p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 
 
 
 # TEST
-#p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, color=mutation)) + stat_smooth() geom_smooth() geom_line(size=1) + stat_smooth()
+#p <- ggplot(summary_solution, aes(x=solution, y=mean_generation, colour=mutation)) + stat_smooth() geom_smooth() geom_line(size=1) + stat_smooth()
 #p + scale_y_log10(labels = comma) + scale_x_continuous()
 
 
 # Display the plots with min and max outline
-#p <- ggplot(summary_solution, aes(x=solution, color=mutation))
+#p <- ggplot(summary_solution, aes(x=solution, colour=mutation))
 #p + geom_ribbon(aes(ymin=min_generation, ymax=max_generation)) + geom_line(aes(y=mean_generation))
 
 
 # Plot only the smoothed line
-# p <- ggplot(summary_solution, aes(x=solution, color=mutation)) + stat_smooth(aes(y=mean_generation), size=1.5)
+# p <- ggplot(summary_solution, aes(x=solution, colour=mutation)) + stat_smooth(aes(y=mean_generation), size=1.5)
 
 
 # Plot the area
@@ -186,18 +309,10 @@ p + geom_line(size=1.5)+ scale_y_log10(labels = comma) + scale_x_continuous()
 
 
 
-# PLOTTING MUTATION RATE
-# stat_smooth(aes(ymin=Q1_mutation, ymax=Q3_mutation), size=2.5)   stat_smooth(fullrange=TRUE, size=2.5)
 
-p <- ggplot(summary_mutation[queen == 12], aes(x=generation, y=mean_mutation))
-p + geom_point(aes(colour = mean_mutation), size=3, shape=20) + stat_smooth(se=TRUE, aes(ymin=min_mutation, ymax=max_mutation), size=2, colour="#000000") + 
-    scale_colour_gradientn(colours = rainbow(7)) +
-    scale_y_continuous(limits=c(0.73,0.76))
 
-            
-p <- ggplot(summary_similarity[queen == 32 & mutation == "0.65"], aes(x=generation, y=mean_similarity))
-p + geom_point(aes(colour = mean_similarity), size=3, shape=20) + stat_smooth(se=FALSE, size=2, colour="#000000") + 
-    scale_colour_gradientn(colours = rainbow(7))
+
+
 
 
 # PLOTTING FITNESS geom_point(aes(alpha = mean_fitness), size=3, shape=1)
