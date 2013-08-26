@@ -298,6 +298,76 @@ ggsave(filename=file, plot=p, width=12, height=6)
 
 
 
+##########################################################################
+#
+# Create a boxplot showing the change in mutation rate for variable mutation
+# compared to the best fixed mutation rate for each N queens.
+#
+###########################################################################
+
+# Get the best fixed mutation rate for each N queens
+best_fixed <- best_solution[mutation != "variable", list(queen=as.factor(queen), mutation=as.numeric(mutation))]
+
+p <- ggplot(all_mutation, aes(x=factor(queen), fill=factor(queen)))
+p <- p + geom_boxplot(aes(lower = Q1_mutation, middle = med_mutation, upper = Q3_mutation, 
+                     ymin = min_mutation, ymax=max_mutation), stat="identity") +
+     geom_point(data=best_fixed, aes(x=queen, y=mutation), size=5, shape=20) + 
+     geom_smooth(data=best_fixed, aes(x=queen, y=mutation, group=1), size=1.25) +
+     labs(x = "Number of Queens", y = "Mutation Rate", 
+          title = "Comparison of Variable Mutation Rate to Best Fixed Mutation Rate, All Queens",
+          fill = "Number of Queens")
+
+file <- "mutation_rate_all_queens.png"
+file <- paste(figure_dir, file, sep="/")
+ggsave(filename=file, plot=p, width=12, height=6)
+
+
+
+
+
+
+##########################################################################
+#
+# Plot boxplots of the similarity and fitness for all mutation rates for 
+# each N queens problem to make it easier to visually compare the results.
+#
+###########################################################################
+for (num_queens in unique(summary_solution[, queen]))
+{ 
+    ##########################################################################
+    #
+    # Create a boxplot comparing the similarity for all mutation rates
+    #
+    ###########################################################################
+    p <- ggplot(all_similarity[queen == num_queens], aes(x=factor(mutation), fill=factor(mutation)))
+    p <- p + geom_boxplot(aes(lower = Q1_similarity, middle = med_similarity, upper = Q3_similarity, 
+                              ymin = min_similarity, ymax=max_similarity), stat="identity") +
+        labs(x = "Mutation Rate", y = "Chromosome Similarity", 
+             title = paste("Population Similarity, All Mutation Rates - ", num_queens, " Queens", sep=""),
+             fill = "Mutation Rate")
+    
+    file <- paste("similarity_all_mutation_", num_queens, "q.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+    
+    
+    
+    ##########################################################################
+    #
+    # Create a boxplot comparing the fitness for all mutation rates
+    #
+    ###########################################################################
+    p <- ggplot(all_fitness[queen == num_queens], aes(x=factor(mutation), fill=factor(mutation)))
+    p <- p + geom_boxplot(aes(lower = Q1_fitness, middle = med_fitness, upper = Q3_fitness, 
+                              ymin = min_fitness, ymax=max_fitness), stat="identity") +
+        labs(x = "Mutation Rate", y = "Population Fitness", 
+             title = paste("Population Fitness, All Mutation Rates - ", num_queens, " Queens", sep=""),
+             fill = "Mutation Rate")
+    
+    file <- paste("fitness_all_mutation_", num_queens, "q.png", sep="")
+    file <- paste(figure_dir, num_queens, file, sep="/")
+    ggsave(filename=file, plot=p, width=12, height=6)
+}
 
 
 
