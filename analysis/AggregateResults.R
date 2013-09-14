@@ -122,10 +122,10 @@ add_queens <- function(file, nqueens)
 
 
 # The directory containing the data to analyze
-data_dir <- "/run/media/jon/TOSHIBA/RESEARCH_DATA/Genetic_Algorithm/n_queens/"
+data_dir <- "E:\\n_queens\\"
 
 # The output directory to store the results and aggregated data
-output_dir <- "/home/jon/Source/RESEARCH/genetic-algorithm-research/data/"
+output_dir <- "C:\\Users\\Jon\\Documents\\GitHub\\genetic-algorithm-research\\data\\"
 
 
 # Mapping of the number of queens to the number solutions
@@ -135,16 +135,25 @@ map_queen_solution <- data.table(queen=seq(1,32),
                                             rep(2147483647, 14)))
 setkey(map_queen_solution, queen)
 
+# Summary statistics for each 1000 generations
 summary_similarity <- data.table()
 summary_fitness <- data.table()
 summary_mutation <- data.table()
 summary_solution <- data.table()
 
+
+# Summary statistics for ALL generations, used to create descriptive stats for all generations
+all_similarity <- data.table()
+all_fitness <- data.table()
+all_mutation <- data.table()
+
+    
 # Best number of solutions found for fixed mutation compared to variable
 best_solution <- data.table()
 
 
 # Get a list of the nqueens results directories
+# nqueens_dirs <- c("8_q", "9_q", "10_q", "11_q", "12_q", "13_q", "14_q", "15_q", "16_q", "18_q", "20_q", "22_q", "24_q", "26_q")
 nqueens_dirs <- list.files(data_dir, pattern="\\d_q$")
 
 
@@ -286,7 +295,33 @@ for (nqueens_dir in nqueens_dirs)
     setkey(summary_similarity, queen, mutation, generation)
     
     # Clear up memory
-    rm(similarity, result, results)
+    rm(result, results)
+    gc()
+    
+    
+    # Aggregate the similarity results for all generations 
+    results <- similarity[, list(min_similarity=min(similarity),
+                                 mean_similarity=mean(similarity),
+                                 Q1_similarity=quantile(similarity, 0.25),
+                                 med_similarity=median(similarity),
+                                 Q3_similarity=quantile(similarity, 0.75),
+                                 max_similarity=max(similarity),
+                                 sd_similarity=sd(similarity)), by="queen,mutation"]
+    
+    if (NROW(all_similarity) > 0)
+    {
+        all_similarity <- rbind(all_similarity, results)                           
+    }
+    else
+    {
+        all_similarity <- results
+    }
+    
+    # Set keys
+    setkey(all_similarity, queen, mutation)
+    
+    # Clear up memory
+    rm(similarity, results)
     gc()
     
     
@@ -313,6 +348,33 @@ for (nqueens_dir in nqueens_dirs)
     
     # Set keys
     setkey(summary_fitness, queen, mutation, generation)
+    
+    # Clear up memory
+    rm(results)
+    gc()
+    
+    
+    # Aggregate the fitness results for all generations
+    results <- fitness[, list(min_fitness=min(fitness),
+                              mean_fitness=mean(fitness),
+                              Q1_fitness=quantile(fitness, 0.25),
+                              med_fitness=median(fitness),
+                              Q3_fitness=quantile(fitness, 0.75),
+                              max_fitness=max(fitness),
+                              sd_fitness=sd(fitness)), by="queen,mutation"]
+    
+    if (NROW(all_fitness) > 0)
+    {
+        all_fitness <- rbind(all_fitness, results)
+        
+    }
+    else
+    {
+        all_fitness <- results
+    }
+    
+    # Set keys
+    setkey(all_fitness, queen, mutation)
     
     # Clear up memory
     rm(fitness, results)
@@ -342,6 +404,33 @@ for (nqueens_dir in nqueens_dirs)
     
     # Set keys
     setkey(summary_mutation, queen, generation)
+    
+    # Clear up memory
+    rm(results)
+    gc()
+    
+    
+    # Aggregate the mutation results for all generations
+    results <- mutation[, list(min_mutation=min(mutation),
+                               mean_mutation=mean(mutation),
+                               Q1_mutation=quantile(mutation, 0.25),
+                               med_mutation=median(mutation),
+                               Q3_mutation=quantile(mutation, 0.75),
+                               max_mutation=max(mutation),
+                               sd_mutation=sd(mutation)), by="queen"]
+    
+    if (NROW(all_mutation) > 0)
+    {
+        all_mutation <- rbind(all_mutation, results)
+        
+    }
+    else
+    {
+        all_mutation <- results
+    }
+    
+    # Set keys
+    setkey(all_mutation, queen)
     
     # Clear up memory
     rm(mutation, results)
@@ -448,4 +537,12 @@ write.csv(summary_mutation, paste(output_dir, "summary_mutation.csv", sep="/"), 
 write.csv(summary_similarity, paste(output_dir, "summary_similarity.csv", sep="/"), row.names = FALSE)
 write.csv(summary_solution, paste(output_dir, "summary_solution.csv", sep="/"), row.names = FALSE)
 
+
+# Save the summary statistics for all generations
+write.csv(all_fitness, paste(output_dir, "all_fitness.csv", sep="/"), row.names = FALSE)
+write.csv(all_mutation, paste(output_dir, "all_mutation.csv", sep="/"), row.names = FALSE)
+write.csv(all_similarity, paste(output_dir, "all_similarity.csv", sep="/"), row.names = FALSE)
+
+
 write.csv(best_solution, paste(output_dir, "best_solution.csv", sep="/"), row.names = FALSE)
+
