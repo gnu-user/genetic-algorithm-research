@@ -141,9 +141,50 @@ Joseph Heron\\
 Blah blah blah, here is our abstract.
 \end{abstract}
 
-\keywords{Genetic Algorithms, Combinatorial Optimization}
+\keywords{Genetic Algorithms, Combinatorial Optimization, N Queens Problem, Variable Mutation}
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% INTRODUCTION
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+
+
+- Model the intro similary to how we did the report for AI
+
+- Summary of the problem explain the challenges of larger N-Queens problems, 
+  provide a table showing how quickly the number of solutions grows, there is
+  no known method of determining the exact number of solutions.
+
+- Based on the complexity of the problem explain how the overhead of using a bruteforce 
+  approach is infeasible for larger N Queens and the justification for stochastic
+  methods.
+
+- Emphasize that our application of the problem is finding distinct solutions,
+  since this is much harder than just finding solutions (many of which may be
+  duplicates in other random stochastic methods).
+
+- The motive for variable mutation
+    --> We were not able initially (without using reflection \& rotation like we
+        are now) to get all 92 solutions to 8 queens (impossible with fixed mutation to solve
+        in a reasonable amount of time)
+    
+    --> Started looking at biology, were inspired by the fact that nature has
+        a natural ordering to prevent inbreeding within organisms (e.g. purebreed
+        dogs often have more health problems, easy citation!)
+        
+    --> Attempted to come up with a way to apply the negative affects of inbreeding 
+        that occur in nature to solve our GA problem
+        
+    --> Our var. mutation solution worked exceptionally well, solved all 92
+        solutions nearly instantaneously, motivated us to pursue the implications
+        further.
+
+
 The \textit{proceedings} are the records of a conference.
 ACM seeks to give these conference by-products a uniform,
 high-quality appearance.  To do this, ACM has some rigid
@@ -220,12 +261,36 @@ you can find a complete list of what is
 available in the \textit{\LaTeX\
 User's Guide}\cite{Lamport:LaTeX}.
 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% APPROACH
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Approach}
-You may want to display math equations in three distinct styles:
-inline, numbered or non-numbered display.  Each of
-the three are discussed in the next sections.
+
+- Describe the variable mutation rate algorithm and the two parameters that it
+  has in comparison to fixed mutation's one param, (step size for changing the
+  mutation rate and the inbreeding threshold).
+
 
 \subsection{Applying Variable Mutation Rates}
+
+- For explaining the variable mutation rate there is no need for a formal algorithm
+  essentially it boils down to the following:
+
+  - For each generation evaluate the population chromose similarity (see below
+    for population chromosome similiarity algorithm)
+
+  - If the population chromosome similarity is less than the threshold increase
+    the mutation rate by the step size. If the similarity is greater than the
+    threshold decrease the mutation rate by the step size. This results in
+    the mutation rate adjusting up or down such that the population chromosome
+    similarity approaches an equilibrium near the inbreeding threshold.
+
+
 A formula that appears in the running text is called an
 inline or in-text formula.  It is produced by the
 \textbf{math} environment, which can be
@@ -239,13 +304,34 @@ this equation: \begin{math}\lim_{n\rightarrow \infty}x=0\end{math},
 set here in in-line math style, looks slightly different when
 set in display style.  (See next section).
 
-\subsubsection{How Adaptation Occurs}
-A numbered display equation -- one set off by vertical space
-from the text and centered horizontally -- is produced
-by the \textbf{equation} environment. An unnumbered display
-equation is produced by the \textbf{displaymath} environment.
 
-\subsubsection{Solution Architecture}
+% This could be combined with the previous subsection
+%\subsubsection{How Adaptation Occurs}
+%A numbered display equation -- one set off by vertical space
+%from the text and centered horizontally -- is produced
+%by the \textbf{equation} environment. An unnumbered display
+%equation is produced by the \textbf{displaymath} environment.
+
+
+% This could be called algorithm, essentially explaining chromosome similarity
+% algroithm since the concept of applying variable mutation can be easily explained in words
+%\subsubsection{Solution Architecture}
+\subsubsection{Chromosome Similarity Algorithm}
+
+- For explaining the chromosome similarity algorithm (which is a little more
+  complicated to avoid the naiive O(n!) solution, instead it is now linear
+  complexity). Even though in terms of theoretical big-O complexity it is
+  constant (since it's just based on the population size which is constant) it
+  is worthwhile mentioning that from our empirical evidence using profiling of
+  the code using the naiive O(n!) solution has a significant impact for larger
+  population sizes (so much so that it caused a significant degrade in performance
+  motivating us to profile the code and improve the original algorithm)
+
+- I will write the formal algoritm in latex using the latex algorithm extension
+  http://en.wikibooks.org/wiki/LaTeX/Algorithms
+
+
+
 Again, in either environment, you can use any of the symbols
 and structures available in \LaTeX; this section will just
 give a couple of examples of display equations in context.
@@ -255,13 +341,140 @@ Notice how it is formatted somewhat differently in
 the \textbf{displaymath}
 environment.  
 
-\subsubsection{Testing and Validation}
+
+
+% I thought it would be important to add a section on implementation
+% this could be condensed, but I think it is very important to
+% explain how we actually implemented and applied the GA process
+\subsection{Implementation}
+
+- An overview of our GA implementation so that someone wishing to replicate our 
+  results knows how we implemented our solution. 
+
+- Could potentially provide a URL to the source code implementation on github
+
+- Describe the chromosome design, the ordering of each gene of the chromosome represents
+  the horizontal position of each queen on the board and the corresponding vertical
+  position of the queen is stored in the gene of the chromosome.
+
+  --> I think it would be wortwhile to have a very small diagram highlighting this
+
+- Fitness function, I can write the formal algorithm for this, each pair of queens 
+  that have a vertical or diagonal collision is recorded as a value of 2 (one 
+  collision from the perspective of each queen). This number is then represented 
+  as a fraction over 1 such that a chromosome with a larger number of collisions 
+  will have a much lower fitness value.
+  
+- If no collisions occur the default value is 1 resulting in a fitness of (1/1 = 1) 
+  which is a  solution to the problem. 
+  
+- For queens with multiple collisions each pair of queens will be recorded as 2 collisions, 
+  in the event that there are three pairs of queens with collisions, one pair with a vertical 
+  collision, one with a diagonal, and one with a separate diagonal collision the fitness value 
+  would be (1 / 6).
+  
+- In the event where there are multiple types of collisions (say two pairs of queens each with 
+  vertical collisions, and one with a horizontal collision) the fitness value would be (1 / 8), 
+  for a higher number of collisions this often happens making the fitness value even lower than 
+  just a multiple of 2 x pairs of collisions.
+
+  --> Might be helpful to give a diagram
+
+  --> Due to the ordering of the queens in the chromosome there can only be
+      vertical or diagonal collisions (since two queens can never be on the
+      same row).
+
+- Roulette wheel selection method, by generating a random floating point number and selecting
+  a chromosome value where the random number lies within the bounds. The range
+  of random values that can be chosen changes based on the maximum upper and lower
+  bounds of the sum of the fitness of the chromosomes in the population.
+
+- Each of the ranges of values that a particular chromosome can have is weighted
+  based on the fitness of the chromosome. For example in a population with 4
+  chromosomes two of which are solutions (fitness 1) and two with a single pair of collisions
+  (fitness 1/2 = 0.5) the ranges of values for each chromosome would be as
+  follows:
+
+  [0, 1), [1, 2), [2, 2.5), [2.5, 3), and the bounds of the random floating point value
+  generated for the roulette wheel selection would be [0, 3).
+
+- Crossover operation (70\% chance), cloning (30\% chance), (cite paper justifying why
+  we used these values, they are often recommended/used values)
+
+- Background mutation operation, applied to chromosomes, this is variable rather
+  than a traditional fixed value, e.g. a 5\% value results in a 5\% chance of
+  mutation being applied to chromosomes.
+
+- Mutation operator changes ONE of the genes of the chromosome randomly, which
+  results in changing the the y coordinate of a random queen in the chromosome 
+  to a random value within the range of possible y values.
+
+
+- If a chromsome of the current population has a fitness value of 1 it is compared 
+  to the list of previous solutions to see if it is unique. If the solution is 
+  unique the rotation (rotating the solution an additional three times) and 
+  reflection (performing reflection on the solution) followed by three additional
+  rotations operations are applied to find a total of 8 solutions. Each solution 
+  found after rotation and reflection is compared to the list of previous solutions to 
+  verify that it is a unique solution.
+
+  --> We do not keep duplicate solutions, this is important since someone may think
+      that out of the 1000's of solutions we found many of them are just duplicates,
+      when in fact they are all DISTINCT solutions.
+
+- The current population is then replaced with the new population that was created
+  by applying the crossover, cloning, and mutation operations.
+
+
+% I would instead call this methodology
+%\subsubsection{Testing and Validation}
+\subsection{Methodology}
+
+- Implementation in Java
+
+- Experiments were conducted on the HPC facilities provided (SHARCNET)
+
+- describe the study and control (diff. fixed mutation rates, list them all, vs.
+  variable mutation rate with a fixed inbreeding threshold of 15\%), this had
+  1 fixed param (inbreeding threshold)
+  
+  --> This should probably be put in a table.
+
+
+- N queens problem sizes used: For 8 - 16 queens used each n queens size, for
+  16 - 26 used each even sized N queens problem, lastly a test using 32 queens.
+
+- Number of generations for each N queens problem (10 million generations for
+  all except 32 queens), 50 million generations were used for 32 queens given
+  the increased complexity of the problem.
+
+- sample sizes (30, 15, 10)
+
+    --> I will give you a table with each n queens problem, the sample sizes used 
+        for each and the number of generations, this would reduce a lot of text
+        needed to explain the items.
+
+    --> justify why the sample sizes were reducedfor larger problems given the 
+        computational limitations of SHARCNET (max 256 jobs, 7 days CPU time, 
+        regardless and your job would be killed)
+
+- describe the data collected, explain how each of the attributes such as
+  population fitness, similarity are calculated based on the mean of the population
+  for 1000 generations at a time (mean of means), rather than the mean of each
+  population for each generation (TOO MUCH DATA!)
+
+
+
 Now, we'll enter an unnumbered equation:
 \begin{displaymath}\sum_{i=0}^{\infty} x + 1\end{displaymath}
 and follow it with another numbered equation:
 \begin{equation}\sum_{i=0}^{\infty}x_i=\int_{0}^{\pi+2} f\end{equation}
 just to demonstrate \LaTeX's able handling of numbering.
 
+
+% This really should be part of results, but could be left here
+% to me it really doesn't fit in with approach since explaining
+% our approach can't really justify yet "Why not fixed mutation"
 \subsection{Why Not Fixed Mutation?}
 Citations to articles \cite{bowman:reasoning,
 clark:pct, braams:babel, herlihy:methodology},
@@ -279,7 +492,41 @@ the first author's surname and a
 word from the title.  This identifying key is included
 with each item in the \texttt{.bib} file for your article.
 
-\section{Performance Analysis}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% RESULTS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% I would call this results, but performance analysis is good too
+%\section{Performance Analysis}
+
+- cite specific results and why we think they are important, what is the significance
+  of them and how they support our results/hypothesis that in the case of N Queens
+  var. mutation is better than fixed.
+
+- cite the result showing the best fixed mutation vs. the variable mutation
+  for each N-queens problem, try and use both the figure and the table, the table
+  has some additional interesting information which cannot be conveyed in the
+  image alone.
+
+- cite interesting results of the fat boxplots in the range of chromosome similarity
+  for the optimal fixed mutation rates, use the "person stepping" analogy and how
+  that certain fixed mutation rates had the widest range in chromosome similiarty
+  allowing it to hone in on solutions faster.
+
+- Try and incorporate one of the scatter plots as well that show very interesting
+  results and see if you can use it to compare/contrast the results of the 
+  following plots
+  
+    - variable mutation rate scatter plot
+    - variable mutation rate similarity scatter plot
+    - best fixed mutation rate similarity scatter plot
+
+
+
 The details of the construction of the \texttt{.bib} file
 are beyond the scope of this sample document, but more
 information can be found in the \textit{Author's Guide},
@@ -291,7 +538,35 @@ of the citation command, using \texttt{{\char'134}cite}.
 This is what is stipulated in the SIGS style specifications.
 No other citation format is endorsed or supported.
 
-\section{Conclusions}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% CONCLUSIONS
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conclusions and Further Research}
+
+- Wait until the rest of the paper \& we have more feedback before
+  writing the conclusions.
+
+- Further research into adjusting the inbreeding threshold, for the purpose
+  of the research a constant inbreeding threshold of 15% was used, however
+  further research could be done in testing different thresholds.
+
+- Comparing the results of variable mutation with fixed mutation using other
+  types of combinatorial/optimization problems such as TSP, constraint
+  satisfaction problem (CSP), etc.
+
+- Variable population size based on the amount of inbreeding (if you have
+  a lot of inbreeding in nature the organisms will have higher mutatation
+  rate and deformities, the population will shrink)
+
+- Having the mutation operator affect more than one gene if it goes > 100%? 
+
+
+
 Because tables cannot be split across pages, the best
 placement for them is typically the top of the page
 nearest their initial cite.  To
