@@ -47,6 +47,7 @@
 
 \documentclass{sig-alternate}
 \usepackage{epstopdf}
+\usepackage{algorithm2e}
 %\usepackage{auto-pst-pdf}
 \begin{document}
 %
@@ -327,8 +328,55 @@ set in display style.  (See next section).
   population sizes (so much so that it caused a significant degrade in performance
   motivating us to profile the code and improve the original algorithm)
 
-- I will write the formal algoritm in latex using the latex algorithm extension
-  http://en.wikibooks.org/wiki/LaTeX/Algorithms
+
+\begin{algorithm}
+  \SetKwProg{Fn}{Function}{}{end}\SetKwFunction{Similarity}{Similarity}%
+  \SetKwData{Similar}{similar}\SetKwData{Value}{value}\SetKwData{Matched}{matched}\SetKwData{Length}{length}\SetKwArray{Sorted}{sorted}
+  \SetKwFunction{Sort}{Sort}
+  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+  \SetAlgoLined
+  \DontPrintSemicolon
+  
+  \Fn{\Similarity{$chromosomes$}}{
+  
+  \Input{An array of $chromosomes$}
+  \Output{Fraction of chromosomes that are similar}
+  \BlankLine
+  
+  \Similar $\leftarrow$ 0\;
+  \Matched $\leftarrow$ false\;
+  \Length $\leftarrow$ length of $chromosomes$\;
+  \BlankLine
+  
+  \tcp{Sort using an arbitrary sorting algorithm}
+  \Sorted $\leftarrow$ \Sort{$chromosomes$}\;
+  \BlankLine
+  
+  \For{$i \leftarrow 0$ \KwTo $\Length -1$}
+  {
+    \uIf{\Sorted{$i$} == \Sorted{$i + 1$}}
+    {
+      \Similar $\leftarrow$ \Similar + 1\;
+      \Matched $\leftarrow$ true\;
+    }
+    \ElseIf{\Matched}
+    {
+      \Similar $\leftarrow$ \Similar + 1\;
+      \Matched $\leftarrow$ false\;
+    }
+    \BlankLine
+    
+    \tcp{Case where the last item is a match}
+    \If{\Matched and $\left(i + 1 == \Length - 1 \right)$}
+    {
+      \Similar $\leftarrow$ \Similar + 1\;
+    }
+  }
+  \BlankLine
+  \KwRet{\Similar / \Length}
+  }
+\caption{Chromosome similarity function}
+\end{algorithm}
 
 
 
@@ -364,6 +412,70 @@ environment.
   collision from the perspective of each queen). This number is then represented 
   as a fraction over 1 such that a chromosome with a larger number of collisions 
   will have a much lower fitness value.
+  
+
+\begin{algorithm}
+  \SetKwProg{Fn}{Function}{}{end}\SetKwFunction{Fitness}{Fitness}%
+  \SetKwData{Collisions}{collisions}\SetKwData{Length}{length}\SetKwArray{Chromosome}{$chromosome$}\SetKwData{Yi}{$y_i$}\SetKwData{Yj}{$y_j$}
+  \SetKwFunction{Abs}{abs}
+  \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
+  \SetAlgoLined
+  \DontPrintSemicolon
+  
+  \Fn{\Fitness{$chromosome$}}
+  {
+    \Input{A single $chromosome$}
+    \Output{A fitness value for the chromosome}
+    \BlankLine
+    
+    \Collisions $\leftarrow$ 0\;
+    \Length $\leftarrow$ length of the $chromosome$\;
+    \BlankLine
+    
+    \For{$i \leftarrow 0$ \KwTo $\Length -1$}
+    {
+      \tcp{Check each gene against the current}
+      $j \leftarrow \left( i + 1 \right) \mod{\Length}$\;
+      \While{$j$ != $i$}
+      {
+        \Yi $\leftarrow \Chromosome{i}$\;
+        \Yj $\leftarrow \Chromosome{j}$\;
+        \BlankLine
+        
+        \tcp{Check for vertical collision}
+        \If{\Yi == \Yj}
+        {
+          \Collisions $\leftarrow \Collisions + 1$\; 
+        }
+        \BlankLine
+        
+        \tcp{Check for diagonal collision}
+        \If{\Abs{$\left(i - j \right)$ / $\left(\Yi - \Yj \right)$} == 1}
+        {
+          \Collisions $\leftarrow \Collisions + 1$\;
+        }
+        \BlankLine
+        
+        $j \leftarrow j + 1$\;
+        $j \leftarrow j \mod{\Length}$\;
+      }
+    }
+    \BlankLine
+
+    \eIf{\Collisions == 0}
+    {
+      \KwRet{1}\;
+    }
+    {
+      \KwRet{1 / \Collisions}\;
+    }
+  }
+\caption{Fitness function}
+\end{algorithm}
+
+
+
+
   
 - If no collisions occur the default value is 1 resulting in a fitness of (1/1 = 1) 
   which is a  solution to the problem. 
