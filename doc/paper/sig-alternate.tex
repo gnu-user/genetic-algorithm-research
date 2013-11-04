@@ -401,12 +401,14 @@ environment.
 
 - Could potentially provide a URL to the source code implementation on github
 
+\subsubsection{Chromosome Design}
 - Describe the chromosome design, the ordering of each gene of the chromosome represents
   the horizontal position of each queen on the board and the corresponding vertical
   position of the queen is stored in the gene of the chromosome.
 
   --> I think it would be wortwhile to have a very small diagram highlighting this
 
+\subsubsection{Fitness Function}
 - Fitness function, I can write the formal algorithm for this, each pair of queens 
   that have a vertical or diagonal collision is recorded as a value of 2 (one 
   collision from the perspective of each queen). This number is then represented 
@@ -486,7 +488,7 @@ environment.
   would be (1 / 6).
   
 - In the event where there are multiple types of collisions (say two pairs of queens each with 
-  vertical collisions, and one with a horizontal collision) the fitness value would be (1 / 8), 
+  vertical collisions, and one with a diagonal collision) the fitness value would be (1 / 8), 
   for a higher number of collisions this often happens making the fitness value even lower than 
   just a multiple of 2 x pairs of collisions.
 
@@ -496,6 +498,7 @@ environment.
       vertical or diagonal collisions (since two queens can never be on the
       same row).
 
+\subsubsection{Selection Method}
 - Roulette wheel selection method, by generating a random floating point number and selecting
   a chromosome value where the random number lies within the bounds. The range
   of random values that can be chosen changes based on the maximum upper and lower
@@ -510,6 +513,8 @@ environment.
   [0, 1), [1, 2), [2, 2.5), [2.5, 3), and the bounds of the random floating point value
   generated for the roulette wheel selection would be [0, 3).
 
+
+\subsubsection{Chromosome Operations}
 - Crossover operation (70\% chance), cloning (30\% chance), (cite paper justifying why
   we used these values, they are often recommended/used values)
 
@@ -522,6 +527,7 @@ environment.
   to a random value within the range of possible y values.
 
 
+\subsubsection{Chromosome Evaluation}
 - If a chromsome of the current population has a fitness value of 1 it is compared 
   to the list of previous solutions to see if it is unique. If the solution is 
   unique the rotation (rotating the solution an additional three times) and 
@@ -613,7 +619,7 @@ with each item in the \texttt{.bib} file for your article.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % I would call this results, but performance analysis is good too
-%\section{Performance Analysis}
+\section{Results}
 
 - cite specific results and why we think they are important, what is the significance
   of them and how they support our results/hypothesis that in the case of N Queens
@@ -658,7 +664,7 @@ No other citation format is endorsed or supported.
 % CONCLUSIONS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions and Further Research}
+\section{Conclusions}
 
 - Wait until the rest of the paper \& we have more feedback before
   writing the conclusions.
