@@ -156,23 +156,20 @@ Blah blah blah, here is our abstract.
 Genetic algorithms serve an important role in various applications, but particularly useful areas are those where they can perform stochastic generation of solutions for combinatorial problems. One notable example of this is the N-Queens problem. One approach to solving the N-Queens problem using a genetic algorithm is to implement chromosomes which model each position of each queen on the chessboard per axis. The permuted values stores in the chromosome represent the sequential row positions of each of the queens, encoded into binary values. Thus, the column positions increase by one for each queen and the intersections (referred to as collisions) are calculated per row or on the diagonal to determine fitness. As with any genetic algorithm, evaluating the fitness of the chromosomes in a generation is required to determine if a solution has been generated. By tuning the parameters of the genetic algorithm, performance can increase and decrease based on the problem encountered. We have found that by replacing a static tuned mutation value with an adaptive value controlled by chromosome similarity, better performance can be achieved than using static values, particularly when there is no \emph{a priori} knowledge about the ideal static mutation rate. This is compounded when the solution landscape is large, such as in higher-order N-Queens problems.
 
 \subsection{Background and Problem Domain}
-The N-Queens problem becomes orders of magnitude complex as the number of queens and the size of the chessboard increases. Finding all solutions is a simple but nontrivial problem. When two or more queens share a row or diagonal, a collision occurs for each pair of queens, meaning that the board state is not a solution. The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {64 \choose 8} arrangements of the queens on a standard 8\times{}8 board, while deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as constraining a queen to a single row, there are still 8^8 possible distinct arrangements. Naturally, in higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} on page \pageref{table:numuniquesol} shows the growth of the number of solutions. While the number of solutions is known for problems involving up to 26 queens, there is currently no known formula for the exact number of distinct solutions. That is to say, higher order N-Queens problems are intractable. Deterministic methods for approaching these problems are largely useless, and the problem remains unsolved.
+Like many other complex optimization problems, the N-Queens problem becomes orders of magnitude more complex as the number of queens and the size of the chessboard increases. Finding all solutions is a simple but nontrivial problem. When two or more queens share a row or diagonal, a collision occurs for each pair of queens, meaning that the board state is not a solution. 
 
-- (ADD CITATIONS!)
+The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard $8\times{}8$ board, while deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as constraining a queen to a single row, there are still $8^8$ possible distinct arrangements. Naturally, in higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} on page \pageref{table:numuniquesol} shows the growth of the number of solutions. While the number of solutions is known for problems involving up to 26 queens, there is currently no known formula for the exact number of distinct solutions. That is to say, higher order N-Queens problems are intractable. Deterministic methods for approaching these problems are largely useless, and the problem remains unsolved.
+
+- (ADD CITATIONS!
   
 % CITATIONS EXAMPLE WITH ALL CITATATIONS
 - Cite me!\cite{crawford1992solving,homaifar1992e1,andrews2006investigation,tuson1998adapting, wolpert1997no,srinivas1994adaptive,goldberg1988genetic}
 
 \subsubsection{The N-Queens Puzzle}
+The natural question raised when approaching such a simple problem as N-Queens is why a deterministic or brute force strategy is not used. Unfortunately, these approaches cannot work except in small problem landscapes. The issue is that a direct traversal of the landscape does not yield fruitful results easily in the case of the N-Queens problem. This stems from the fact that the fitness of solutions doesn't matter. You can't solve the puzzle by producing an answer that doesn't have all queens positions so they won't attack each other. Therefore, only solutions with 100\% fitness are useful solutions. As a result, as the problem landscape increases massively, the number of distinct solutions does not increase proportionally. A full brute force traversal of the landscape would be required to find all the distinct solutions, which is increasingly expensive in the higher order problems.
+What's more, other stochastic solutions are impractical with this type of problem because simply finding solutions among the landscape of possible board states yields a tremendous amount of duplicate solutions. Some method is required to direct the random traversal of the landscape toward distinct solutions and away from those which have already been found. The problem with this statement, obviously, is that the nature of randomness cannot be constrained in this way - it will no longer be random. As a result, methods such as genetic algorithms become an attractive solution because they represent a 'smarter' traversal of the problem landscape than what is offered by a linear brute force traversal, or a uniformly random traversal. Less time is spent on areas of the landscape which are not likely to be solutions.
 
-- Based on the complexity of the problem explain how the overhead of using a bruteforce 
-  approach is infeasible for larger N Queens and the justification for stochastic
-  methods.(ADD CITATIONS!)
-
-- Emphasize that our application of the problem is finding distinct solutions,
-  since this is much harder than just finding solutions (many of which may be
-  duplicates in other random stochastic methods).
-
+- (ADD CITATIONS!)
 
 \subsubsection{Motivation}
 - The motive for variable mutation
@@ -632,9 +629,20 @@ document in Appendix-appropriate form:
 \begin{table}
 \centering
 \caption{Number of unique solutions to the N-Queens Problem}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} \hline
-N & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26\\ \hline
-\# Unique Solutions & 1& 0 & 0 & 2 & 10 & 4 & 40 & 92 & 352 & 724 & 2680 & 14200 & 73712 & 365596& 2279184& 14772512& 95815104& 666090624& 4968057848& 39029188884& 314666222712& 2691008701644& 24233937684440& 227514171973736& 2207893435808352& 22317699616364044\\
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|} \hline
+N & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ \hline
+\# Unique  & 1& 0 & 0 & 2 & 10 & 4 & 40 & 92 & 352 & 724\\
+Solutions &&&&&&&&&&\\
+\hline\end{tabular}
+\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|} \hline
+N & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 \\ \hline
+\# Unique & 2680 & 14200 & 73712 & 365596& 2279184& 14772512& 95815104& 666090624& 4968057848& 39029188884& 
+Solutions &&&&&&&&&&\\
+\hline\end{tabular}
+\begin{tabular}{|l|c|c|c|c|c|c|} \hline
+N & 21 & 22 & 23 & 24 & 25 & 26 \\ \hline
+\# Unique & 314666222712& 2691008701644& 24233937684440& 227514171973736& 2207893435808352& 22317699616364044 &
+Solutions &&&&&&\\
 \hline\end{tabular}
 \label{table:numuniquesol}
 \end{table}
