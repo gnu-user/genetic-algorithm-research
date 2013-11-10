@@ -1,0 +1,69 @@
+An Investigation into Mutation Operators for Particle Swarm Optimization
+------------------------------------------------------------------------
+PSO (particle Swarm Optimization) does not originally use mutation. They attempted to add mutation to prevent the search getting stuck at local optimum. They attempted 3 different mutation techniques, constant, linearly decreasing and stagnant mutation. The final mutation type (Mutation when stagnant) is similar to our approach. However, his focus is on the current best of the particle population where as ours focuses on the overal similarity of the population.
+
+References to look up:
+- [20], [6] (only mutate upon population stagnation), [21] (used different mutation based on iteration) ***
+- [3], [4], [5], [6] **
+
+
+[6] A. Ratnaweera, S. K. Halgamuge, and H. C. Watson, “Self-organizing hierarchical particle swarm optimizer with time-varying acceleration coefficients,” IEEE Transactions on Evolutionary Computation, vol. 8, no. 3, pp. 240–255, 2004.
+20] D. Dumitrescu, B. Lazzerini, L. C. Jain, and A. Dumitrescu, Evolutionary Computation. CRC Press, 2000.
+
+[3] N. Higashi and H. Iba, “Particle swarm optimization with gaussian mutation,” in Proceedings of the IEEE Swarm Intelligence Symphosium 2003. IEEE Press, 2003, pp. 72–79
+[4] A. Stacey, M. Jancic, and I. Grundy, “Particle swarm optimization with mutation,” in Proceedings of the 2003 Congress on Evolutionary Computation. IEEE Press, 2003, pp. 1425–1430.
+[5] S. C. Esquivel and C. A. Coello Coello, “On the use of particle swarm optimization with multimodal functions,” in Proceedings of the 2003 Congress on Evolutionary Computation. IEEE Press, 2003, pp. 1130–1136.
+
+Solving the n-Queens Problem using Genetic Algorithms
+-----------------------------------------------------
+Very good statement in the conclusion about the difference of n-Queens verus other NP problems. N-Queens is a problem where the fitness function is binary, yes or no. This could possibly make inbreeding less effective if applied to different problems. Since the inbreeding attempts to add diversity to the population it may make find the optimum solution harder. 
+
+Loop up:
+- [2, 3, 5] **About Biological principles used for Genetic Algorithms
+- [1, 6, 8] *About NP
+
+[1] Sara Baase. Computer Algorithms: Introduction to Design and Anaylsis.
+[2] Lawrence Davis. Handbook of Genetic Algorithms
+[3] David E. Goldberg. Genetic Algorithms in Search, Optimization, and Machine Learning
+[5] John H. Holland. Adaptation in Natural Artificial Systems
+[6] Ellis Horowatz and Saraj Sahni. Fundamentals of Computer Algorithms
+[7] Kenneth A De Jong and William M. Spears. Using Genetic algorithms to solve np-complete problems
+[8] Christos H. Papadimitrion and Kenneth Sterglitz. Combinatorial Optimization: Algorithms and Complexity.
+
+
+
+The N-Queens Problem and Genetic Algorithms
+-------------------------------------------
+Discusses the use of edge recombination operator (a method for finding new solutions for n-queens) however it also discusses the importance of using mutation to escape local optimums. They identify 2 different types of mutations and for this approach they find a mutation algorithm that supports using pseudo random methods that allow for the preservation of the parent's information.
+
+
+Using Genetic algorithms to solve np-complete problems
+------------------------------------------------------
+Uses GAs to solve Boolean Satisfiability Problem (SAT) effectively. They take NP-complete problems with poor GA representations and map them to SAT first and then solving them with GAs for better preformance.
+
+
+Self-Organizing Hierarchical Particle Swarm Optimizer With Time-Varying Acceleration Coefficients
+-------------------------
+Not neccessarly that helpful, besides the fact that it implements mutation to particle swarm optimization (PSO).
+
+[8], [13], [31], [35] ***
+
+[8] , “Evolutionary optimization verses particle swarm optimization: Philosophy and the performance difference,” in Lecture Notes in Computer Science, vol. 1447, Proc. 7th Int. Conf. Evolutionary Programming—Evolutionary Programming VII, Mar. 1998, pp. 600–610.
+
+[13] Y. Shi and R. C. Eberhart, “Comparison between genetic algorithms and particle swarm optimization,” in Lecture Notes in Computer Science—Evolutionary Programming VII, vol. 1447, Proc. 7th Int. Conf. Evolutionary Programming, Mar. 1998, pp. 611–616.
+
+[31] R. C. Eberhart and Y. Shi, “Tracking and optimizing dynamic systems with particle swarms,” inProc. IEEE Congr. Evolutionary Computation 2001, Seoul, Korea, 2001, pp. 94–97.
+
+[35] H. Yoshida, K. Kawata, Y. Fukuyama, and Y. Nakanishi, “A particle swarm optimization for reactive power and voltage control considering voltage stability,” in Proc. Int. Conf. Intelligent System Application to Power System, Rio de Janeiro, Brazil, 1999, pp. 117–121.
+
+
+Adapting Operator Settings in Genetic Algorithms
+------------------------------------------------
+Has a larger selection of genetic operators and uses a operation probability to decide whether the operations are used. It is attempting to use an adaptive idea to adjust the genetic algorithm's settings in general (rather then just the mutation rate). Also, it use attempts to change the settings but means of scheduling rather than population similarity.
+
+[9] Adjust operators based on diversity of the population
+[19] tranditional Genetic algorithm style (cross over than mutate)
+[11] time varying schedule of operator probabilities
+[26] counter to our theory
+[16] time dependency descovered by 
+[36] D.H. Wolpert and W.G. Macready. No Free Lunch Theorems for Search. IEEE Transactions on Evolutionary Computation, 1(1):67–82, 1997.
