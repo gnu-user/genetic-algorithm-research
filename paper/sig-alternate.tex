@@ -188,7 +188,7 @@ These facts led us toward a theoretical approach to apply the negative effects o
 \subsection{Related Work}
 
 - This is where you can cite all of the references Joseph found regarding other types of variable mutation.
-- Joseph can help you out with this section
+- Joseph DO THIS
 
 
 
@@ -198,11 +198,10 @@ These facts led us toward a theoretical approach to apply the negative effects o
 % APPROACH
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Our Approach}
+\section{Our Solution Approach}
+Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted (based on the chromosome similarity parameter) is set at a fixed value of 1\%.
 
-- Describe the variable mutation rate algorithm and the two parameters that it
-  has in comparison to fixed mutation's one param, (step size for changing the
-  mutation rate and the inbreeding threshold used to adjust the mutation rate).
+(cite paper justifying why we used these values, they are often recommended/used values, Genetic Algorithms by Goldberg)
 
 
 \subsection{Applying Variable Mutation Rates}
@@ -425,8 +424,7 @@ These facts led us toward a theoretical approach to apply the negative effects o
 % we used these because they were recommended (e.g. from AI lectures) but need textbooks
 % or papers to suggest why we used them
 \subsubsection{Chromosome Operations}
-- Crossover operation (70\% chance), cloning (30\% chance), (cite paper justifying why
-  we used these values, they are often recommended/used values)
+- Crossover operation (70\% chance), cloning (30\% chance), 
 
 - Background mutation operation, applied to chromosomes, this is variable rather
   than a traditional fixed value, e.g. a 5\% value results in a 5\% chance of
