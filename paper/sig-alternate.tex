@@ -199,18 +199,15 @@ These facts led us toward a theoretical approach to apply the negative effects o
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Solution Approach}
-Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted (based on the chromosome similarity parameter) is set at a fixed value of 1\%.
+Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted positively or negatively based on the chromosome similarity parameter in comparison with the actual similarity. In our experimentation this offset a fixed step size of 1\%.
 
 (cite paper justifying why we used these values, they are often recommended/used values, Genetic Algorithms by Goldberg)
 
 
-\subsection{Applying Variable Mutation Rates}
+\subsection{Applying Variable Adaptive Mutation Rates}
 
-- For explaining the variable mutation rate there is no need for a formal algorithm
-  essentially it boils down to the following:
-
-  - For each generation evaluate the population chromose similarity (see below
-    for the population chromosome similiarity algorithm)
+  - For each generation evaluate the population chromosome similarity (see below
+    for the population chromosome similarity algorithm)
 
   - If the population chromosome similarity is less than the threshold increase
     the mutation rate by the step size. If the similarity is greater than the
@@ -218,27 +215,11 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
     the mutation rate adjusting up or down such that the population chromosome
     similarity approaches an equilibrium near the inbreeding threshold.
 
-
-% This could be combined with the previous subsection as this was a section you had added before
-% but can be explained by demonstation the similiarity algorithm and explaining the 
-% inbreeding threshold
-%\subsubsection{How Adaptation Occurs}
-
-
 % This is essentially explaining the chromosome similarity algroithm since the concept of 
 % applying variable mutation from the previous subsection can be easily explained in words 
 % without a formal algorithm.
 \subsubsection{Chromosome Similarity Algorithm}
-
-- For explaining the chromosome similarity algorithm (which is a little more
-  complicated to avoid the naiive O(n!) solution, instead it is now linear
-  complexity). Even though in terms of theoretical big-O complexity it is
-  constant (since it's just based on the population size which is constant) it
-  is worthwhile mentioning that from our empirical evidence using profiling of
-  the code using the naiive O(n!) solution has a significant impact for larger
-  population sizes (so much so that it caused a significant degrade in performance
-  motivating us to profile the code and improve the original algorithm and create
-  the following linear complexity algorithm)\cite{bowman:reasoning}
+-The chromosomes are re-encoded as a numeric value, then sorted using any arbitrary method. Our method uses the default Java sorting function from the Collections class. Then, a greedy algorithm picks the first one and determines how many other chromosomes in this population are similar in a single pass through the array of chromosomes.
 
 
 \begin{algorithm}
