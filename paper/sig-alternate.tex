@@ -199,15 +199,18 @@ These facts led us toward a theoretical approach to apply the negative effects o
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Our Solution Approach}
-Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted positively or negatively based on the chromosome similarity parameter in comparison with the actual similarity. In our experimentation this offset a fixed step size of 1\%.
+Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted (based on the chromosome similarity parameter) is set at a fixed value of 1\%.
 
 (cite paper justifying why we used these values, they are often recommended/used values, Genetic Algorithms by Goldberg)
 
 
-\subsection{Applying Variable Adaptive Mutation Rates}
+\subsection{Applying Variable Mutation Rates}
 
-  - For each generation evaluate the population chromosome similarity (see below
-    for the population chromosome similarity algorithm)
+- For explaining the variable mutation rate there is no need for a formal algorithm
+  essentially it boils down to the following:
+
+  - For each generation evaluate the population chromose similarity (see below
+    for the population chromosome similiarity algorithm)
 
   - If the population chromosome similarity is less than the threshold increase
     the mutation rate by the step size. If the similarity is greater than the
@@ -215,11 +218,27 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
     the mutation rate adjusting up or down such that the population chromosome
     similarity approaches an equilibrium near the inbreeding threshold.
 
+
+% This could be combined with the previous subsection as this was a section you had added before
+% but can be explained by demonstation the similiarity algorithm and explaining the 
+% inbreeding threshold
+%\subsubsection{How Adaptation Occurs}
+
+
 % This is essentially explaining the chromosome similarity algroithm since the concept of 
 % applying variable mutation from the previous subsection can be easily explained in words 
 % without a formal algorithm.
 \subsubsection{Chromosome Similarity Algorithm}
--The chromosomes are re-encoded as a numeric value, then sorted using any arbitrary method. Our method uses the default Java sorting function from the Collections class. Then, a greedy algorithm picks the first one and determines how many other chromosomes in this population are similar in a single pass through the array of chromosomes.
+
+- For explaining the chromosome similarity algorithm (which is a little more
+  complicated to avoid the naiive O(n!) solution, instead it is now linear
+  complexity). Even though in terms of theoretical big-O complexity it is
+  constant (since it's just based on the population size which is constant) it
+  is worthwhile mentioning that from our empirical evidence using profiling of
+  the code using the naiive O(n!) solution has a significant impact for larger
+  population sizes (so much so that it caused a significant degrade in performance
+  motivating us to profile the code and improve the original algorithm and create
+  the following linear complexity algorithm)\cite{bowman:reasoning}
 
 
 \begin{algorithm}
@@ -604,13 +623,41 @@ document in Appendix-appropriate form:
 \begin{table}
 \centering
 \caption{Number of unique solutions to the N-Queens Problem}
-\begin{tabular}{|l|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|} \hline
-N & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 & 16 & 17 & 18 & 19 & 20 & 21 & 22 & 23 & 24 & 25 & 26\\ \hline
-Distinct Solutions & 92 & 352 & 724 & 2680 & 14200 & 73712 & 365596& 2279184& 14772512& 95815104& 666090624& 4968057848& 39029188884& 314666222712& 2691008701644& 24233937684440& 227514171973736& 2207893435808352& 22317699616364044\\
+\begin{tabular}{|l|l|} \hline
+N & Distinct Solutions      \\ \hline
+1  & 1                      \\
+2  & 0                      \\
+3  & 0                      \\
+4  & 2                      \\
+5  & 10                     \\
+6  & 4                      \\
+7  & 40                     \\
+8  & 92                     \\
+9  & 352                    \\
+10 & 724                    \\
+11 & 2680                   \\
+12 & 14,200                 \\
+13 & 73,712                 \\
+14 & 365,596                \\
+15 & 2,279,184              \\
+16 & 14,772,512             \\
+17 & 95,815,104             \\
+18 & 666,090,624            \\
+19 & 4,968,057,848          \\
+20 & 39,029,188,884         \\
+21 & 314,666,222,712        \\
+22 & 2,691,008,701,644      \\
+23 & 24,233,937,684,440     \\
+24 & 227,514,171,973,736    \\
+25 & 2,207,893,435,808,352  \\
+26 & 22,317,699,616,364,044 \\
 \hline\end{tabular}
 \label{table:numuniquesol}
 \end{table}
 - Additional tables can go here
+
+
+
 
 \subsection{Figures}
 
