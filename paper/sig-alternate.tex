@@ -162,7 +162,7 @@ By tuning the parameters of the genetic algorithm, performance can increase or d
 \subsection{Background and Problem Domain}
 Like many other complex optimization problems, the N-Queens problem becomes orders of magnitude more complex as the number of queens and the size of the chessboard increases. Finding all solutions is a simple but non-trivial problem. When two or more queens share a row or diagonal, a collision occurs for each pair of queens, meaning that the board state is not a solution.
 
-The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} on page \ref{tablesection} shows the growth of the number of solutions. 
+The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} in section \ref{tablesection} shows the growth of the number of solutions. 
 
 While the number of solutions is known for problems involving up to 26 queens, there is currently no known formula to determine the exact number of distinct solutions. That is to say, higher order N-Queens problems are currently intractable with existing methods. Deterministic methods for approaching these problems are largely useless, and the problem remains unsolved.
 
@@ -174,16 +174,16 @@ While the number of solutions is known for problems involving up to 26 queens, t
 \subsubsection{The N-Queens Puzzle}
 The natural question raised when approaching simple problems is why a deterministic or brute force strategy is not used. Unfortunately, these approaches cannot work within human time-frames except in smaller problem landscapes. The issue is that a direct linear traversal of the landscape does not yield fruitful results easily in the case of the N-Queens problem. This stems from the fact that the fitness of each sequential solution doesn't matter. The problem cannot be solved by producing a solution that has queens which will attack each other. Therefore, only solutions with the absolute maximum, 100\% fitness, are useful solutions. What is more, as the problem landscape increases in size, the number of distinct solutions does not increase proportionally. A full brute force traversal of the landscape would be required to find all the distinct solutions, which is increasingly expensive in higher order problems.
 
-Other stochastic solutions are impractical with this type of problem. This is because finding solutions among the landscape of possible board states yields a tremendous amount of duplicate solutions. Some method is required to direct the random traversal of the landscape toward distinct solutions and away from those which have already been found. The problem with this statement, is that the nature of randomness cannot be constrained in this way - it will no longer be random. Therefore methods such as genetic algorithms become an attractive solution approach  because they represent a 'smarter' traversal of the problem landscape than what is offered by a linear brute force traversal, or a uniformly random traversal of the landscape. Less time is spent on areas of the landscape which are not likely to be solutions. This leads us toward the core motivation of our solution's behaviour.
+Other stochastic solutions are impractical with this type of problem. This is because finding solutions among the landscape of possible board states yields a tremendous amount of duplicate solutions. Some method is required to direct the random traversal of the landscape toward distinct solutions and away from those which have already been found. The problem with this statement, is that the nature of randomness cannot be constrained in this way - it will no longer be random. Therefore methods such as genetic algorithms become an attractive solution approach  because they represent a 'smarter' traversal of the problem landscape than what is offered by a linear brute force traversal, or a uniformly random traversal of the landscape. Less time is spent on areas of the landscape which are not likely to be solutions. This leads us toward the core motivation of our solution's behavior.
 
 - (ADD CITATIONS!)
 
-\subsubsection{Motivation}
-Modelling the randomness of the solution landscape as seen in the N-Queens problem is impossible with known mathematical methods. To produce a geometric solution landscape would require that the dependent axis of the coordinate plane maps each sequential value to a uniformly random value in the actual solution landscape. Conceptually this is very difficult to imagine, but the reason why this conceptual strategy is useful will become clearer. First, we will discuss why a new approach is necessary in comparison to traditional GA approaches.
+\subsubsection{Motivation}\label{motivation_section}
+Modeling the randomness of the solution landscape as seen in the N-Queens problem is impossible with known mathematical methods. To produce a geometric solution landscape would require that the dependent axis of the coordinate plane maps each sequential value to a uniformly random value in the actual solution landscape. Conceptually this is very difficult to imagine, but the reason why this conceptual strategy is useful will become clearer. First, we will discuss why a new approach is necessary in comparison to traditional GA approaches.
 
-There are several 'short-cuts' which are available when approaching the N-Queens problem because of the nature of the chess board. Since it is square, one solution in fact can be used to yield many other unique solutions using symmetry operations (reflection and rotation of the board). This means that up to 8 solutions can be generated by finding one distinct solution. However, symmetry operations cannot be used to find all distinct solutions because many symmetrical reconfigurations of the board are equivalent. In the example of the Eight-Queens problem, there are 11 board configurations which yield 8 solutions, and 1 which yields only 4. The result is still 92 unique solutions, with the majority of them calculable through symmetry operations alone.
+There are several 'short-cuts' which are available when approaching the N-Queens problem because of the nature of the chess board. Since it is square, one solution in fact can be used to yield many other unique solutions using symmetry operations (reflection and rotation of the board). This means that up to 8 solutions can be generated by finding one distinct solution. However, symmetry operations cannot be used to find all distinct solutions because many symmetrical configurations of the board are equivalent. In the example of the Eight-Queens problem, there are 11 board configurations which yield 8 solutions, and 1 which yields only 4. The result is still 92 unique solutions, with the majority of them calculable through symmetry operations alone.
 
-Using symmetry operations, our initial exploration into solving the N-Queens problem yielded solutions quickly, but not quickly enough to beat deterministic solution generation methods. This was especially apparent in lower order problems where the solution landscape is small. We began to explore biological definitions of genetics, and sought inspiration from the fact that nature has an apparent system for maintaining genetic variation within organisms. For example pure-bred dogs often tend to have significant health problems which directly result from inbreeding. Royal families often use inbreeding to keep their line 'pure', which also results in genetic abnormalities. (CITE THIS)
+Using symmetry operations, our initial exploration into solving the N-Queens problem yielded solutions quickly, but not quickly enough to beat deterministic solution generation methods. This was especially apparent in lower order problems where the solution landscape is small. We began to explore biological definitions of genetics, and sought inspiration from the fact that nature has an apparent system for maintaining genetic variation within organisms. For example pure-bred dogs often tend to have significant health problems which directly result from inbreeding. Royal families historically used inbreeding to keep their line 'pure', which also resulted in genetic abnormalities. (CITE THIS)
 
 These facts led us toward a theoretical approach to apply the negative effects of inbreeding towards genetic algorithms. Our approach would make the mutation rate variable based on chromosome similarity, suggesting the natural mutant products of inbreeding as a result of a too-similar biological chromosome. Our initial solution worked exceptionally well, providing all 92 solutions nearly instantaneously in comparison to our previous static mutation rate GA which required a few seconds. This motivated us to pursue the implications of our strategy further.
 
@@ -274,30 +274,24 @@ Chromosome similarity is calculated using a greedy algorithm seen in Algorithm \
 % this could be condensed, but I think it is very important to
 % explain how we actually implemented and applied the GA process
 \subsection{Implementation Specific Considerations}
-In order to gain an appreciation for the specific implementation and how it might compare to alternatives, we will attempt to elaborate upon the special implementation considerations we made. Our experiments were performed on the same code as our development code, which was written in Java. Concurrent agile development was used as our main development methodology, and GitHub was used extensively for version management and simultaneous development of the code, documentation, and this report. The project source code is available at \url{http://www.github.com/gnu-user/}
+In order to gain an appreciation for the specific implementation and how it might compare to alternatives, we will attempt to elaborate upon the special implementation considerations we made. Our experiments were performed on the same code as our development code, which was written in Java. Concurrent agile development was used as our main development methodology, and GitHub was used extensively for version management and simultaneous development of the code, documentation, and this report. 
 
-- Could potentially provide a URL to the source code implementation on github, I think
-  this would be a very good idea.
-
+The project source code is available at \url{http://www.github.com/gnu-user/}
 
 % This is the design of the chromosome, which is important to the implementation details
 \subsubsection{Chromosome Design}
-- Describe the chromosome design, the ordering of each gene of the chromosome represents
-  the horizontal position of each queen on the board and the corresponding vertical
-  position of the queen is an integer stored in the gene (array index) of the chromosome.
+Chromosomes are designed with an optimization that allow the stochastic search space to be minimized significantly, mentioned originally in section \ref{motivation_section}. The result is that the dimensionality of the problem decreases. This is accomplished by encoding each gene as a row (or column) position on the chess board, and each single index in the array of values means there can only be one queen placed at each index. This allows for an extendable chromosome up to N. Figure \ref{fig:chromosome} shows this chromosome pictorially for a $7 \times 7$ chessboard. In the figure, the 4th, 5th and 6th rows are not shown, but are filled with a queen at the 4th, 5th and 6th column positions respectively in this chromosome. As a result, the encoded chromosome is represented by 7 Java Integer class values in sequence. To encode this into one mutable array, the integers are simply concatenated together. The array specified in Figure \ref{fig:chromosome} would thus be translated to $1274563$.
 
-  --> I think it would be wortwhile to have a very small diagram highlighting this that shows
-      the correlation between a chromosome to the queens on a small (4x4 or 5x5) chessboard
+\begin{figure}\label{fig:chromosome}
+\includegraphics[width=0.5\textwidth]{chromosome.png}
+\caption{Illustrating the chromosome data structure.}
+\end{figure}
 
 % The implementation detail of the fitness funciton including the algorithm
 \subsubsection{Fitness Function}
-- Fitness function, each pair of queens that have a vertical or diagonal collision is 
-  recorded as a value of 2 (one collision from the perspective of each queen). This number 
-  is then represented  as a fraction over 1 such that a chromosome with a larger number of
-  collisions will have a much lower fitness value.
-  
-
-\begin{algorithm}
+Fitness is evaluated by determining the number of collisions between queens on the chessboard - in other words, when at least two queens can attack each other, a collision occurs for each queen. This means that in a board state where only one queen can attack another, two collisions result. Because it is impossible for there to be more than one queen per column given the data structure, only collisions across rows and diagonals must be found. The algorithm for determining the fitness of a given board state is given in Algorithm \ref{fitness_algorithm}, showing the mechanisms we used to find collisions across rows and diagonals. The fitness is calculated as $1 - \frac{1}{(1/N)}$, where the maximum fitness (a unique board solution) is $1$. The length of the chromosome corresponds to the number of queens and rows on the square chessboard, $N$.
+ 
+\begin{algorithm}\label{fitness_algorithm}
   \SetKwProg{Fn}{Function}{}{end}\SetKwFunction{Fitness}{Fitness}%
   \SetKwData{Collisions}{collisions}\SetKwData{Length}{length}\SetKwArray{Chromosome}{$chromosome$}\SetKwData{Yi}{$y_i$}\SetKwData{Yj}{$y_j$}
   \SetKwFunction{Abs}{abs}
@@ -356,27 +350,6 @@ In order to gain an appreciation for the specific implementation and how it migh
 \caption{Fitness function}
 \label{alg:fitness}
 \end{algorithm}
-
-
-- If no collisions occur the default value is 1 resulting in a fitness of (1/1 = 1) 
-  which is a solution to the problem. 
-  
-- For queens with multiple collisions each pair of queens will be recorded as 2 collisions, 
-  in the event that there are three pairs of queens with collisions, one pair with a vertical 
-  collision, one with a diagonal, and one with a separate diagonal collision the fitness value 
-  would be (1 / 6).
-  
-- In the event where there are multiple types of collisions (say two pairs of queens each with 
-  vertical collisions, and one with a diagonal collision) the fitness value would be (1 / 8), 
-  for a higher number of collisions this often makes the fitness value even lower than 
-  just a multiple of 2 x pairs of collisions, the fitness value decreases more than linearly
-  for a higher number of collisions.
-
-  --> Might be helpful to give a diagram
-
-  --> Due to the ordering of the queens in the chromosome there can only be vertical or diagonal
-      collisions (since two queens can never be on the same row).
-
 
 % The selection method, we use roulette wheel, however the implementation details of how
 % roulette wheel is implemented is important
@@ -438,7 +411,7 @@ In order to gain an appreciation for the specific implementation and how it migh
 
 % I would instead call this methodology and make testing/validation/etc. subsections
 %\subsubsection{Testing and Validation}
-\subsection{Methodology}
+\subsection{Experimental Methodology}
 
 - Implementation in Java
 
