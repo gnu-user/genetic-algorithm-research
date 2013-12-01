@@ -200,7 +200,7 @@ These facts led us toward a theoretical approach to apply the negative effects o
 % APPROACH
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Our Solution Approach}
+\section{Our Solution Approach}\label{params}
 Ordinary genetic algorithms use three parameters to govern their evaluation. The first is the population size. We have not adjusted this parameter in our experiments, and kept them at a fixed value of 64 chromosomes. Second is the chromosome crossover rate, which governs the likelihood and percentage of a chromosome to splice with another. This was also kept static, at a fixed rate of 70\%. The third parameter is mutation rate, which governs the likelihood that a chromosome will have a random gene modified. This is achieved using a bit-flipping operation on the selected gene's binary encoded values. To support the 'in-breeding' variant of the algorithm, we have selected to replace the fixed mutation rate parameter with a variable rate, governed by a separate parameter which was kept at a fixed value for the sake of experimentation. The separate parameter, chromosome similarity threshold, is expressed as a percentage. We have selected 15\% as an arbitrary threshold which seemed to work well during experimentation. Future studies into the nature of this parameter may yet yield improved results for specific circumstances. The offset by which the mutation rate is adjusted (based on the chromosome similarity parameter) is set at a fixed value of 1\%.
 
 (cite paper justifying why we used these values, they are often recommended/used values, Genetic Algorithms by Goldberg)
@@ -354,38 +354,17 @@ Fitness is evaluated by determining the number of collisions between queens on t
 % The selection method, we use roulette wheel, however the implementation details of how
 % roulette wheel is implemented is important
 \subsubsection{Selection Method}
-- Roulette wheel selection method, by generating a random floating point number and selecting
-  a chromosome value where the random number lies within the bounds. The range
-  of random values that can be chosen changes based on the maximum upper and lower
-  bounds of the sum of the fitness of the chromosomes in the population.
+As per traditional genetic algorithms, roulette wheel selection was used. This process works by filling the roulette wheel with fractional parts of a total. This is analogous to a probability distribution between zero and 1 - in our implementation the range will lie between 0 and the sum of all the fitness values of each chromosome in a generation.
 
-- Each of the ranges of values that a particular chromosome can have is weighted
-  based on the fitness of the chromosome. For example in a population with 4
-  chromosomes two of which are solutions (fitness 1) and two with a single pair of collisions
-  (fitness 1/2 = 0.5) the ranges of values for each chromosome would be as
-  follows:
-
-  [0, 1), [1, 2), [2, 2.5), [2.5, 3), and the bounds of the random floating point value
-  generated for the roulette wheel selection would be [0, 3).
-
+Each chromosome is given a fraction of the roulette wheel, whose size is equal to the chromosome's fitness divided by the total fitness of all values. A random floating point value is generated between zero and the sum of the total fitness values. This floating point value will lie within one of the intervals representing one of the chromosomes. Whichever interval it falls in is the selected chromosome. The order in which the chromosomes' intervals are placed doesn't matter, as each 'spin' of the roulette wheel is random - the floating point number generated is created based on a uniformly random distribution.
 
 % The operations, these are pretty standard but we need to cite why we chose 70% and 30%
 % we used these because they were recommended (e.g. from AI lectures) but need textbooks
 % or papers to suggest why we used them
 \subsubsection{Chromosome Operations}
-- Crossover operation (70\% chance), cloning (30\% chance), 
+As mentioned in section \ref{params}, the crossover rate is set at a fixed 70\%. This means that 30\% of the time, the genes in the child chromosomes will be an exact clone of the parents. the remaining times, a random crossover occurs. This is done the traditional way by selecting a random index as the bounds for the portion of the gene to cross over. All indexes to the right of this index (including the index value itself) are swapped. Between the two parents, the first parent's values to the right of the index, and the second parent's values to the left of the index are combined to create one child (and the other way around for the second child).
 
-- Background mutation operation, applied to chromosomes, this is variable rather
-  than a traditional fixed value, e.g. a 5\% value results in a 5\% chance of
-  mutation being applied to chromosomes.
-
-- Mutation operator changes ONE of the genes of the chromosome randomly, which
-  results in changing the the y coordinate of a random queen in the chromosome 
-  to a random value within the range of possible y values.
-
-- Mutation operator DOES NOT result in an invalid chromosome, it is limited to the
-  range of possible (valid) y values.
-
+Background mutation, naturally, affects chromosomes randomly after the crossover or cloning process takes place. Each chromosome has a percentage chance of being affected by mutation, and this likelihood changes every generation due to the adaptive variable mutation rate. When a chromosome is selected for mutation, one of the genes in that chromosome is selected randomly. It is then set to a random, valid value. Valid values are between 0 and N corresponding to each row on the chessboard.
 
 % How we evaluate chromosomes in the population and determine distinct solutions
 % and apply rotate and reflection to find additional solutions
@@ -393,21 +372,9 @@ Fitness is evaluated by determining the number of collisions between queens on t
 % arrangment of queens is different from another rotation/reflection of the same original
 % solution. UNIQUE would consider all reflections/rotations as ONE "unique" solution
 \subsubsection{Chromosome Evaluation}
-- If a chromsome of the current population has a fitness value of 1 it is compared 
-  to the list of previous solutions to see if it is unique. If the solution is 
-  distinct the rotation (rotating the solution an additional three times) and 
-  reflection (performing reflection on the solution) followed by three additional
-  rotations operations are applied to find a total of 8 solutions. Each solution 
-  found after rotation and reflection is compared to the list of previous solutions to 
-  verify that it is a distinct solution.
+Each generation, there is a likelihood that some of the chromosomes in the current population are valid solutions - any of the current generation's chromosomes with a fitness of 1 is some sort of solution. When a solution is found, it must be compared to the list of previously found solutions to ensure it is not a duplicate. Due to the stochastic nature of the algorithm, it is a strong possibility that many solutions can be found which are duplicates of previous solutions. To add to this fact is that the symmetry operations applied to each solution found may further increase the likelihood that the new population's solutions that have already been found. Duplicate solutions are discarded without having symmetry operations applied as they would be identical to symmetric configurations of existing found solutions.
 
-  --> We do not keep duplicate solutions, this is important since someone may think
-      that out of the 1000's of solutions we found many of them are just duplicates,
-      when in fact they are all DISTINCT solutions.
-
-- The current population is then replaced with the new population that was created
-  by applying the crossover, cloning, and mutation operations.
-
+Upon saving any newly found solutions, the new generation replaces the previous generation and the genetic algorithm process cycle continues again.
 
 % I would instead call this methodology and make testing/validation/etc. subsections
 %\subsubsection{Testing and Validation}
