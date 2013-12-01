@@ -162,7 +162,7 @@ By tuning the parameters of the genetic algorithm, performance can increase or d
 \subsection{Background and Problem Domain}
 Like many other complex optimization problems, the N-Queens problem becomes orders of magnitude more complex as the number of queens and the size of the chessboard increases. Finding all solutions is a simple but non-trivial problem. When two or more queens share a row or diagonal, a collision occurs for each pair of queens, meaning that the board state is not a solution.
 
-The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} in section \ref{tablesection} shows the growth of the number of solutions. 
+The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} in section \ref{table:numuniquesol} shows the growth of the number of solutions. 
 
 While the number of solutions is known for problems involving up to 26 queens, there is currently no known formula to determine the exact number of distinct solutions. That is to say, higher order N-Queens problems are currently intractable with existing methods. Deterministic methods for approaching these problems are largely useless, and the problem remains unsolved.
 
@@ -279,19 +279,26 @@ In order to gain an appreciation for the specific implementation and how it migh
 The project source code is available at \url{http://www.github.com/gnu-user/}
 
 % This is the design of the chromosome, which is important to the implementation details
+\newpage
 \subsubsection{Chromosome Design}
+
 Chromosomes are designed with an optimization that allow the stochastic search space to be minimized significantly, mentioned originally in section \ref{motivation_section}. The result is that the dimensionality of the problem decreases. This is accomplished by encoding each gene as a row (or column) position on the chess board, and each single index in the array of values means there can only be one queen placed at each index. This allows for an extendable chromosome up to N. Figure \ref{fig:chromosome} shows this chromosome pictorially for a $7 \times 7$ chessboard. In the figure, the 4th, 5th and 6th rows are not shown, but are filled with a queen at the 4th, 5th and 6th column positions respectively in this chromosome. As a result, the encoded chromosome is represented by 7 Java Integer class values in sequence. To encode this into one mutable array, the integers are simply concatenated together. The array specified in Figure \ref{fig:chromosome} would thus be translated to $1274563$.
 
-\begin{figure}\label{fig:chromosome}
-\includegraphics[width=0.5\textwidth]{chromosome.png}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.35\textwidth]{chromosome.png}
+\vspace{-12pt}
 \caption{Illustrating the chromosome data structure.}
+\label{fig:chromosome}
 \end{figure}
+
 
 % The implementation detail of the fitness funciton including the algorithm
 \subsubsection{Fitness Function}
-Fitness is evaluated by determining the number of collisions between queens on the chessboard - in other words, when at least two queens can attack each other, a collision occurs for each queen. This means that in a board state where only one queen can attack another, two collisions result. Because it is impossible for there to be more than one queen per column given the data structure, only collisions across rows and diagonals must be found. The algorithm for determining the fitness of a given board state is given in Algorithm \ref{fitness_algorithm}, showing the mechanisms we used to find collisions across rows and diagonals. The fitness is calculated as $1 - \frac{1}{(1/N)}$, where the maximum fitness (a unique board solution) is $1$. The length of the chromosome corresponds to the number of queens and rows on the square chessboard, $N$.
+Fitness is evaluated by determining the number of collisions between queens on the chessboard - in other words, when at least two queens can attack each other, a collision occurs for each queen. This means that in a board state where only one queen can attack another, two collisions result. Because it is impossible for there to be more than one queen per column given the data structure, only collisions across rows and diagonals must be found. The algorithm for determining the fitness of a given board state is given in Algorithm \ref{alg:fitness}, showing the mechanisms we used to find collisions across rows and diagonals. The fitness is calculated as $1 - \frac{1}{(1/N)}$, where the maximum fitness (a unique board solution) is $1$. The length of the chromosome corresponds to the number of queens and rows on the square chessboard, $N$.
  
-\begin{algorithm}\label{fitness_algorithm}
+
+\begin{algorithm}[t!]
   \SetKwProg{Fn}{Function}{}{end}\SetKwFunction{Fitness}{Fitness}%
   \SetKwData{Collisions}{collisions}\SetKwData{Length}{length}\SetKwArray{Chromosome}{$chromosome$}\SetKwData{Yi}{$y_i$}\SetKwData{Yj}{$y_j$}
   \SetKwFunction{Abs}{abs}
@@ -351,6 +358,7 @@ Fitness is evaluated by determining the number of collisions between queens on t
 \label{alg:fitness}
 \end{algorithm}
 
+
 % The selection method, we use roulette wheel, however the implementation details of how
 % roulette wheel is implemented is important
 \subsubsection{Selection Method}
@@ -371,6 +379,7 @@ Background mutation, naturally, affects chromosomes randomly after the crossover
 % The use of terminology here is important DISTINCT implies that the particular
 % arrangment of queens is different from another rotation/reflection of the same original
 % solution. UNIQUE would consider all reflections/rotations as ONE "unique" solution
+\newpage
 \subsubsection{Chromosome Evaluation}
 Each generation, there is a likelihood that some of the chromosomes in the current population are valid solutions - any of the current generation's chromosomes with a fitness of 1 is some sort of solution. When a solution is found, it must be compared to the list of previously found solutions to ensure it is not a duplicate. Due to the stochastic nature of the algorithm, it is a strong possibility that many solutions can be found which are duplicates of previous solutions. To add to this fact is that the symmetry operations applied to each solution found may further increase the likelihood that the new population's solutions that have already been found. Duplicate solutions are discarded without having symmetry operations applied as they would be identical to symmetric configurations of existing found solutions.
 
@@ -394,6 +403,7 @@ Further, given the volume of data generated by the number of trials, statistical
 % RESULTS
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
 \section{Results and Analysis}
 It became clear very quickly when we plotted the results of our tests that the variable mutation method was not suitable in its current configuration for the simpler N-Queens problems. In fact, we found that given sufficient knowledge about the problem landscape for the lower-order problems, the right static mutation value would likely beat variable mutation every time. The key point that this makes is that for ordinary non-benchmark usage of genetic algorithms, it is useless to use a static mutation rate value unless you already know the correct value for the problem. This generally speaks to the point that having an adaptive mutation rate approach will likely find this value. The smaller N-Queens problems are too small to merit the usage of a stochastic approach regardless, as deterministic methods can yield solutions quickly, and with a guarantee of success.
 
@@ -504,8 +514,8 @@ hierarchical structure
 highest level. Here is an outline of the body of this
 document in Appendix-appropriate form:
 
-\subsection{Tables} \label{tablesection}
-\begin{table*}
+\subsection{Tables}
+\begin{table}[!h]
 \centering
 \caption{Number of unique solutions to the N-Queens Problem}
 \begin{tabular}{|l|l|} \hline
@@ -540,8 +550,8 @@ N & Distinct Solutions      \\ \hline
 \dots & Unknown				\\
 \hline\end{tabular}
 \label{table:numuniquesol}
-\end{table*}
-- Additional tables can go here
+\end{table}
+
 
 \begin{table*}
 \centering
