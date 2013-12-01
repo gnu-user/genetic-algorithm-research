@@ -205,42 +205,16 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
 (cite paper justifying why we used these values, they are often recommended/used values, Genetic Algorithms by Goldberg)
 
 
-\subsection{Applying Variable Mutation Rates}
+\subsection{Applying Adaptive Variable Mutation Rates}
+In order to apply our adaptive variable mutation rate, a two step process is required. For each generation of chromosomes, the population chromosome similarity must be evaluated. The similarity algorithm is detailed in a separate subsection.  
 
-- For explaining the variable mutation rate there is no need for a formal algorithm
-  essentially it boils down to the following:
-
-  - For each generation evaluate the population chromose similarity (see below
-    for the population chromosome similiarity algorithm)
-
-  - If the population chromosome similarity is less than the threshold increase
-    the mutation rate by the step size. If the similarity is greater than the
-    threshold decrease the mutation rate by the step size. This results in
-    the mutation rate adjusting up or down such that the population chromosome
-    similarity approaches an equilibrium near the inbreeding threshold.
-
-
-% This could be combined with the previous subsection as this was a section you had added before
-% but can be explained by demonstation the similiarity algorithm and explaining the 
-% inbreeding threshold
-%\subsubsection{How Adaptation Occurs}
-
+When the chromosome similarity is less than the specified threshold, the mutation rate must decrease. For the next generation, the mutation rate is decreased. If the chromosome similarity increases again, and it goes above the specified threshold, the mutation rate decreases. Due to the stochastic nature of the algorithm, wild variations in chromosome similarity may result regardless of the mutation rate. Since the crossover of the genes may be up to 70\%, the resultant permutations of the genome are likely to be similar unless some mutation occurs. The result of this adaptive change in mutation rate is that the chromosome similarity will approach an equilibrium close to the specified inbreeding threshold.
 
 % This is essentially explaining the chromosome similarity algroithm since the concept of 
 % applying variable mutation from the previous subsection can be easily explained in words 
 % without a formal algorithm.
 \subsubsection{Chromosome Similarity Algorithm}
-
-- For explaining the chromosome similarity algorithm (which is a little more
-  complicated to avoid the naiive O(n!) solution, instead it is now linear
-  complexity). Even though in terms of theoretical big-O complexity it is
-  constant (since it's just based on the population size which is constant) it
-  is worthwhile mentioning that from our empirical evidence using profiling of
-  the code using the naiive O(n!) solution has a significant impact for larger
-  population sizes (so much so that it caused a significant degrade in performance
-  motivating us to profile the code and improve the original algorithm and create
-  the following linear complexity algorithm)\cite{bowman:reasoning}
-
+Chromosome similarity is calculated using a greedy algorithm seen in Algorithm \ref{alg:similarity}. First, the chromosomes' genes are decoded into integer values by direct translation of their binary values in sequence to an integer. next, the array of chromosomes' integer representations is sorted. Our implementation uses the quick-sort algorithm for minimal computational overhead. This gives the algorithm its' characteristic asymptotic behavior, as the complexity of the actual sorting function itself is of higher complexity than the main similarity calculation algorithm. That is to say, the sorting function used runs on average in $O(n \log n)$ complexity, although it should be noted that in the theoretical worst case, quick-sort works in $O(n^2)$ which is highly unlikely. The main algorithm runs in $O(n)$ linear complexity.
 
 \begin{algorithm}
   \SetKwProg{Fn}{Function}{}{end}\SetKwFunction{Similarity}{Similarity}%
@@ -289,6 +263,7 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
   \KwRet{\Similar / \Length}
   }
 \caption{Chromosome similarity function}
+\label{alg:similarity}
 \end{algorithm}
 
 
@@ -297,10 +272,8 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
 % I thought it would be important to add a section on implementation
 % this could be condensed, but I think it is very important to
 % explain how we actually implemented and applied the GA process
-\subsection{Implementation}
-
-- An overview of our GA implementation so that someone wishing to replicate our 
-  results knows how we implemented our solution. 
+\subsection{Implementation Specific Considerations}
+In order to gain an appreciation for the specific implementation and how it might compare to alternatives, we will attempt to elaborate upon the special implementation considerations we made. Our experiments were performed on the same code as our development code, which was written in Java. Concurrent agile development was used as our main development methodology, and GitHub was used extensively for version management and simultaneous development of the code, documentation, and this report. The project source code is available at \url{http://www.github.com/gnu-user/}
 
 - Could potentially provide a URL to the source code implementation on github, I think
   this would be a very good idea.
@@ -380,6 +353,7 @@ Ordinary genetic algorithms use three parameters to govern their evaluation. The
     }
   }
 \caption{Fitness function}
+\label{alg:fitness}
 \end{algorithm}
 
 
