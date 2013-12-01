@@ -49,6 +49,7 @@
 \usepackage{epstopdf}
 \usepackage{algorithm2e}
 \usepackage{multirow}
+\usepackage{hyperref}
 %\usepackage{auto-pst-pdf}
 \begin{document}
 %
@@ -161,7 +162,7 @@ By tuning the parameters of the genetic algorithm, performance can increase or d
 \subsection{Background and Problem Domain}
 Like many other complex optimization problems, the N-Queens problem becomes orders of magnitude more complex as the number of queens and the size of the chessboard increases. Finding all solutions is a simple but non-trivial problem. When two or more queens share a row or diagonal, a collision occurs for each pair of queens, meaning that the board state is not a solution.
 
-The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} on page \pageref{table:numuniquesol} shows the growth of the number of solutions. 
+The Eight-Queens problem is the classical version of the puzzle, and even with this configuration the problem is computationally expensive. There are {$64 \choose 8$} arrangements of the queens on a standard {$8\times{}8$} board. Exhaustive deterministic evaluation has shown that there are only 92 distinct solutions. Even including optimizations such as imposing a constraint to place only one queen to a single row, there are still {$8^8$} possible distinct arrangements. In higher-order versions of the problem, combinatorial explosion occurs. The Nine-Queens problem has 352 distinct solutions. The Ten-Queens problem has 724. Table \ref{table:numuniquesol} on page \ref{tablesection} shows the growth of the number of solutions. 
 
 While the number of solutions is known for problems involving up to 26 queens, there is currently no known formula to determine the exact number of distinct solutions. That is to say, higher order N-Queens problems are currently intractable with existing methods. Deterministic methods for approaching these problems are largely useless, and the problem remains unsolved.
 
@@ -594,7 +595,7 @@ hierarchical structure
 highest level. Here is an outline of the body of this
 document in Appendix-appropriate form:
 
-\subsection{Tables}
+\subsection{Tables} \label{tablesection}
 \begin{table*}
 \centering
 \caption{Number of unique solutions to the N-Queens Problem}
