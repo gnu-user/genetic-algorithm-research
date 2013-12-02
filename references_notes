@@ -39,7 +39,7 @@ Discusses the use of edge recombination operator (a method for finding new solut
 
 Using Genetic algorithms to solve np-complete problems
 ------------------------------------------------------
-Uses GAs to solve Boolean Satisfiability Problem (SAT) effectively. They take NP-complete problems with poor GA representations and map them to SAT first and then solving them with GAs for better preformance.
+Uses GAs to solve Boolean Satisfiability Problem (SAT) effectively. They take NP-complete problems with poor GA representations and map them to SAT first and then solving them with GAs for better performance.
 
 
 Self-Organizing Hierarchical Particle Swarm Optimizer With Time-Varying Acceleration Coefficients
@@ -61,9 +61,49 @@ Adapting Operator Settings in Genetic Algorithms
 ------------------------------------------------
 Has a larger selection of genetic operators and uses a operation probability to decide whether the operations are used. It is attempting to use an adaptive idea to adjust the genetic algorithm's settings in general (rather then just the mutation rate). Also, it use attempts to change the settings but means of scheduling rather than population similarity.
 
-[9] Adjust operators based on diversity of the population
-[19] tranditional Genetic algorithm style (cross over than mutate)
+[9] Adjust operators based on diversity of the population, Genetic Algorithms and Directed Adaptation 
+[19] transitional Genetic algorithm style (cross over than mutate)
 [11] time varying schedule of operator probabilities
 [26] counter to our theory
-[16] time dependency descovered by 
+[16] time dependency discovered by 
 [36] D.H. Wolpert and W.G. Macready. No Free Lunch Theorems for Search. IEEE Transactions on Evolutionary Computation, 1(1):67–82, 1997.
+
+
+Genetic Algorithms and Directed Adaptation 
+------------------------------------------
+Outline 2 methods:
+
+Exogenous Adaptation
+	- Flips between two defined states:
+		- Hypermutable (high mutation rate to search a larger area)
+		- normal state (lower mutation rate more to search a small area)
+	- between defined bounds (bounds are defined based on heuristics (not physical limitations))
+	- based off of fitness values
+
+Endogenous Adaptation
+	- Uses regulators 
+
+And compares them to Regular GA
+
+
+Towards an Optimal Mutation Probability for Genetic Algorithms
+--------------------------------------------------------------
+Outlines how Mutation Probability depends on the dimension of the configuration space and the populations size.
+Through their own defined methods they determine an optimal mutation rate as well as a optimal cross over rate.
+
+
+
+Adaptive probabilities of crossover and mutation in genetic algorithms
+----------------------------------------------------------------------
+Use of adaptive probabilities for mutation rate and crossover rate.
+Based on the fitness function
+	- Could mention in future work a comparison between fitness function based adaptive mutation and chromosome similarity based adaptive mutation.
+
+Genetic Algorithms: a survey
+----------------------------
+Mutation and cross over rate Constants
+
+
+Genetic and evolutionary algorithms come of age
+-----------------------------------------------
+The progression of GA and EA over time.
