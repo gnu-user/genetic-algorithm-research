@@ -189,10 +189,14 @@ These facts led us toward a theoretical approach to apply the negative effects o
 
 \subsection{Related Work}
 
-Classic Genetic Algorithms been the subject for attempted improvement over the last few decades. Since Genetic Algorithms are inspired by real life attempts have been made to add more nature based augmentations to improve the performance of Genetic Algorithms. One major example of this is Adaptive Genetic Algorithms which generally, an attempt to adjust the genetic operations actively to escape local optimum faster and reach maximums quicker (aka perform better). 
+Classic Genetic Algorithms (GA) have been used extensively as a means to optimize some task Genetic and evolutionary algorithms come of age][Genetic Algorithms: a survey]. One major problem with GA is determining the best genetic operators, the probability mutation and crossover. Values for these operators are defined prior to the execution and remain static in the classical GA. In [Towards an Optimal Mutation Probability for Genetic Algorithms] an attempt is made to algorithmically defined suitable genetic operators. 
+
+Attempts have been made to improve GA over the last few decades. Since Genetic Algorithms are inspired by real life the adjustments tend to be based in adding more nature based augmentations to improve the performance of GA. One major example of this is Adaptive Genetic Algorithms (AGA) which generally, is an attempt to adjust the genetic operations actively to escape local optimum faster and reach maximums quicker. More 'primitive' AGAs, which require more knowledge of the problem domain, is to use a scheduled which changes the genetic operators given the time since the start of the execution [Adapting Operator Settings in Genetic Algorithms]. An alternative AGA uses a defined measurement of the current 'performance' of the population by evaluating the population's fitness. Use of these AGAs requires less knowledge of the search space, the better the fitness the lower the mutation and alternatively the worse the fitness the higher the mutation [Genetic Algorithms and Directed Adaptation] [Adaptive probabilities of crossover and mutation in genetic algorithms]. 
 
 %Talk about specific adaptive papers.
-means changing one or more of the defined variables (such as mutation or crossover rate) actively based on the progress of the population's fitness function [Adaptive probabilities of crossover and mutation in genetic algorithms], [Genetic Algorithms and Directed Adaptation]
+More specifically, [Genetic Algorithms and Directed Adaptation] changed the only the mutation rate between two values, a 'hypermutable' (high rate), and normal (typical mutation rate). Use of the fitness function for the population provided the indicator for switching between the two values, good fitness values are given normal rate, where as poor fitness values are given the hypermutable rate. [Adaptive probabilities of crossover and mutation in genetic algorithms] is similar in that it uses the fitness function to identify a need to change the genetic operators. However, both the mutation and crossover rate are adjusted maintained between a valid range of the mutation operators. 
+
+Finally, another example of AGA is given by [Adapting Operator Settings in Genetic Algorithms]. 
 
 
 

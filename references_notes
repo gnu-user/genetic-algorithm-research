@@ -59,7 +59,9 @@ Not neccessarly that helpful, besides the fact that it implements mutation to pa
 
 Adapting Operator Settings in Genetic Algorithms
 ------------------------------------------------
-Has a larger selection of genetic operators and uses a operation probability to decide whether the operations are used. It is attempting to use an adaptive idea to adjust the genetic algorithm's settings in general (rather then just the mutation rate). Also, it use attempts to change the settings but means of scheduling rather than population similarity.
+Use of meta-operators
+	- Strongly disruptive: children are unlike parents (randomly chosen)
+	- Weakly disruptive: children are like their parents
 
 [9] Adjust operators based on diversity of the population, Genetic Algorithms and Directed Adaptation 
 [19] transitional Genetic algorithm style (cross over than mutate)
