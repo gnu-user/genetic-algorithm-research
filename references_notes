@@ -14,7 +14,7 @@ References to look up:
 [4] A. Stacey, M. Jancic, and I. Grundy, “Particle swarm optimization with mutation,” in Proceedings of the 2003 Congress on Evolutionary Computation. IEEE Press, 2003, pp. 1425–1430.
 [5] S. C. Esquivel and C. A. Coello Coello, “On the use of particle swarm optimization with multimodal functions,” in Proceedings of the 2003 Congress on Evolutionary Computation. IEEE Press, 2003, pp. 1130–1136.
 
-Solving the n-Queens Problem using Genetic Algorithms
+Solving the n-Queens Problem using Genetic Algorithms *
 -----------------------------------------------------
 Very good statement in the conclusion about the difference of n-Queens verus other NP problems. N-Queens is a problem where the fitness function is binary, yes or no. This could possibly make inbreeding less effective if applied to different problems. Since the inbreeding attempts to add diversity to the population it may make find the optimum solution harder. 
 
@@ -32,12 +32,12 @@ Loop up:
 
 
 
-The N-Queens Problem and Genetic Algorithms
+The N-Queens Problem and Genetic Algorithms *
 -------------------------------------------
 Discusses the use of edge recombination operator (a method for finding new solutions for n-queens) however it also discusses the importance of using mutation to escape local optimums. They identify 2 different types of mutations and for this approach they find a mutation algorithm that supports using pseudo random methods that allow for the preservation of the parent's information.
 
 
-Using Genetic algorithms to solve np-complete problems
+Using Genetic algorithms to solve np-complete problems *
 ------------------------------------------------------
 Uses GAs to solve Boolean Satisfiability Problem (SAT) effectively. They take NP-complete problems with poor GA representations and map them to SAT first and then solving them with GAs for better performance.
 
@@ -57,7 +57,7 @@ Not neccessarly that helpful, besides the fact that it implements mutation to pa
 [35] H. Yoshida, K. Kawata, Y. Fukuyama, and Y. Nakanishi, “A particle swarm optimization for reactive power and voltage control considering voltage stability,” in Proc. Int. Conf. Intelligent System Application to Power System, Rio de Janeiro, Brazil, 1999, pp. 117–121.
 
 
-Adapting Operator Settings in Genetic Algorithms
+Adapting Operator Settings in Genetic Algorithms *
 ------------------------------------------------
 Use of meta-operators
 	- Strongly disruptive: children are unlike parents (randomly chosen)
@@ -74,7 +74,7 @@ A probability of each operation occurring
 [36] D.H. Wolpert and W.G. Macready. No Free Lunch Theorems for Search. IEEE Transactions on Evolutionary Computation, 1(1):67–82, 1997.
 
 
-Genetic Algorithms and Directed Adaptation 
+Genetic Algorithms and Directed Adaptation *
 ------------------------------------------
 Outline 2 methods:
 
@@ -91,33 +91,37 @@ Endogenous Adaptation
 And compares them to Regular GA
 
 
-Towards an Optimal Mutation Probability for Genetic Algorithms
+Towards an Optimal Mutation Probability for Genetic Algorithms *
 --------------------------------------------------------------
 Outlines how Mutation Probability depends on the dimension of the configuration space and the populations size.
 Through their own defined methods they determine an optimal mutation rate as well as a optimal cross over rate.
 
 
 
-Adaptive probabilities of crossover and mutation in genetic algorithms
+Adaptive probabilities of crossover and mutation in genetic algorithms *
 ----------------------------------------------------------------------
 Use of adaptive probabilities for mutation rate and crossover rate.
 Based on the fitness function
 	- Could mention in future work a comparison between fitness function based adaptive mutation and chromosome similarity based adaptive mutation.
 
-Genetic Algorithms: a survey
+Genetic Algorithms: a survey *
 ----------------------------
 Mutation and cross over rate Constants
 
 
-Genetic and evolutionary algorithms come of age
+Genetic and evolutionary algorithms come of age *
 -----------------------------------------------
 The progression of GA and EA over time.
 
 
-Some improvements on adaptive genetic algorithms for reliability-related applications 
+Some improvements on adaptive genetic algorithms for reliability-related applications *
 -------------------------------------------------------------------------------------
 Compares two types of Adaptive genetic algorithm methods:
 	Starting with a high mutation rate and proceeding to a high crossover rate (mutation first)
 	Starting with a high crossover rate and proceeding to a high mutation rate (crossover first)
+Discuss several methods:
+	- Use mean and standard deviation of population
+	- Avoid local optima
+		- Using the mean and standard dev. convergence is detected, increase in mutation rate is done
 
 *Important (make note their proven that at the beginning you tend not to have the correct genes therefore mutation is important however crossover plays a larger role at the end since you assume you have the correct genes and thus you just need to re-organize them into the correct order. (might be why we struggle for smaller population sizes/problem sizes))
