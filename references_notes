@@ -62,6 +62,9 @@ Adapting Operator Settings in Genetic Algorithms
 Use of meta-operators
 	- Strongly disruptive: children are unlike parents (randomly chosen)
 	- Weakly disruptive: children are like their parents
+each member in the population has it's own mutation rate use their own operators
+
+A probability of each operation occurring
 
 [9] Adjust operators based on diversity of the population, Genetic Algorithms and Directed Adaptation 
 [19] transitional Genetic algorithm style (cross over than mutate)
@@ -109,3 +112,12 @@ Mutation and cross over rate Constants
 Genetic and evolutionary algorithms come of age
 -----------------------------------------------
 The progression of GA and EA over time.
+
+
+Some improvements on adaptive genetic algorithms for reliability-related applications 
+-------------------------------------------------------------------------------------
+Compares two types of Adaptive genetic algorithm methods:
+	Starting with a high mutation rate and proceeding to a high crossover rate (mutation first)
+	Starting with a high crossover rate and proceeding to a high mutation rate (crossover first)
+
+*Important (make note their proven that at the beginning you tend not to have the correct genes therefore mutation is important however crossover plays a larger role at the end since you assume you have the correct genes and thus you just need to re-organize them into the correct order. (might be why we struggle for smaller population sizes/problem sizes))
