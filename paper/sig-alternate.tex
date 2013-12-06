@@ -141,13 +141,10 @@ Joseph Heron\\
 
 \maketitle
 \begin{abstract}
-Blah blah blah, here is our abstract.
+Proposed is a novel methodology for optimization of genetic algorithms (GA) using adaptive variable mutation. We replace the traditional mutation operator with an adaptive operator governed by population chromosome similarity. This approach is inspired from biological genetic expression which has increased incidences of genetic mutations as a result of `inbreeding' - we abstractly model this process as a fixed-size 1\% increase in mutation likelihood over generations, based on a static 15\% chromosome similarity threshold. Using combinatorial optimization with GA to solve the N-Queens problem, we determine optimal static mutation parameters for the traditional GA approach to use as a benchmark. We compare our approach to the benchmark for N = 8 through 32. Comparison between these optimized fixed mutation parameters and our adaptive variable approach shows better results using our approach for large problems (N > 15), with improving results for increasing values of N. A near tenfold increase in performance is yielded for N = 32.
 \end{abstract}
 
-\keywords{Genetic Algorithms, Combinatorial Optimization, N Queens Problem, Variable Mutation}
-
-
-
+\keywords{Genetic Algorithms, Combinatorial Optimization, N-Queens Problem, Variable Adaptive Mutation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -155,7 +152,7 @@ Blah blah blah, here is our abstract.
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-Genetic algorithms (GA) serve an important role in various applications, but particularly useful areas are those where they can perform stochastic generation of solutions for combinatorial problems \cite{de1989using,crawford1992solving}. One notable example of this is the N-Queens problem. One approach to solving the N-Queens problem using a genetic algorithm is to implement chromosomes which model the position of each queen on the chessboard. The permuted values stored in the chromosome represent the sequential row positions of each queen, encoded into binary values. Each column value is the index, since there can never be more than one queen per column. Thus, the column positions increase by one for each queen and the intersections (referred to as collisions) are calculated per row or on the diagonal to determine whether a solution has been found. As with any genetic algorithm, evaluating the fitness of the chromosomes per generation is required to determine if a usable solution has been generated \cite{srinivas1994genetic}. 
+Genetic algorithms serve an important role in various applications, but particularly useful areas are those where they can perform stochastic generation of solutions for combinatorial problems \cite{de1989using,crawford1992solving}. One notable example of this is the N-Queens problem. One approach to solving the N-Queens problem using a genetic algorithm is to implement chromosomes which model the position of each queen on the chessboard. The permuted values stored in the chromosome represent the sequential row positions of each queen, encoded into binary values. Each column value is the index, since there can never be more than one queen per column. Thus, the column positions increase by one for each queen and the intersections (referred to as collisions) are calculated per row or on the diagonal to determine whether a solution has been found. As with any genetic algorithm, evaluating the fitness of the chromosomes per generation is required to determine if a usable solution has been generated \cite{srinivas1994genetic}. 
 
 By tuning the parameters of the genetic algorithm, performance can increase or decrease based on the solution landscape of the problem encountered \cite{ye2010some,coyne1994genetic,srinivas1994adaptive}. We have found that by replacing a static mutation value with an adaptive value controlled by chromosome similarity, better performance can be achieved than using static values, particularly when there is no \emph{a priori} knowledge about the ideal static mutation rate. This is compounded when the solution landscape is large, such as in higher-order N-Queens problems.
 
