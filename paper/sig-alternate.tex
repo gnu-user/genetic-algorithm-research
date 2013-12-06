@@ -453,22 +453,10 @@ We would also like to thank the SHARCNET organization for graciously providing t
 
 %APPENDICES are optional
 %\balancecolumns
-\appendix
-%Appendix A
-\section{Results}
-The rules about hierarchical headings discussed above for
-the body of the article are different in the appendices.
-In the \textbf{appendix} environment, the command
-\textbf{section} is used to
-indicate the start of each Appendix, with alphabetic order
-designation (i.e. the first is A, the second B, etc.) and
-a title (if you include one).  So, if you need
-hierarchical structure
-\textit{within} an Appendix, start with \textbf{subsection} as the
-highest level. Here is an outline of the body of this
-document in Appendix-appropriate form:
 
-\subsection{Tables}
+%Appendix A
+\appendix
+\section{Tables}
 \begin{table}[!h]
 \centering
 \caption{Number of unique solutions to the N-Queens Problem}
@@ -505,7 +493,6 @@ N & Distinct Solutions      \\ \hline
 \hline\end{tabular}
 \label{table:numuniquesol}
 \end{table}
-
 
 \begin{table*}
 \centering
@@ -547,7 +534,7 @@ Queens&               Mutation Rate&  Unique Solutions&   N&      Min Generation
 \end{table*}
 
 
-\subsection{Figures}
+\section{Figures}
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.35\textwidth]{best_solution_all_queens.png}
