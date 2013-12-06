@@ -430,7 +430,7 @@ We would like to acknowledge the invaluable contribution made by our supervisor 
 \section{Tables}
 \begin{table}[!h]
 \centering
-\caption{Number of unique solutions to the N-Queens Problem}
+\caption{Unique solutions to the N-Queens Problem}
 \begin{tabular}{|l|l|} \hline
 N & Distinct Solutions      \\ \hline
 8  & 92                     \\
@@ -457,70 +457,69 @@ N & Distinct Solutions      \\ \hline
 \label{table:numuniquesol}
 \end{table}
 
-\begin{table*}
+\begin{table}[!h]
 \centering
-\caption{Best Solution Comparison Between Fixed and Variable Mutation Rates}
+\caption{Fixed and Variable Mutation Comparison}
 \begin{tabular}{|l|l|l|l|l|l|l|} \hline
-Queens&               Mutation Rate&  Unique Solutions&   N&      Min Generations&    Mean Generations&   Max Generations\\ \hline
-\multirow{2}{*}{8}&   0.95&           92&                 30&     1,793&              4,746&              10,815\\
-&                     variable&       92&                 30&     51,23&              15,293&             42,002\\ \hline
-\multirow{2}{*}{9}&   0.95&           352&                30&     48,811&             144,456&            372,281\\
-&                     variable&       352&                30&     229,242&            1,246,215&          3,038,980\\ \hline
-\multirow{2}{*}{10}&  0.9&            724&                30&     188,372&            408,402&            771,208\\
-&                     variable&       724&                30&     531,588&            1,629,893&          6,195,099\\ \hline
-\multirow{2}{*}{11}&  0.85&           2,680&              30&     2,400,188&          3,799,795&          5,933,213\\
-&                     variable&       2,680&              5&      6,900,512&          7,909,269&          9,449,545\\ \hline
-\multirow{2}{*}{12}&  0.85&           13,690&             1&      9,890,455&          9,890,455&          9,890,455\\
-&                     variable&       11,986&             1&      9,973,787&          9,973,787&          9,973,787\\ \hline
-\multirow{2}{*}{13}&  0.8&            32,128&             1&      9,998,058&          9,998,058&          9,998,058\\
-&                     variable&       26,308&             1&      9,978,215&          9,978,215&          9,978,215\\ \hline
-\multirow{2}{*}{14}&  0.8&            41,520&             1&      9,996,747&          9,996,747&          9,996,747\\
-&                     variable&       29,520&             1&      9,999,583&          9,999,583&          9,999,583\\ \hline
-\multirow{2}{*}{15}&  0.8&            30,356&             1&      9,982,638&          9,982,638&          9,982,638\\
-&                     variable&       30,324&             1&      9,996,584&          9,996,584&          9,996,584\\ \hline
-\multirow{2}{*}{16}&  0.8&            15,016&             1&      9,987,788&          9,987,788&          9,987,788\\
-&                     variable&       30,132&             1&      9,992,266&          9,992,266&          9,992,266\\ \hline
-\multirow{2}{*}{18}&  0.75&           16,392&             1&      9,997,986&          9,997,986&          9,997,986\\
-&                     variable&       27,120&             1&      9,998,858&          9,998,858&          9,998,858\\ \hline
-\multirow{2}{*}{20}&  0.75&           7,872&              1&      9,972,915&          9,972,915&          9,972,915\\
-&                     variable&       25,608&             1&      9,931,631&          9,931,631&          9,931,631\\ \hline
-\multirow{2}{*}{22}&  0.7&            6,008&              1&      9,959,712&          9,959,712&          9,959,712\\
-&                     variable&       25,376&             1&      9,991,089&          9,991,089&          9,991,089\\ \hline
-\multirow{2}{*}{24}&  0.7&            6,440&              1&      9,929,626&          9,929,626&          9,929,626\\
-&                     variable&       24,560&             1&      9,998,508&          9,998,508&          9,998,508\\ \hline
-\multirow{2}{*}{26}&  0.7&            6,280&              1&      9,969,840&          9,969,840&          9,969,840\\
-&                     variable&       23,008&             1&      9,983,128&          9,983,128&          9,983,128\\ \hline
-\multirow{2}{*}{32}&  0.65&           15,216&             1&      49,732,320&         49,732,320&         49,732,320\\
-&                     variable&       104,080&            1&      49,996,701&         49,996,701&         49,996,701\\
+N&               Mutation Rate&  Distinct Solutions\\ \hline
+\multirow{2}{*}{8}&   0.95&           92\\
+&                     variable&       92\\ \hline
+\multirow{2}{*}{9}&   0.95&           352\\
+&                     variable&       352\\ \hline
+\multirow{2}{*}{10}&  0.9&            724\\
+&                     variable&       724\\ \hline
+\multirow{2}{*}{11}&  0.85&           2,680\\
+&                     variable&       2,680\\ \hline
+\multirow{2}{*}{12}&  0.85&           13,690\\
+&                     variable&       11,986\\ \hline
+\multirow{2}{*}{13}&  0.8&            32,128\\
+&                     variable&       26,308\\ \hline
+\multirow{2}{*}{14}&  0.8&            41,520\\
+&                     variable&       29,520\\ \hline
+\multirow{2}{*}{15}&  0.8&            30,356\\
+&                     variable&       30,324\\ \hline
+\multirow{2}{*}{16}&  0.8&            15,016\\
+&                     variable&       30,132\\ \hline
+\multirow{2}{*}{18}&  0.75&           16,392\\
+&                     variable&       27,120\\ \hline
+\multirow{2}{*}{20}&  0.75&           7,872\\
+&                     variable&       25,608\\ \hline
+\multirow{2}{*}{22}&  0.7&            6,008\\
+&                     variable&       25,376\\ \hline
+\multirow{2}{*}{24}&  0.7&            6,440\\
+&                     variable&       24,560\\ \hline
+\multirow{2}{*}{26}&  0.7&            6,280\\
+&                     variable&       23,008\\ \hline
+\multirow{2}{*}{32}&  0.65&           15,216\\
+&                     variable&       104,080\\
 \hline\end{tabular}
 \label{table:bestsol}
-\end{table*}
+\end{table}
 
 
 \section{Figures}
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
-\includegraphics[width=0.35\textwidth]{best_solution_all_queens.png}
-\vspace{-12pt}
-\caption{}
+\includegraphics[width=0.52\textwidth]{best_solution_all_queens.png}
+\vspace{-18pt}
+\caption{Best Fixed and Variable Mutation Solutions}
 \label{fig:best_solution_all_queens}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
-\includegraphics[width=0.35\textwidth]{fitness_all_mutation_14q.png}
-\vspace{-12pt}
-\caption{}
-\label{fig:fitness_all_mutation_14}
+\includegraphics[width=0.52\textwidth]{mutation_rate_all_queens.png}
+\vspace{-18pt}
+\caption{Best Fixed and Variable Mutation Rates}
+\label{fig:mutation_rate_all_queens}
 \end{figure}
 
-
-\begin{figure}[h]
+\begin{figure}[!h]
 \centering
-\includegraphics[width=0.35\textwidth]{mutation_rate_all_queens.png}
-\vspace{-12pt}
-\caption{}
-\label{fig:mutation_rate_all_queens}
+\includegraphics[width=0.52\textwidth]{fitness_all_mutation_14q.png}
+\vspace{-18pt}
+\caption{Population Fitness, All Mutation Rates, 14-Queens}
+\label{fig:fitness_all_mutation_14}
 \end{figure}
 
 \end{document}
