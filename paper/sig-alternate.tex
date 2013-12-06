@@ -397,39 +397,26 @@ Moving into more complex and larger problems is where the adaptive mutation appr
 
 Mapping the stochastic solution landscape for the N-Queens problem means plotting a random non-deterministic traversal of the solution space to a linear axis. Each sequential value on this axis corresponds to each integer sequence of solutions encoded in the chromosomes. A linear traversal of this landscape implies a uniformly random traversal of the randomly generated solutions. This plot, in contrast to the deterministic solution space yielded by consecutively plotting the values of the integer encoded chromosome, shows very few similarities. There is no way to plot a random traversal except by noting that as time approaches infinity, all solutions will have been traversed and the full contour of the landscape will be visible. This could just as easily be yielded by a consecutive linear traversal, but the point of using GA rather than a deterministic traversal is that GA makes the traversal 'smarter' by searching for values which have better fitness, attracted toward fitness peaks[Genetic Algorithms: a survey]. The mutation operator helps to prevent the current position in the traversal from being stuck in a local optimum[Some improvements on adaptive genetic algorithms for reliability-related applications]. It provides an extra impulse to shift position further towards what a potential solution, and away from previously traversed areas of the landscape.
 
-Given this knowledge, assuming a linear traversal of this random axis is possible in one given test, we can evaluate the characteristics of each GA's mutation parameter configuration and map them to this conceptual model. The starting point on the plot is a random location on the landscape. From there, the next location is likely to be within a radius of probable new chromosomes surrounding this area. We have come to refer to this radius of probable chromosomes as the 'step size', and we believe there is some relationship between the step size and the fixed mutation rate. The fixed mutation rate governs the maximum distance from the current position in the traversal to the furthest step away. What this means for a solution landscape like that of the N-Queens problem is that all solutions which are close to the intersections of these steps are easier to find because there is a greater total probability of landing within their vicinity. Solutions which are clustered very close together on this random landscape, however, will likely be stepped around for several generations before convergence on the actual solution occurs.
+Given this knowledge, assuming a linear traversal of this random axis is possible in one given test, we can evaluate the characteristics of each GA mutation parameter configuration and map them to this conceptual model. The starting point on the plot is a random location on the landscape. From there, the next location is likely to be within a radius of probable new chromosomes surrounding this area. We have come to refer to this radius of probable chromosomes as the 'step size', and we believe there is some relationship between the step size and the fixed mutation rate. The fixed mutation rate governs the maximum distance from the current position in the traversal to the furthest step away. What this means for a solution landscape like that of the N-Queens problem is that all solutions which are close to the intersections of these steps are easier to find because there is a greater total probability of landing within their vicinity. Solutions which are clustered very close together on this random landscape, however, will likely be stepped around for several generations before convergence on the actual solution occurs.
 
 The variable mutation rate's adaptive nature allows for this fixed step size to be ignored because it introduces the ability to vary the step size when convergence upon a solution occurs. The result is that the probability distribution over the entire solution landscape is more uniformly smaller away from solutions, and larger within the vicinity of solutions. Our reasoning is that if the static mutation rates have a fixed step size, the variable mutation rate does not, and adaptation will vary the step size so as to maintain the chromosome similarity. Further, this decreases the likelihood of overshooting a solution and having to step back around again, because the variability of the mutation rate allows for smaller or larger steps when needed.
 
 In general, this conceptual model will require extensive further study to validate it's correctness. Meanwhile, the empirical evidence presented in our plotted results shows the validity of our adaptive mutation approach.
 
 \subsection{Plotted Results and Observations}
+Figure \ref{fig:best_solution_all_queens} depicts the best fixed mutation rate, that found the most solutions for each problem size, versus the variable mutation rate. Each of these plots are cut off at 10 million generations. In spite of the fact that the 32-Queens problem was allowed to run up to 50 million generations, we are only showing plots which are trimmed to this value for consistency of comparison. The plots show that as the problem size increases from the smaller problems up to 14 queens, the fixed mutation rates reach peak performance. In these problems, the most optimal fixed mutation rate is better than the variable mutation rate. This trend changes at the 15 queens where they are nearly equal. From there on, the difference in performance becomes significant - variable mutation consistently finds more solutions than the most optimal fixed mutation rate. 
 
+The optimal fixed mutation rate decrease from 95\% for 8 queens down to 65\% for 32 queens. As the problem size increases, we observe that this trend continues. This can be seen in Table \ref{table:bestsol}. From 15 queens up to 32 queens, there is a divergence between the performance of fixed mutation and variable mutation. A steep decline is visible in the performance of the best fixed mutation rates as the problem size increases. The performance of the variable mutation rate also decreases with increased problem sizes, but at a far lesser rate. This marginal decrease in performance yields the conclusion that variable adaptive mutation rates will perform far better for larger problems.
 
-- cite specific results and why we think they are important, what is the significance
-  of them and how they support our results/hypothesis that in the case of N Queens
-  var. mutation is better than fixed.
+An interesting result was observed when viewing the box plots showing the range of chromosome similarity values for each static mutation rate. We found that whenever the similarity has the greatest inter-quartile range (IQR), the corresponding static mutation rate performed best. This contributed heavily to the step size concept we believe is exhibited by the system. We also found that as the problem landscape grows larger in higher order N-Queens problems, the IQR decreases in size. There is a possibility that the IQR will decrease towards convergence on a single value in higher order problems, which suggests that there may be a pattern to the convergence which can be approximated and leveraged for predicting optimal static mutation rates for any N-Queens problem. In the 14-Queens problem, the IQR was approximately 20\%. In the 32-Queens problem, the IQR was approximately 3\%. Since testing this requires exhaustive experimentation in order to definitively find the optimal static mutation rate for any given problem, this further supports the notion that a variable mutation rate is a more practical approach. As shown prominently in Figure \ref{fig:fitness_all_mutation_14.png}, we have found that the relationship between the best fixed mutation rates and the largest IQR is visible. The fixed mutation rate of 80\% clearly has the largest IQR, and correspodingly the most number of solutions found. This trend is visible for all values of N in the N-Queens problem. 
 
-There appears to be a relationship 
+However, when approaching problem sizes of $N > 14$, the observation no longer holds true - adaptive variable mutation rates are consistently better, but have comparatively similar IQR to the worse performing static mutation rates. We noticed a new relationship here, showing that the IQR of the variable mutation rate is closest to the trend followed by the IQR of the increasing static mutation rates. There is a sharp drop-off, however, immediately upon reaching the best static mutation rates within this trend. This supports the step-size concept in that we can see the inability of the static mutation rate to converge upon the most desirable fitness values. There is a clear convergence on this value with the adaptive mutation rate, consistently approaching the 25\% fitness value. The most optimal static mutation rate in our experimentation is higher than the true optimum, resulting in a sharp falloff of fitness values. In \ref{fig:best_solution_all_queens}, the 14-Queens problem shows the best static mutation rate is 80\%, which performs substantially better than any other static mutation rate. In Figure \ref{fig:fitness_all_mutation_14.png}, this static mutation clearly has the largest IQR. In the 32-Queens problem, the 65\% fixed mutation rate is the best performer, but is beaten nearly tenfold in performance by the variable mutation rate.
 
-- cite the result showing the best fixed mutation vs. the variable mutation
-  for each N-queens problem, try and use both the figure and the table, the table
-  has some additional interesting information which cannot be conveyed in the
-  image alone.
+Figure \ref{fig:mutation_rate_all_queens.png} shows a box plot with an overlaid trend line. The box plots in this figure show the IQR for the mutation rate of the variable adaptive method. The points show the best performing static mutation rate for each N-Queens problem. This plot shows the convergence trend of the IQR in the variable mutation rates as the problem size increases. There is also a trend that shows the best performing static mutation rates decrease as the problem size increases. Where the trend and the box plots intersect at the 15-Queens problem, we can see in the corresponding Figure \ref{fig:best_solution_all_queens} that the performance is nearly the same.
 
-An interesting result was observed when viewing the box plots showing the range of chromosome similarity value for each static mutation rate. We found that whenever the similarity has the greatest inter-quartile range, the corresponding static mutation rate performed best. This contributed heavily to the step size concept we believe is exhibited by the system. We also found that as the problem landscape grows larger in higher order N-Queens problems, the inter-quartile range decreases in size. There is a possibility that the convergence of these values may occur in even higher order problems, which suggests that there may be a pattern to the convergence which can be approximated and leveraged for predicting optimal static mutation rates. Again, since this requires exhaustive experimentation in order to definitively find the optimal static mutation rate for a given problem, this further supports the notion that a variable mutation rate is a more practical approach.
-
-- Try and incorporate one of the scatter plots as well that show very interesting
-  results and see if you can use it to compare/contrast the results of the 
-  following plots
-  
-    - variable mutation rate scatter plot
-    - variable mutation rate similarity scatter plot
-    - best fixed mutation rate similarity scatter plot
 
 \subsection{Why Not Fixed Mutation?}
-Results aside, fixed mutation gives a distinct advantage over traditional genetic algorithms because of the optimization of a specific parameter [CITE HERE]. By using a variable mutation rate, changing that parameter with a separate simpler one, better results can be gleaned while knowing less about the problem landscape. Our results show that our variable adaptive mutation scheme can perform better than fixed static mutation values for large problems. As the problem becomes too large and unmanageable for traditional methods, our methodology can still produce useful results. Our results show that even having knowledge about the best static mutation value to use \emph{a priori} still does not yield results as good as those generated from the adaptive variable mutation rate.
-
+Variable adaptive mutation gives a distinct advantage over traditional genetic algorithms because of the optimization of a specific parameter [CITE]. By using a variable mutation rate, replacing the mutation parameter with a chromosome similarity, better results can be gleaned while knowing less about the problem landscape or the best static mutation rate to use. Our results show that our variable adaptive mutation approach can perform better than static mutation values for large problems. As the problem becomes too large and unmanageable for traditional deterministic methods, our methodology can still produce useful results. When examining larger problems, our results show that having \emph{a priori} knowledge about the best static mutation parameter still does not yield results as good as those generated from our adaptive mutation approach.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -437,33 +424,18 @@ Results aside, fixed mutation gives a distinct advantage over traditional geneti
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusions and Further Study}
+We conclude that using our variable adaptive mutation rate approach yields better results than traditional GA using fixed mutation rates in larger problems. Further research into adjusting the simplified chromosome similarity parameter that replaces mutation rate may yield even better results. Fixed values were used for our chromosome similarity parameter, and varying this parameter may yield more information about how variable adaptive mutation using our approach can be tuned further towards different problem landscapes.
 
-- Further research into adjusting the inbreeding threshold, for the purpose
-  of the research a constant inbreeding threshold of 15\% was used, however
-  further research could be done in testing different thresholds.
+Exploring our variable mutation rate approach in other NP-Complete combinatorial and optimization problems such as the Traveling Salesman Problem or Constraint Satisfaction Problem may show that our approach is valid for a multitude of problems. We conjecture that this is likely since other adaptive mutation methodologies have yielded performance improvements in various problem domains.
 
-- Comparing the results of variable mutation with fixed mutation using other
-  types of combinatorial/optimization problems such as TSP, constraint
-  satisfaction problem (CSP), etc.
-
-- Variable population size based on the amount of inbreeding (if you have
-  a lot of inbreeding in nature the organisms will have higher mutatation
-  rate and deformities, the population will shrink)
-
-- Having the mutation operator affect more than one gene if it goes > 100\%? 
-
-- Cite [Some improvements on adaptive genetic algorithms for reliability-related applications] and dicuss their findings compared to ours.
+Conducting a multivariate analysis and sensitivity analysis of tuning other parameters in conjunction with the variable adaptive mutation rate may yield further performance improvements. For example, variable population size based on the amount of inbreeding may yield different results. This conjecture is based on the fact that with higher mutation rates, survival fitness decreases, resulting in population shrinkage. Coupling the population size with the mutation rate and patterns of fitness in the GA population may yield a new avenue for future study.
 
 \begin{flushleft}\end{flushleft}
 
-
-%\end{document}  % This is where a 'short' article might terminate
-
-%ACKNOWLEDGMENTS are optional
 \section{Acknowledgments}
 We would like to acknowledge the invaluable contribution made by our supervisor Dr. Shahryar Rahnamayan in transforming a curious junior year artificial intelligence project into a potentially very fruitful course of research. His advice and guidance in shaping our methodology has proved to be crucial to the successful implementation of our experiments.
 
-We would also like to thank the SHARCNET organization for providing the high performance computing facilities we needed to run our experiments. Without their resources we would have had to wait decades for our findings came to light.
+We would also like to thank the SHARCNET organization for graciously providing the high performance computing facilities we needed to run our experiments.
 
 
 % The following two commands are all you need in the
@@ -571,22 +543,34 @@ Queens&               Mutation Rate&  Unique Solutions&   N&      Min Generation
 \multirow{2}{*}{32}&  0.65&           15,216&             1&      49,732,320&         49,732,320&         49,732,320\\
 &                     variable&       104,080&            1&      49,996,701&         49,996,701&         49,996,701\\
 \hline\end{tabular}
-\label{table:numuniquesol}
+\label{table:bestsol}
 \end{table*}
 
 
 \subsection{Figures}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.35\textwidth]{best_solution_all_queens.png}
+\vspace{-12pt}
+\caption{}
+\label{fig:best_solution_all_queens}
+\end{figure}
 
-- Additional figures can go here
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.35\textwidth]{fitness_all_mutation_14q.png}
+\vspace{-12pt}
+\caption{}
+\label{fig:fitness_all_mutation_14}
+\end{figure}
 
-\subsection{Source Code}
 
-- Could link to github and possibly the github wiki, or explanation
-  of the R analysis source code.
-
-\subsection{Raw Data}
-
-- Link to the dropbox URL containing the actual data from SHARCNET used for the research
-
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.35\textwidth]{mutation_rate_all_queens.png}
+\vspace{-12pt}
+\caption{}
+\label{fig:mutation_rate_all_queens}
+\end{figure}
 
 \end{document}
