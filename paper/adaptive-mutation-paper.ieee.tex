@@ -273,6 +273,84 @@ However, when approaching problem sizes of $N > 14$, the observation no longer h
 
 Figure \ref{fig:mutation_rate_all_queens} shows a box plot with an overlaid trend line. The box plots in this figure show the IQR for the mutation rate of the variable adaptive method. The points show the best performing static mutation rate for each N-Queen problem. This plot shows the convergence trend of the IQR in the variable mutation rates as the problem size increases. There is also a trend that shows the best performing static mutation rates decrease as the problem size increases. Where the trend and the box plots intersect at the 15-Queens problem, we can see in the corresponding Figure \ref{fig:best_solution_all_queens} that the performance is nearly the same.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+% TABLES
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[!h]
+\centering
+\caption{N-Queens Problem Distinct Solutions}
+\begin{tabular}{|l|l|} \hline
+N & Distinct Solutions      \\ \hline
+8  & 92                     \\
+9  & 352                    \\
+10 & 724                    \\
+11 & 2680                   \\
+12 & 14,200                 \\
+13 & 73,712                 \\
+14 & 365,596                \\
+15 & 2,279,184              \\
+16 & 14,772,512             \\
+17 & 95,815,104             \\
+18 & 666,090,624            \\
+19 & 4,968,057,848          \\
+20 & 39,029,188,884         \\
+21 & 314,666,222,712        \\
+22 & 2,691,008,701,644      \\
+23 & 24,233,937,684,440     \\
+24 & 227,514,171,973,736    \\
+25 & 2,207,893,435,808,352  \\
+26 & 22,317,699,616,364,044 \\
+\dots & Unknown				\\
+\hline\end{tabular}
+\label{table:numuniquesol}
+\end{table}
+
+\begin{table}[!h]
+\centering
+\caption{Fixed and Variable Mutation Comparison}
+\begin{tabular}{|l|l|l|l|l|l|l|} \hline
+N&               Mutation Rate&  Distinct Solutions\\ \hline
+\multirow{2}{*}{8}&   0.95&           92\\
+&                     variable&       92\\ \hline
+\multirow{2}{*}{9}&   0.95&           352\\
+&                     variable&       352\\ \hline
+\multirow{2}{*}{10}&  0.9&            724\\
+&                     variable&       724\\ \hline
+\multirow{2}{*}{11}&  0.85&           2,680\\
+&                     variable&       2,680\\ \hline
+\multirow{2}{*}{12}&  0.85&           13,690\\
+&                     variable&       11,986\\ \hline
+\multirow{2}{*}{13}&  0.8&            32,128\\
+&                     variable&       26,308\\ \hline
+\multirow{2}{*}{14}&  0.8&            41,520\\
+&                     variable&       29,520\\ \hline
+\multirow{2}{*}{15}&  0.8&            30,356\\
+&                     variable&       30,324\\ \hline
+\multirow{2}{*}{16}&  0.8&            15,016\\
+&                     variable&       30,132\\ \hline
+\multirow{2}{*}{18}&  0.75&           16,392\\
+&                     variable&       27,120\\ \hline
+\multirow{2}{*}{20}&  0.75&           7,872\\
+&                     variable&       25,608\\ \hline
+\multirow{2}{*}{22}&  0.7&            6,008\\
+&                     variable&       25,376\\ \hline
+\multirow{2}{*}{24}&  0.7&            6,440\\
+&                     variable&       24,560\\ \hline
+\multirow{2}{*}{26}&  0.7&            6,280\\
+&                     variable&       23,008\\ \hline
+\multirow{2}{*}{32}&  0.65&           15,216\\
+&                     variable&       104,080\\
+\hline\end{tabular}
+\label{table:bestsol}
+\end{table}
+
+
+
+
+
 \subsection{Why Not Fixed Mutation?}
 Variable adaptive mutation gives a distinct advantage over traditional genetic algorithms because of the optimization of a specific parameter \cite{hesser1991towards,ye2010some}. By using a variable mutation rate, replacing the mutation parameter with a chromosome similarity, better results can be gleaned while knowing less about the problem landscape or the best static mutation rate to use. Our results show that our variable adaptive mutation approach can perform better than static mutation values for large problems. As the problem becomes too large and unmanageable for traditional deterministic methods, our methodology can still produce useful results. When examining larger problems, our results show that having \emph{a priori} knowledge about the best static mutation parameter still does not yield results as good as those generated from our adaptive mutation approach.
 
