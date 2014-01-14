@@ -1,0 +1,58 @@
+Abstract
+
+Introduction
+-keep as is, reword to sound better
+-project source code link
+
+Background
+-1 sentence describing the actual puzzle (pull from existing material)
+-N-Queens is NP-hard
+-many modalities, local optima, and global optima
+-Table 1 shows the increase in problem size and number of distinct solutions
+-O(n!) complexity for deterministic approach: too slow, especially for larger values of N because the problem is huge
+-8-queens shows characteristic problem landscape (show histogram)
+-above 26 queens, the problem is intractable
+-two objectives: finding the first solution as fast as possible, finding the most solutions given a fixed number of function calls (generations)
+-our goal was to generate many solutions as quickly as possible
+
+Related Work
+-maybe there's a best static mutation value for traditional GA? (hesser, maenner)
+-alternative approaches: maybe increasing diversity overall will help overcome local optimum convergence in standard GA? combine standard GA with introducing randomly generated individuals into the population; 
+-adaptive approaches: change mutation rate over time (low during exploration, high during exploitation/vice versa)
+-self adaptive approaches: use mean fitness to adjust genetic operators; change mutation rate between two values based on fitness; each chromosome has individually specified operator probabilities which are encoded into phenotype with meta-operators
+
+Proposed Approach
+-1 sentence describing motivation: observed in nature that mutation increases with inbreeding, wanted to replicate this with genetic algorithms
+-integer-encoded chromosome includes protective embedded constraints - values represent column positions of queens, their index in the array of genes is their row.
+-traditional GA operators apply; roulette wheel selection is used, single-point crossover is used; single-value uniform mutation is used
+-use similarity as self-adaptive characteristic of GA; adjust mutation rate based on similarity, crossover probability unaffected
+-define genetic operator probabilities in a table, reference it
+-mutation operator probability replaced with chromosome similarity threshold (reference table)
+-mutation operator probability delta is fixed value (reference table)
+-keep Applying Adaptive Variable Mutation, but reword for clarity
+-keep Chromosome Similarity Algorithm, but reword for clarity
+-keep Fitness Function, edit, combine with Selection Method
+-drop Genetic Operations
+-rename Chromosome Evaluation to Identifying Distinct Solutions; include symmetry operations
+
+Experimental Methodology
+1st para: specify all values of N
+replace running time with function calls
+mention that one function call = one generation
+for N=32, increased PROBLEM SIZE not complexity
+
+2nd para: list all values of m
+MUTATION PROBABILITY not RATE
+adapative variable CHANGE TO self adaptive
+
+For N = 18 para: rewrite
+
+last para: condense to one sentence; descriptive statistics were gathered every 1000 function calls/generations
+
+
+Results and Analysis
+-begin with: show the difference between traditional GA results and our approach, reference table
+-talk about the trends; traditional GA approach wins when using the best experimentally determined Mc up until N = 15; self-adaptive approach wins for all N > 15
+
+
+Conclusions and Further Study Remarks
