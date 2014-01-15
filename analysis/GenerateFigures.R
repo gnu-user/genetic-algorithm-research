@@ -29,6 +29,7 @@ library(mgcv)
 library(RcolourBrewer)
 library(splines)
 library(MASS)
+library(gtools)
 
 # Sets the bounds based on the number of ticks
 number_ticks <- function(n)
@@ -90,6 +91,63 @@ gen_best_data <- function(data)
 # The output directory for the figures
 figure_dir <- "C:\\Users\\Jon\\Documents\\GitHub\\genetic-algorithm-research\\figures\\"
 
+
+##########################################################################
+#
+# Plot a histogram of the number of collisions for all possible permutations
+# for the 8 queens problem
+#
+###########################################################################
+# Function used for calculating the number of collisions
+calc_collisions <- function(chromosome)
+{
+    len <- length(chromosome)
+    collisions <- 0
+    
+    for (i in 1:len)
+    {
+        j <- if ((i+1) > len) 1 else i+1
+        
+        while (j != i)
+        {
+            yi <- chromosome[i]
+            yj <- chromosome[j]
+            
+            if (yi == yj)
+            {
+                collisions <- collisions + 1
+            }
+            
+            if (abs((i - j) / (yi - yj)) == 1)
+            {
+                collisions <- collisions + 1
+            }
+            j <- if ((j+1) > len) 1 else j+1
+        }
+    }
+    
+    return(collisions)
+}
+ 
+# Get the number of collisions for 8 Queens
+solution_space <- permutations(n = 8, r = 8, v = 7:0)
+collisions <- data.table(position=solution_space, num_collisions=apply(solution_space, 1, calc_collisions))
+
+# Get the bounds for the plot
+lower <- 0
+upper <- 40
+#upper <- max(collisions[, num_collisions])
+
+# Plot the histogram of the number of collisions
+p <- ggplot(collisions, aes(x=num_collisions, fill=..count..))
+p <- p + geom_histogram(binwidth = 2) +
+    scale_x_continuous(limits=c(lower, upper)) + 
+    scale_colour_brewer("clarity") +  
+    labs(x = "Number of Collisions", y = "Frequency", fill = "Frequency")
+
+file <- "8queens_histogram.png"
+file <- paste(figure_dir, file, sep="/")
+ggsave(filename=file, plot=p)
 
 
 
