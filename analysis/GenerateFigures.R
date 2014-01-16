@@ -26,7 +26,7 @@ library(ggplot2)
 library(scales)
 library(reshape)
 library(mgcv)
-library(RcolourBrewer)
+library(RColorBrewer)
 library(splines)
 library(MASS)
 library(gtools)
@@ -133,19 +133,17 @@ calc_collisions <- function(chromosome)
 solution_space <- permutations(n = 8, r = 8, v = 7:0)
 collisions <- data.table(position=solution_space, num_collisions=apply(solution_space, 1, calc_collisions))
 
-# Get the bounds for the plot
+# Set the bounds for the plot
 lower <- 0
-upper <- 40
-#upper <- max(collisions[, num_collisions])
+upper <- 38
 
-# Plot the histogram of the number of collisions
-p <- ggplot(collisions, aes(x=num_collisions, fill=..count..))
-p <- p + geom_histogram(binwidth = 2) +
-    scale_x_continuous(limits=c(lower, upper)) + 
-    scale_colour_brewer("clarity") +  
-    labs(x = "Number of Collisions", y = "Frequency", fill = "Frequency")
+p <- ggplot(collisions, aes(x=num_collisions))
+p <- p + geom_histogram(binwidth = 2, colour="black", fill="steelblue1") +
+     scale_x_continuous(breaks=seq(0, upper, 2), limits=c(lower, upper)) + 
+     scale_y_continuous(breaks=seq(0, 8000, 500)) +
+     labs(x = "Number of Collisions", y = "Frequency", fill = "Frequency")
 
-file <- "8queens_histogram.png"
+file <- "8_queens_histogram.png"
 file <- paste(figure_dir, file, sep="/")
 ggsave(filename=file, plot=p)
 
