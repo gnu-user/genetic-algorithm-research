@@ -151,6 +151,9 @@ all_mutation <- data.table()
 # Best number of solutions found for fixed mutation compared to variable
 best_solution <- data.table()
 
+# Table containing the results for the best fixed mutation based on the number of 
+# generations for finding the first solution compared to the best fixed for most solutions
+first_solution <- data.table()
 
 # Get a list of the nqueens results directories
 # nqueens_dirs <- c("8_q", "9_q", "10_q", "11_q", "12_q", "13_q", "14_q", "15_q", "16_q", "18_q", "20_q", "22_q", "24_q", "26_q")
@@ -528,6 +531,76 @@ for (nqueens_dir in nqueens_dirs)
 
 
 
+# Generate the results for the best fixed mutation based on the number of 
+# generations for finding the first solution compared to the best fixed for most solutions
+most_first <- data.table()
+fast_first <- data.table()
+# number of solutions found for fast mutation rate for first solutio
+fast_solutions <- data.table()
+# The number of generations for adaptive to find first solution
+adaptive_first <- data.table()
+
+most_fixed <- best_solution[mutation != "variable", list(queen, mutation)]
+
+for (nqueens in most_fixed[, queen])
+{
+    most_rate <- best_solution[queen == nqueens & mutation != "variable", mutation]
+    
+    results_most <- summary_solution[queen == nqueens & mutation == most_rate & solution == 1, 
+                                        list(queen, most_mutation=mutation, most_generation=round(mean_generation))]
+    
+    results_fast <- summary_solution[queen == nqueens & mutation != "variable" & solution == 1][mean_generation == min(mean_generation), 
+                                        list(queen, fast_mutation=mutation, fast_generation=round(mean_generation))][1]
+    
+    results_fast_solutions <- summary_solution[queen == nqueens & mutation == results_fast[, fast_mutation]][solution == max(solution), 
+                                                                                           list(queen, fast_solution=solution)][1]
+    
+    if (NROW(most_first) > 0)
+    {
+        most_first <- rbind(most_first, results_most)
+    }
+    else
+    {
+        most_first <- results_most
+    }
+    
+    if (NROW(fast_first) > 0)
+    {
+        fast_first <- rbind(fast_first, results_fast)
+    }
+    else
+    {
+        fast_first <- results_fast
+    }
+    
+    if (NROW(fast_solutions) > 0)
+    {
+        fast_solutions <- rbind(fast_solutions, results_fast_solutions)
+    }
+    else
+    {
+        fast_solutions <- results_fast_solutions
+    }
+    
+    # Set keys
+    setkey(most_first, queen)
+    setkey(fast_first, queen)
+    setkey(results_fast_solutions, queen)
+    
+    # Clear up memory
+    rm(most_rate, results_most, results_fast, results_fast_solutions)
+    gc()
+}
+
+# Get the mean generations for finding the first solution for adaptive
+adaptive_first <- summary_solution[mutation == "variable" & solution == 1, 
+                                     list(queen, adaptive_generation=round(mean_generation))]
+setkey(adaptive_first, queen)
+
+# Merge all the tables into a final version
+first_solution <- merge(most_first, fast_first, by="queen")
+first_solution <- merge(first_solution, fast_solutions, by="queen")
+first_solution <- merge(first_solution, adaptive_first, by="queen")
 
 
 
@@ -544,5 +617,9 @@ write.csv(all_mutation, paste(output_dir, "all_mutation.csv", sep="/"), row.name
 write.csv(all_similarity, paste(output_dir, "all_similarity.csv", sep="/"), row.names = FALSE)
 
 
+# Save the most solutions found for best fixed and variable mutation
 write.csv(best_solution, paste(output_dir, "best_solution.csv", sep="/"), row.names = FALSE)
 
+# Save the fastest for finding the first solution compared to best for finding the
+# most solutions and variable mutation
+write.csv(first_solution, paste(output_dir, "first_solution.csv", sep="/"), row.names = FALSE)
