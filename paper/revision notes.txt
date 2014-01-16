@@ -2,66 +2,73 @@ Abstract
 
 Introduction
 -keep as is, reword to sound better
--project source code link
+-project source code link; written in java
 
 Background
 -1 sentence describing the actual puzzle (pull from existing material)
--N-Queens is NP-hard
 -many modalities, local optima, and global optima
--Table 1 shows the increase in problem size and number of distinct solutions
+-Table 1 shows the increase in problem size and number of distinct solutions (put in table)
 -O(n!) complexity for deterministic approach: too slow, especially for larger values of N because the problem is huge
--8-queens shows characteristic problem landscape (show histogram)
+-8-queens shows characteristics problem landscape (show histogram)
+-not included are: there were 4 instances of 44 collisions, and 2 instances of 56 collisions. these are present only when 7 queens are on the diagonal except 1, and where all 8 queens are on the diagonal.
 -above 26 queens, the problem is intractable
--two objectives: finding the first solution as fast as possible, finding the most solutions given a fixed number of function calls (generations)
--our goal was to generate many solutions as quickly as possible
+-two main objectives: finding the first solution as fast as possible, finding the most solutions given a fixed number of function calls (generations)
+-the version of N-Queens we are doing is NP-hard, our main goal is to find all solutions (or at least as many as we can within a fixed budget)
+-an alternative version of n-queens exists in polynomial time; this version seeks to find one solution as quickly as possible
 
 Related Work
--maybe there's a best static mutation value for traditional GA? (hesser, maenner)
--alternative approaches: maybe increasing diversity overall will help overcome local optimum convergence in standard GA? combine standard GA with introducing randomly generated individuals into the population; 
--adaptive approaches: change mutation rate over time (low during exploration, high during exploitation/vice versa)
--self adaptive approaches: use mean fitness to adjust genetic operators; change mutation rate between two values based on fitness; each chromosome has individually specified operator probabilities which are encoded into phenotype with meta-operators
+-maybe there's a best static mutation value for traditional GA? (hesser, maenner) they failed to find a single value that is optimal for all problems and all circumstances; no free lunch theorem
+-alternative approaches: maybe increasing diversity overall will help overcome local optimum convergence in standard GA? combine standard GA with introducing randomly generated individuals into the population
+-adaptive approaches: change mutation rate over time (low during exploration, high during exploitation/vice versa);use mean fitness to adjust genetic operators; change mutation rate between two values based on fitness;each chromosome has individually specified operator probabilities which are encoded into their phenotype with meta-operators that govern them
+-attempts to solve n-queen problems have been made deterministically up to N = 26, any larger problems are intractable (cite)
+-attempts to find single solutions quickly have been made for versions of the problem up to N = 500K (cite)
 
 Proposed Approach
 -1 sentence describing motivation: observed in nature that mutation increases with inbreeding, wanted to replicate this with genetic algorithms
--integer-encoded chromosome includes protective embedded constraints - values represent column positions of queens, their index in the array of genes is their row.
--traditional GA operators apply; roulette wheel selection is used, single-point crossover is used; single-value uniform mutation is used
--use similarity as self-adaptive characteristic of GA; adjust mutation rate based on similarity, crossover probability unaffected
+-integer-encoded chromosome;includes protective embedded constraints; values represent column positions of queens, their index in the array of genes is their row.
+-traditional GA operators applied; roulette wheel selection is used; single-point crossover is used; single-value uniform mutation is used
+-use chromosome similarity as self-adaptive characteristic of our approach; adaptive mutation probability, crossover probability unaffected
 -define genetic operator probabilities in a table, reference it
 -mutation operator probability replaced with chromosome similarity threshold (reference table)
 -mutation operator probability delta is fixed value (reference table)
--keep Applying Adaptive Variable Mutation, but reword for clarity
--keep Chromosome Similarity Algorithm, but reword for clarity; "similar" chromosomes are actually identical, chromosome similarity across population determines how many chromosomes in the population are the same
--keep Fitness Function, edit, combine with Selection Method
+-keep Applying Adaptive Variable Mutation, but reword for clarity (call it Self-Adaptive Mutation)
+-keep Chromosome Similarity Algorithm, but reword for clarity; "similar" chromosomes are actually identical, chromosome similarity across population controls how many chromosomes in the population are the same
+-drop implementation specific considerations
+-keep Fitness Function, edit
+-drop Selection Method
 -drop Genetic Operations
--rename Chromosome Evaluation to Identifying Distinct Solutions; include symmetry operations
+-rename Chromosome Evaluation to Identifying Distinct Solutions; include symmetry operations; get a solution, do 3 rotations, perform horizontal reflection, then rotate reflection 3 times; save any rotations/reflections that are new distinct solutions
 
 Experimental Methodology
-1st para: specify all values of N
+1st para: specify all values of N, specify num function calls, specify num tests (reference table)
 replace running time with function calls
 mention that one function call = one generation
 for N=32, increased PROBLEM SIZE not complexity
-
 2nd para: list all values of m
 MUTATION PROBABILITY not RATE
 adapative variable CHANGE TO self adaptive
-
 For N = 18 para: rewrite
-
-last para: condense to one sentence; descriptive statistics were gathered every 1000 function calls/generations
-
+last para: condense to one sentence; descriptive statistics were gathered every 1000 function calls/generations, which is valid due to the law of averages
 
 Results and Analysis
 -begin with: show the difference between traditional GA results and our approach, reference table
--main objective: most solutions generated within fixed # function calls
 -talk about the trends; traditional GA approach wins when using the best experimentally determined Mc up until N = 15; self-adaptive approach wins for all N > 15; as N increases, delta increases. (cite table)
+-there is a proportional inverse relationship between N and the best experimentally determined Mc; as N increases, the best Mc which yielded the most solutions decreases
 -unfair advantage for traditional GA over self-adaptive; optimal static Mc changes as N changes; nobody knows what the ideal Mc is for all problems (cite hesser, maenner)
 -even in spite of unfair advantage, self-adaptive out performs traditional GA for all N > 15; conclusion is our approach performs better as problems grow larger
--selfadaptive approach tailors mutation rate throughout the duration of solution search; our approach not only is based on time (generations), nor is it based on historical similarity, it adapts every generation and increases diversity as diversity becomes important.
--diversity of population is always kept roughly at the chromosome similarity threshold value; when chromosome similarity is too high, diversity is low and few solutions are found; when similarity is low, diversity is too high and optima fail to be converged upon; when solutions are converged upon, diversity increases in order to expand the search to other solutions;this behavior is desirable in a multimodal problem with many optima like N-Queens; this prevents being stuck in a local optimum while also preventing the search from being wildly random and failing to converge on an optimum
+-selfadaptive approach adjusts mutation rate throughout the duration of solution search; unlike other approaches, our approach not adaptive based on time (generations)(cite), nor is it based on historical fitness values(cite); our results show that it adapts every generation based on the current population chromsome similarity, which increases diversity and yields more solutions.
+-the reason why the diversity is increased is because the search is then prevented from regenerating chromosomes which are identical, by definition a diverse population cannot be identical. controlling similarity allows the algorithm to strike a balance between convergence/exploitation and exploration(cite)
+-diversity of population is controlled by the chromosome similarity threshold value; in traditional GA, when chromosome similarity is too high, diversity is low and few solutions are found; when similarity is low, diversity is too high and optima fail to be converged upon
+-in our approach, when solutions are converged upon, diversity increases in order to expand the search to other solutions; this behavior is desirable in a multimodal problem with many optima like N-Queens; this prevents being stuck in a rut of local optima while also preventing the search from being wildly random thus failing to converge on optima
 -drop Traversing the Problem Landscape
 -comment on relationship between N and best experimentally determined fixed mutation rate (linear downward trend)
 -drop Plotted Results and Observations
 -drop Why Not Fixed Mutation?
+
+Optional: Multiobjective Optimization
+-while our primary goal was to generate as many solutions as possible, the other secondary aim of n-queens problems is to generate a solution as quickly as possible
+-our results showed that we were able to generate a solution first in N/M problems for the following values of N
+
 
 
 Conclusions and Further Study Remarks
