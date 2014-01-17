@@ -41,7 +41,7 @@
 \maketitle
 
 \begin{abstract}
-Proposed is a novel methodology for combinatorial optimization using self-adaptive mutation probabilities in genetic algorithms (GA). We selected the N-Queen problems ($8 \leq N \leq 32$) as our benchmark, as they are multi-modal with many local and global optima. Optimal static mutation probabilities for the traditional GA approach were determined for each $N$ to use as a best-case scenario benchmark in comparative analysis. Despite an unfair advantage with traditional GA using optimized fixed mutation probabilities, in large problem sizes (where $N > 15$) multi-objective analysis showed the self-adaptive approach yielded a 100.67\% to 584.02\% improvement in the number of distinct solutions generated; the self-adaptive approach also produced the first distinct solution faster than traditional GA.
+Proposed is a novel methodology for combinatorial optimization using self-adaptive mutation probabilities in genetic algorithms (GA). We selected the N-Queen problems ($8 \leq N \leq 32$) as our benchmark, as they are multi-modal with many local and global optima. Optimal static mutation probabilities for the traditional GA approach were determined for each $N$ to use as a best-case scenario benchmark in comparative analysis. Despite an unfair advantage with traditional GA using optimized fixed mutation probabilities, in large problem sizes (where $N > 14$) multi-objective analysis showed the self-adaptive approach yielded a 100.67\% to 584.02\% improvement in the number of distinct solutions generated; the self-adaptive approach also produced the first distinct solution faster than traditional GA.
 \end{abstract}
 
 % no key words
@@ -51,11 +51,13 @@ Proposed is a novel methodology for combinatorial optimization using self-adapti
 
 Tuning up control parameters has a crucial effect on the GA's performance, which can increase or decrease based on the landscape and size of the problem encountered \cite{ye2010some,coyne1994genetic,srinivas1994adaptive}. We have found that by replacing the traditional GA's static mutation probability with a self-adaptive variable mutation probability, better performance can be achieved when solving the N-Queen problems from both a single and multi-objective perspective. Our objectives focus on generating the most solutions possible within a fixed budget, and/or generating the first solution as quickly as possible. The new approach adapts based on the similarity of chromosomes in the population each generation. The increase in performance is compounded in larger versions of the problem where the search space grows extremely large, such as the situation encountered when attempting to solve higher-order N-Queen problems. In this domain, deterministic methods prove useless but our approach prevails.
 
-Our software solution was written in Java, and is available through GitHub under the \texttt{/gnu-user/genetic-algorithm-research} repository. It is open source licensed under the \textit{GNU General Public License, Version 3}.
+Our software solution was written in Java, and is available through GitHub at the following URL: \texttt{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
 
 \section{Background}
 The N-Queen problems are multi-modal, with many local optima and global optima. 
 Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{homaifar1992queens}. The problem is defined by the rules of chess and the protective embedded constraints of the chromosome which prevent queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. Table {REFERENCE} shows the massive increase in problem size as $N$ increases. Further, it shows the proportionally huge increase in the number of distinct solutions. Based on the scale of the problem at higher values of $N$, using deterministic methods is futile - the problem is simply too big. As $N$ increases past 26, the problem becomes completely intractable. The number of distinct solutions for large values of $N$ is unknown, and the problem size becomes enormous. 
+
+%%PUT THE HISTOGRAM IN HERE, REFERENCE IS BELOW
 
 8-Queen is the classical version of N-Queen. The histogram found in Figure {REFERENCE} shows the full deterministic traversal of the 8-Queen problem landscape, which is characteristic of the N-Queen problems. It details the myriad possibilities for the number of board states which can occur even in a relatively small problem size. Not pictured in this figure are the 4 instances of 44 simultaneous collisions, and 2 instances of 56 collisions. These occur when 7, or all 8 queens are all placed on the diagonals, respectively. 
 
@@ -76,6 +78,8 @@ Our main motivation for this new self-adaptive approach was to leverage the obse
 We used a GA with an integer encoded chromosome to represent the N-Queen positions on the chessboard. By limiting queens to single rows and columns, our approach includes protective embedded constraints which reduce the dimensionality of the problem. It uses traditional GA operators - selection, mutation, and recombination. Ordinary roulette wheel selection is used in conjunction with single-value uniform mutation and single-point crossover/recombination. 
 
 Chromosome similarity is used as the defining characteristic of our adaptation approach. The probability for the mutation operator is variable, while recombination ({REFERENCE SYMBOL}) remains at a single static value as in traditional GA. The mutation operator probability delta (per 1 generation) is set to a fixed value. Our experimental values for the genetic operators are seen in Table {REFERENCE}.
+
+%PUT IN THE TABLE FOR THE COSNTANTS HERE, REFERENCE IS HERE ^^^^
 
 \subsection{Self-Adaptive Mutation}
 In order to apply our self-adaptive mutation approach, a two step process is required. First, for each generation of chromosomes the population's chromosome similarity must be evaluated. The similarity algorithm is detailed in Algorithm \ref{alg:similarity}. Next, the mutation probability is varied accordingly in order to adapt.  
@@ -213,16 +217,20 @@ Our control used traditional GA with fixed mutation probabilities ({REFERENCE SY
 For $N = 8$ through 16, 30 tests were performed at each {REFERENCE SYMBOL Mc} ($21 \times 30 = 630$ tests total), and 30 runs were performed using the self-adaptive approach. For $N = 18$ through 26, 15 tests were performed. For $N = 32$, 10 tests were performed. Given the increasingly large problem sizes, the number of tests were reduced in order to allow experimentation to complete within reasonable human time frames. Descriptive statistics were gathered every 1000 generations, with mean calculated using the grand mean.
 
 \section{Results and Analysis}
-The performance difference with respect to solutions generated can be seen in Table {REFERENCE}. As can be seen in the table, the traditional GA approach performs marginally better in the range of small problems, most of which are most efficiently solved with deterministic methods. This range consists of values of $N$ up until $N = 15$. Our self-adaptive approach yields more solutions for values of $N$ where $N > 15$. As $N$ increases, the difference widens; the self-adaptive approach provides increasingly better results for this objective as the problem size increases.
+The performance difference with respect to solutions generated can be seen in Table {REFERENCE}. As can be seen in the table, the traditional GA approach performs marginally better in the range of small problems, most of which are most efficiently solved with deterministic methods. This range consists of values of $N$ up until $N = 14$. Our self-adaptive approach yields more solutions for values of $N$ where $N > 14$. As $N$ increases, the difference widens; the self-adaptive approach provides increasingly better results for this objective as the problem size increases.
 
 We observed that there was a proportional inverse relationship between $N$ and the best experimentally determined {Mc SYMBOL}. As $N$ increases, the best {Mc SYMBOL} which yielded the most solutions decreases. The point this raises is that there is an unfair advantage for the traditional GA over the self-adaptive approach, since the optimal static {Mc SYMBOL} changes as $N$ changes. Nobody knows the ideal {Mc SYMBOL} for all problems, and generally foreknowledge of the ideal {Mc SYMBOL} is not available in order to exploit this advantage [CITE] but in this case it was experimentally determined for this problem. Optimally tuned control parameters are critical and provide a major advantage. Still, the self-adaptive approach consistently outperforms traditional GA with optimized parameters for the large problem sizes, even as the parameters are adjusted to suit the problem better. Our conclusion is that the self-adaptive approach will continue to outperform the traditional GA method as $N$ grows based on the increasing gap in performance.
 
-Our analysis of the algorithm shows that the self-adaptive approach adjusts the mutation probability throughout the duration of the solution search. Unlike other historical approaches to adaptation, the self-adaptive one does not adapt purely based on one characteristic of the problem, the position of the problem landscape traversal, or fitness values. Our results also show that adaptation occurs every generation since stochastic factors routinely influence the similarity beyond or below the threshold {SYMBOL}. 
+Our analysis of the algorithm shows that the self-adaptive approach adjusts the mutation probability throughout the duration of the solution search. Unlike other historical approaches to adaptation, the self-adaptive one does not adapt purely based on one characteristic of the problem, the position of the problem landscape traversal, or fitness values. Our results also show that adaptation occurs every generation since stochastic factors routinely influence the similarity beyond or below the threshold {SYMBOL}. This behavior can be seen in Figure {FIGURE}, which shows that the similarity adapts towards the specified threshold {(REF SYMBOL)}.
+
+%%PUT IN A FIGURE HERE WHICH SHOWS THE SIMILARITY ADAPTING TOWARD THE SPECIFIED THRESHOLD
 
 When controlled by the chromosome similarity, the self-adaptive approach increases diversity and generates more solutions through a more diverse and efficient traversal of the areas of the problem landscape that contain solutions. The reason why the diversity is increased is because the search is prevented from regenerating chromosomes which are identical, flooding the population with clones. By definition a diverse population cannot be identical. Controlling similarity allows the self-adaptive approach to strike a balance between convergence, exploitation, and exploitation. Therefore, there is a relationship between diversity and chromosome similarity which enables the diversity of the population to be controlled by the chromosome similarity threshold specified. In traditional GA, when the chromosome similarity is too high, diversity is low and few solutions are found. This is evident by the poor performance yielded by traditional GA in our benchmarks where {Mc SYMBOL} is very small. There is no mechanism other than the constant background mutation that increases diversity among the population, since recombination of identical chromosomes results in a clone regardless. Conversely, when mutation is too frequent (such as in high values of {Mc SYMBOL} like 100\%), similarity becomes low, and the diversity of the population becomes too high to allow optima to be converged upon. In the self-adaptive approach, when solutions are converged upon, diversity increases as the mutation rate adapts in order to expand the search to other solutions. This behavior is the desirable characteristic of the self-adaptive approach that makes it ideal for multi-modal problems with many optima like N-Queen problems. Controlled similarity prevents the GA from being stuck in a rut of similar local optima, while also preventing the search from being wildly dissimilar and random, failing to converge on optima.
 
 \subsection{Multi-Objective Optimization}
+While our primary goal was to explore comparatively which approach generated as many solutions as possible, the secondary aim of the N-Queen problems is to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
 
+Our results for multi-objective optimization toward the N-Queen problems show that we were able to generate a solution first in 8 out of 15 instances, in problems where $N > 14$.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -233,7 +241,7 @@ When controlled by the chromosome similarity, the self-adaptive approach increas
 \centering
 \caption{N-Queen Problems Distinct Solutions}
 \begin{tabular}{|l|l|l|} \hline
-N  & Problem Size (N!)      & Distinct Solutions      \\ \hline
+$N$  & Problem Size ($N!$)      & Distinct Solutions      \\ \hline
 8  & 40320                      & 92                     \\
 9  & 362880                     & 352                    \\
 10 & 3628800                    & 724                    \\
@@ -264,7 +272,7 @@ N  & Problem Size (N!)      & Distinct Solutions      \\ \hline
 \caption{Most N-Queens Distinct Solutions}
 \begin{tabular}{|l|l|l|l|l|} \hline
 &               &  \multicolumn{2}{c|}{Distinct Solutions}& \\ \cline{3-4}
-N&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \hline
+$N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \hline
 8&  0.95&          92&              92&                         $\pm$ 0\% \\ \hline                        
 9&  0.95&          352&             352&                        $\pm$ 0\% \\ \hline
 10& 0.9&           724&             724&                        $\pm$ 0\% \\ \hline
@@ -289,7 +297,7 @@ N&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \hl
 \centering
 \caption{First N-Queens Distinct Solution}
 \begin{tabular}{|l|l|l|l|} \hline
-N&          Best $M_{c}$&  $\mu$ Generations $M_{c}$&  $\mu$ Generations $M_{a}$\\ \hline
+$N$&          Fastest $M_{c}$&  $\mu$ Gens. $M_{c}$&  $\mu$ Gens. $M_{a}$\\ \hline
  8&         0.75&             45&                 91\\ \hline
  9&          0.8&            121&                186\\ \hline
 10&          0.8&            261&                417\\ \hline
