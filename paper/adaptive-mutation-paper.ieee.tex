@@ -308,42 +308,29 @@ N  & Problem Size (N!)      & Distinct Solutions      \\ \hline
 \label{table:numuniquesol}
 \end{table}
 
+
 \begin{table}
 \centering
 \caption{Most N-Queens Distinct Solutions}
-\begin{tabular}{|l|l|l|} \hline
-N&               Mutation Rate&  Distinct Solutions\\ \hline
-\multirow{2}{*}{8}&   0.95&           92\\
-&                     variable&       92\\ \hline
-\multirow{2}{*}{9}&   0.95&           352\\
-&                     variable&       352\\ \hline
-\multirow{2}{*}{10}&  0.9&            724\\
-&                     variable&       724\\ \hline
-\multirow{2}{*}{11}&  0.85&           2,680\\
-&                     variable&       2,680\\ \hline
-\multirow{2}{*}{12}&  0.85&           13,690\\
-&                     variable&       11,986\\ \hline
-\multirow{2}{*}{13}&  0.8&            32,128\\
-&                     variable&       26,308\\ \hline
-\multirow{2}{*}{14}&  0.8&            41,520\\
-&                     variable&       29,520\\ \hline
-\multirow{2}{*}{15}&  0.8&            30,356\\
-&                     variable&       30,324\\ \hline
-\multirow{2}{*}{16}&  0.8&            15,016\\
-&                     variable&       30,132\\ \hline
-\multirow{2}{*}{18}&  0.75&           16,392\\
-&                     variable&       27,120\\ \hline
-\multirow{2}{*}{20}&  0.75&           7,872\\
-&                     variable&       25,608\\ \hline
-\multirow{2}{*}{22}&  0.7&            6,008\\
-&                     variable&       25,376\\ \hline
-\multirow{2}{*}{24}&  0.7&            6,440\\
-&                     variable&       24,560\\ \hline
-\multirow{2}{*}{26}&  0.7&            6,280\\
-&                     variable&       23,008\\ \hline
-\multirow{2}{*}{32}&  0.65&           15,216\\
-&                     variable&       104,080\\
-\hline\end{tabular}
+\begin{tabular}{|l|l|l|l|l|} \hline
+&               &  \multicolumn{2}{c|}{Distinct Solutions}& \\ \cline{3-4}
+N&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \hline
+8&  0.95&          92&              92&                         $\pm$ 0\% \\ \hline                        
+9&  0.95&          352&             352&                        $\pm$ 0\% \\ \hline
+10& 0.9&           724&             724&                        $\pm$ 0\% \\ \hline
+11& 0.85&          2,680&           2,680&                      $\pm$ 0\% \\ \hline
+12& 0.85&          13,690&          11,986&                     $-$12.45\% \\ \hline
+13& 0.8&           32,128&          26,308&                     $-$18.12\% \\ \hline
+14& 0.8&           41,520&          29,520&                     $-$28.90\% \\ \hline
+15& 0.8&           30,356&          30,324&                     $+$0.11\% \\ \hline
+16& 0.8&           15,016&          30,132&                     $+$100.67\% \\ \hline
+18& 0.75&          16,392&          27,120&                     $+$65.45\% \\ \hline
+20& 0.75&          7,872&           25,608&                     $+$225.30\% \\ \hline
+22& 0.7&           6,008&           25,376&                     $+$322.37\% \\ \hline
+24& 0.7&           6,440&           24,560&                     $+$281.37\% \\ \hline
+26& 0.7&           6,280&           23,008&                     $+$266.37\% \\ \hline
+32& 0.65&          15,216&          104,080&                    $+$584.02\% \\ \hline
+\end{tabular}
 \label{table:mostsol}
 \end{table}
 
