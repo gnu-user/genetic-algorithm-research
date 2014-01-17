@@ -265,7 +265,7 @@ In general, this conceptual model will require extensive further study to valida
 \subsection{Plotted Results and Observations}
 Figure \ref{fig:best_solution_all_queens} depicts the best fixed mutation rate, that found the most solutions for each problem size, versus the variable mutation rate. Each of these plots are cut off at 10 million generations. In spite of the fact that the 32-Queens problem was allowed to run up to 50 million generations, we are only showing plots which are trimmed to this value for consistency of comparison. The plots show that as the problem size increases from the smaller problems up to 14 queens, the fixed mutation rates reach peak performance. In these problems, the most optimal fixed mutation rate is better than the variable mutation rate. This trend changes at the 15 queens where they are nearly equal. From there on, the difference in performance becomes significant - variable mutation consistently finds more solutions than the most optimal fixed mutation rate. 
 
-The optimal fixed mutation rate decrease from 95\% for 8 queens down to 65\% for 32 queens. As the problem size increases, we observe that this trend continues. This can be seen in Table \ref{table:bestsol}. From 15 queens up to 32 queens, there is a divergence between the performance of fixed mutation and variable mutation. A steep decline is visible in the performance of the best fixed mutation rates as the problem size increases. The performance of the variable mutation rate also decreases with increased problem sizes, but at a far lesser rate. This marginal decrease in performance yields the conclusion that variable adaptive mutation rates will perform far better for larger problems.
+The optimal fixed mutation rate decrease from 95\% for 8 queens down to 65\% for 32 queens. As the problem size increases, we observe that this trend continues. This can be seen in Table \ref{table:mostsol}. From 15 queens up to 32 queens, there is a divergence between the performance of fixed mutation and variable mutation. A steep decline is visible in the performance of the best fixed mutation rates as the problem size increases. The performance of the variable mutation rate also decreases with increased problem sizes, but at a far lesser rate. This marginal decrease in performance yields the conclusion that variable adaptive mutation rates will perform far better for larger problems.
 
 An interesting result was observed when viewing the box plots showing the range of chromosome similarity values for each static mutation rate. We found that whenever the similarity has the greatest inter-quartile range (IQR), the corresponding static mutation rate performed best. This contributed heavily to the step size concept we believe is exhibited by the system. We also found that as the problem landscape grows larger in higher order N-Queen problems, the IQR decreases in size. There is a possibility that the IQR will decrease towards convergence on a single value in higher order problems, which suggests that there may be a pattern to the convergence which can be approximated and leveraged for predicting optimal static mutation rates for any N-Queen problems. In the 14-Queens problem, the IQR was approximately 20\%. In the 32-Queens problem, the IQR was approximately 3\%. Since testing this requires exhaustive experimentation in order to definitively find the optimal static mutation rate for any given problem, this further supports the notion that a variable mutation rate is a more practical approach. As shown prominently in Figure \ref{fig:fitness_all_mutation_14}, we have found that the relationship between the best fixed mutation rates and the largest IQR is visible. The fixed mutation rate of 80\% clearly has the largest IQR, and correspondingly the most number of solutions found. This trend is visible for all values of N in the N-Queen problems. 
 
@@ -310,8 +310,8 @@ N  & Problem Size (N!)      & Distinct Solutions      \\ \hline
 
 \begin{table}
 \centering
-\caption{Fixed and Variable Mutation Comparison}
-\begin{tabular}{|l|l|l|l|l|l|l|} \hline
+\caption{Most N-Queens Distinct Solutions}
+\begin{tabular}{|l|l|l|} \hline
 N&               Mutation Rate&  Distinct Solutions\\ \hline
 \multirow{2}{*}{8}&   0.95&           92\\
 &                     variable&       92\\ \hline
@@ -344,8 +344,35 @@ N&               Mutation Rate&  Distinct Solutions\\ \hline
 \multirow{2}{*}{32}&  0.65&           15,216\\
 &                     variable&       104,080\\
 \hline\end{tabular}
-\label{table:bestsol}
+\label{table:mostsol}
 \end{table}
+
+
+\begin{table}
+\centering
+\caption{First N-Queens Distinct Solution}
+\begin{tabular}{|l|l|l|l|} \hline
+N&          Best $M_{c}$&  $\mu$ Generations $M_{c}$&  $\mu$ Generations $M_{a}$\\ \hline
+ 8&         0.75&             45&                 91\\ \hline
+ 9&          0.8&            121&                186\\ \hline
+10&          0.8&            261&                417\\ \hline
+11&          0.7&            444&                364\\ \hline
+12&         0.65&            457&                463\\ \hline
+13&          0.7&            448&                582\\ \hline
+14&         0.65&            494&                609\\ \hline
+15&         0.65&            598&                513\\ \hline
+16&         0.65&            662&                606\\ \hline
+18&         0.65&            911&                688\\ \hline
+20&         0.55&            889&                862\\ \hline
+22&          0.5&           1234&               1211\\ \hline
+24&          0.4&           1209&               1182\\ \hline
+26&         0.45&           1599&                942\\ \hline
+32&          0.5&           2298&               1995\\ \hline
+\end{tabular}
+\label{table:firstsol}
+\end{table}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
