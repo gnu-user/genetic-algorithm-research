@@ -212,6 +212,7 @@ Our control used traditional GA with fixed mutation probabilities ({REFERENCE SY
 
 For $N = 8$ through 16, 30 tests were performed at each {REFERENCE SYMBOL Mc} ($21 \times 30 = 630$ tests total), and 30 runs were performed using the self-adaptive approach. For $N = 18$ through 26, 15 tests were performed. For $N = 32$, 10 tests were performed. Given the increasingly large problem sizes, the number of tests were reduced in order to allow experimentation to complete within reasonable human time frames. Descriptive statistics were gathered every 1000 generations, with means calculated using the grand mean.
 
+%%%%%%%%TODO: FINISH THIS SECTION FORWARD
 \section{Results and Analysis}
 It became clear very quickly when we plotted the results of our tests that the variable mutation method was not suitable in its current configuration for the simpler N-Queen problems. In fact, we found that given sufficient knowledge about the problem landscape for the lower-order problems, the right static mutation value would likely beat variable mutation every time. However, for ordinary non-benchmark usage of genetic algorithms it is useless to use a static mutation rate value unless you already know the best mutation rate for the problem. This generally speaks to the point that having an adaptive mutation rate approach will likely find this value. The smaller N-Queen problems are too small to merit the usage of a stochastic approach regardless, as deterministic methods can yield solutions quickly with guaranteed success.
 
