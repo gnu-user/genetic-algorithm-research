@@ -57,7 +57,16 @@ Our software solution was written in Java, and is available through GitHub at th
 The N-Queen problems are multi-modal, with many local optima and global optima. 
 Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{homaifar1992queens}. The problem is defined by the rules of chess and the protective embedded constraints of the chromosome which prevent queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. Table {REFERENCE} shows the massive increase in problem size as $N$ increases. Further, it shows the proportionally huge increase in the number of distinct solutions. Based on the scale of the problem at higher values of $N$, using deterministic methods is futile - the problem is simply too big. As $N$ increases past 26, the problem becomes completely intractable. The number of distinct solutions for large values of $N$ is unknown, and the problem size becomes enormous. 
 
-%%PUT THE HISTOGRAM IN HERE, REFERENCE IS BELOW
+
+% HISTOGRAM
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.45\textwidth]{8_queens_histogram.png}
+\vspace{-12pt}
+\caption{8-Queens Collisions Histogram}
+\label{fig:histogram}
+\end{figure}
+
 
 8-Queen is the classical version of N-Queen. The histogram found in Figure {REFERENCE} shows the full deterministic traversal of the 8-Queen problem landscape, which is characteristic of the N-Queen problems. It details the myriad possibilities for the number of board states which can occur even in a relatively small problem size. Not pictured in this figure are the 4 instances of 44 simultaneous collisions, and 2 instances of 56 collisions. These occur when 7, or all 8 queens are all placed on the diagonals, respectively. 
 
@@ -241,7 +250,7 @@ Our results for multi-objective optimization toward the N-Queen problems show th
 \centering
 \caption{N-Queen Problems Distinct Solutions}
 \begin{tabular}{|l|l|l|} \hline
-$N$  & Problem Size ($N!$)      & Distinct Solutions      \\ \hline
+$N$  & Problem Size ($N!$)      & Distinct Solutions     \\ \hline
 8  & 40320                      & 92                     \\
 9  & 362880                     & 352                    \\
 10 & 3628800                    & 724                    \\
@@ -319,34 +328,6 @@ $N$&    Fastest $M_{c}$&    $\mu$ Gens. $M_{c}$&    $\mu$ Gens. $M_{a}$&    Diff
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% FIGURES
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
-\centering
-\includegraphics[width=0.50\textwidth]{best_solution_all_queens.png}
-\vspace{-18pt}
-\caption{Best Fixed and Variable Mutation Solutions}
-\label{fig:best_solution_all_queens}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.50\textwidth]{mutation_rate_all_queens.png}
-\vspace{-18pt}
-\caption{Best Fixed and Variable Mutation Rates}
-\label{fig:mutation_rate_all_queens}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.50\textwidth]{fitness_all_mutation_14q.png}
-\vspace{-18pt}
-\caption{Population Fitness, All Mutation Rates, 14-Queens}
-\label{fig:fitness_all_mutation_14}
-\end{figure}
 
 \section{Conclusions and Further Study Remarks}
 We conclude that using our variable adaptive mutation rate approach yields better results than traditional GA using fixed mutation rates in larger problems. Further research into adjusting the simplified chromosome similarity parameter that replaces mutation rate may yield even better results. Fixed values were used for our chromosome similarity parameter, and varying this parameter may yield more information about how variable adaptive mutation using our approach can be tuned further towards different problem landscapes.
