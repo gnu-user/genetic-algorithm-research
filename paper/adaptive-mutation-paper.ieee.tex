@@ -318,16 +318,9 @@ Our analysis of the algorithm shows that the self-adaptive approach adjusts the 
 When controlled by the chromosome similarity, the self-adaptive approach increases diversity and generates more solutions through a more diverse and efficient traversal of the areas of the problem landscape that contain solutions. The reason why the diversity is increased is because the search is prevented from regenerating chromosomes which are identical, flooding the population with clones. By definition a diverse population cannot be identical. Controlling similarity allows the self-adaptive approach to strike a balance between convergence, exploitation, and exploitation. Therefore, there is a relationship between diversity and chromosome similarity which enables the diversity of the population to be controlled by the chromosome similarity threshold specified. In traditional GA, when the chromosome similarity is too high, diversity is low and few solutions are found. This is evident by the poor performance yielded by traditional GA in our benchmarks where {Mc SYMBOL} is very small. There is no mechanism other than the constant background mutation that increases diversity among the population, since recombination of identical chromosomes results in a clone regardless. Conversely, when mutation is too frequent (such as in high values of {Mc SYMBOL} like 100\%), similarity becomes low, and the diversity of the population becomes too high to allow optima to be converged upon. In the self-adaptive approach, when solutions are converged upon, diversity increases as the mutation rate adapts in order to expand the search to other solutions. This behavior is the desirable characteristic of the self-adaptive approach that makes it ideal for multi-modal problems with many optima like N-Queen problems. Controlled similarity prevents the GA from being stuck in a rut of similar local optima, while also preventing the search from being wildly dissimilar and random, failing to converge on optima.
 
 \subsection{Multi-Objective Optimization}
-While our primary goal was to explore comparatively which approach generated as many solutions as possible, the secondary aim of the N-Queen problems is to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
+While our primary goal was to compare which approach generated as many solutions as possible on a fixed budget, the secondary aim of the N-Queen problems was to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
 
-Our results for multi-objective optimization toward the N-Queen problems show that we were able to generate a solution first in 8 out of 15 instances, in problems where $N > 14$.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% TABLES
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+Our results for multi-objective optimization toward the N-Queen problems show that we were able to generate a solution first in 8 out of 15 instances, in problems where $N > 14$. The conclusion is that even in multi-objective optimization our self-adaptive approach prevails in spite of the NFL theorem.
 
 \begin{table}
 \centering
@@ -379,13 +372,10 @@ $N$&    Fastest $M_{c}$&    $\mu$ Gens. $M_{c}$&    $\mu$ Gens. $M_{a}$&    Diff
 \label{table:firstsol}
 \end{table}
 
-
-
-
 \section{Conclusions and Further Study Remarks}
-We conclude that using our variable adaptive mutation rate approach yields better results than traditional GA using fixed mutation rates in larger problems. Further research into adjusting the simplified chromosome similarity parameter that replaces mutation rate may yield even better results. Fixed values were used for our chromosome similarity parameter, and varying this parameter may yield more information about how variable adaptive mutation using our approach can be tuned further towards different problem landscapes.
+The main conclusion of our study was that in both single and multi-objective optimization of the N-Queen problems using our self-adaptive GA approach, our approach performs better than traditional GA even when optimized control parameters are used. This answers the question, why not use fixed mutation? Traditional GA with a fixed {MC SYMBOL} cannot adapt to the stage of search that the algorithm is in. At some times in the traversal of the problem landscape, it is desirable to converge on a local or global optimum. In other circumstances, the search must be widened. When only using mutation as a fixed background operation na\"{i}vely, there is no choice. Because we are using a self-adaptive approach, mutation can change and adapt based on the problem size, the characteristics of the problem landscape, problem difficulty, and time.
 
-Exploring our variable mutation rate approach in other NP-Complete combinatorial and optimization problems such as the Traveling Salesman Problem or Constraint Satisfaction Problem may show that our approach is valid for a multitude of problems. We conjecture that this is likely since other adaptive mutation methodologies have yielded performance improvements in various problem domains.
+Exploring our variable mutation rate approach in other NP-Complete combinatorial and optimization problems such as the Traveling Salesman Problem or Constraint Satisfaction Problem may show that our approach is valid for a multitude of problems with different landscapes that have single global optima, or different optimal characteristics. We conjecture that this is likely since other adaptive mutation methodologies have yielded performance improvements in various problem domains.
 
 Conducting a multivariate analysis and sensitivity analysis of tuning other parameters in conjunction with the variable adaptive mutation rate may yield further performance improvements. For example, variable population size based on the amount of inbreeding may yield different results. This conjecture is based on the fact that with higher mutation rates, survival fitness decreases, resulting in population shrinkage. Coupling the population size with the mutation rate and patterns of fitness in the GA population may yield a new avenue for future study.
 
