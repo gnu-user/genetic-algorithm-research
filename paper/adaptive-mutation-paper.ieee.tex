@@ -257,6 +257,27 @@ We measured the performance of our self-adaptive approach using an empirical stu
 
 Our control used traditional GA with fixed mutation probabilities ({REFERENCE SYMBOL Mc}) of {SYMBOL} = 1\%, 5\%, 10\%, 15\%, 20\%, 25\%, 30\%, 35\%, 40\%, 45\%, 50\%, 55\%, 60\%, 65\%, 70\%, 75\%, 80\%, 85\%, 90\%, 95\% and 100\% to solve each N-Queen problem. These trials were run with the same multiplicity and budget as our self-adaptive approach. The goal of the control trials was to approximately determine the optimal {REFERENCE SYMBOL Mc} for finding the most solutions for each problem given the budget, and finding the first solution in as few generations as possible. Our aim was to test our new approach against a reasonable approximation of the best possible performance that the traditional GA approach can provide. Optimized control parameters for mutation would be determined and used as a benchmark, similar to Hesser and M\"{a}nner's study.
 
+
+% TABLE - EXPERIMENTAL VARIABLES
+% TODO HAVE SHAHRYAR LOOK OVER THE VARIABLES/NAMING USED
+\begin{table}
+\centering
+\caption{Experimental Variables}
+\begin{tabular}{|l|l|} \hline
+Variable&                                     Value \\ \hline
+Similarity Threshold ($S_{t}$)&               $15\%$ \\ \hline
+Adaptive Mutation Bounds ($M_{a}$)&           $[1, 99]$ \\ \hline   
+Adaptive Mutation Increment ($M_{a\Delta}$)&  $1$ \\ \hline
+Crossover Probability ($P_{crossover}$)&      $70\%$ \\ \hline
+Cloning Probability ($P_{cloning}$)&          $30\%$ \\ \hline
+Population Size ($P$)&                        $64$ \\ \hline      
+\end{tabular}
+\label{table:variables}
+\end{table}
+
+
+
+
 For $N = 8$ through 16, 30 tests were performed at each {REFERENCE SYMBOL Mc} ($21 \times 30 = 630$ tests total), and 30 runs were performed using the self-adaptive approach. For $N = 18$ through 26, 15 tests were performed. For $N = 32$, 10 tests were performed. Given the increasingly large problem sizes, the number of tests were reduced in order to allow experimentation to complete within reasonable human time frames. Descriptive statistics were gathered every 1000 generations, with mean calculated using the grand mean.
 
 \section{Results and Analysis}
@@ -280,6 +301,8 @@ Our results for multi-objective optimization toward the N-Queen problems show th
 % TABLES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \begin{table}
 \centering
 \caption{Most N-Queens Distinct Solutions}
