@@ -54,8 +54,7 @@ Tuning up control parameters has a crucial effect on the GA's performance, which
 Our software solution was written in Java, and is available through GitHub at the following URL: \texttt{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
 
 \section{Background}
-The N-Queen problems are multi-modal, with many local optima and global optima. 
-Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{3}. The problem is defined by the rules of chess and the protective embedded constraints of the chromosome which prevent queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. 
+The N-Queen problems require that a number of queens, $N$, are placed on an $N \times N$ chessboard such that they will not attack each other. The N-Queen problems are multi-modal, with many local optima and global optima. Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{3}. The problem is bound by the rules of chess. Our solution includes protective embedded constraints which restrict the structure of the chromosome. This prevents queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. 
 
 
 % TABLE - N QUEENS PROBLEM GROWTH
@@ -313,14 +312,7 @@ Our analysis of the algorithm shows that the self-adaptive approach adjusts the 
 \centerline{\includegraphics[width=3.4in]{similarity_variable_32q.png}} \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \end{figure}
 
-%%PUT IN A FIGURE HERE WHICH SHOWS THE SIMILARITY ADAPTING TOWARD THE SPECIFIED THRESHOLD
-
 When controlled by the chromosome similarity, the self-adaptive approach increases diversity and generates more solutions through a more diverse and efficient traversal of the areas of the problem landscape that contain solutions. The reason why the diversity is increased is because the search is prevented from regenerating chromosomes which are identical, flooding the population with clones. By definition a diverse population cannot be identical. Controlling similarity allows the self-adaptive approach to strike a balance between convergence, exploitation, and exploitation. Therefore, there is a relationship between diversity and chromosome similarity which enables the diversity of the population to be controlled by the chromosome similarity threshold specified. In traditional GA, when the chromosome similarity is too high, diversity is low and few solutions are found. This is evident by the poor performance yielded by traditional GA in our benchmarks where $M_{c}$ is very small. There is no mechanism other than the constant background mutation that increases diversity among the population, since recombination of identical chromosomes results in a clone regardless. Conversely, when mutation is too frequent (such as in high values of $M_{c}$ like 100\%), similarity becomes low, and the diversity of the population becomes too high to allow optima to be converged upon. In the self-adaptive approach, when solutions are converged upon, diversity increases as the mutation rate adapts in order to expand the search to other solutions. This behavior is the desirable characteristic of the self-adaptive approach that makes it ideal for multi-modal problems with many optima like N-Queen problems. Controlled similarity prevents the GA from being stuck in a rut of similar local optima, while also preventing the search from being wildly dissimilar and random, failing to converge on optima.
-
-\subsection{Multi-Objective Optimization}
-While our primary goal was to compare which approach generated as many solutions as possible on a fixed budget, the secondary aim of the N-Queen problems was to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
-
-Our results for multi-objective optimization (seen in Table \ref{table:firstsol}) toward the N-Queen problems show that we were able to generate a solution first in 8 out of 15 instances, in problems where $N > 14$. The conclusion is that even in multi-objective optimization our self-adaptive approach prevails in spite of the NFL theorem.
 
 \begin{table}\label{table:distinctsol}
 \centering
@@ -371,6 +363,11 @@ $N$&    Fastest $M_{c}$&    $\mu$ Gens. $M_{c}$&    $\mu$ Gens. $M_{a}$&    Diff
 \label{table:firstsol}
 \end{table}
 
+\subsection{Multi-Objective Optimization}
+While our primary goal was to compare which approach generated as many solutions as possible on a fixed budget, the secondary aim of the N-Queen problems was to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
+
+Our results for multi-objective optimization (seen in Table \ref{table:firstsol}) toward the N-Queen problems show that we were able to generate a solution first in 8 out of 15 instances, in problems where $N > 14$. The conclusion is that even in multi-objective optimization our self-adaptive approach prevails in spite of the NFL theorem.
+
 \section{Conclusions and Further Study Remarks}
 The main conclusion of our study was that in both single and multi-objective optimization of the N-Queen problems using our self-adaptive GA approach, our approach performs better than traditional GA even when optimized control parameters are used. This answers the question, why not use fixed mutation? Traditional GA with a fixed $M_{c}$ cannot adapt to the stage of search that the algorithm is in. At some times in the traversal of the problem landscape, it is desirable to converge on a local or global optimum. In other circumstances, the search must be widened. When only using mutation as a fixed background operation na\"{i}vely, there is no choice. Because we are using a self-adaptive approach, mutation can change and adapt based on the problem size, the characteristics of the problem landscape, problem difficulty, and time.
 
@@ -411,9 +408,7 @@ Conducting a multivariate analysis and sensitivity analysis of tuning other para
 \def\ACC{\it Beijing International Convention Center\rm }
 \def\SMC{\it IEEE Trans. Systems\rm , \it Man\rm , and \it Cybernetics\rm } 
 
-%TODO fill out
-
-\begin{thebibliography}{20}
+\begin{thebibliography}{21}
 
 \bibitem{cit:1} K. Jong and W. Spears, ``Using Genetic Algorithms to Solve NP-complete Problems,"
         {\it Proceedings of the Third International Conference on Genetic Algorithms}, pp. 124-132, George Mason University, USA.
