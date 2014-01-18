@@ -1,1 +1,7 @@
-4, 9, 10, 11, 13, 16, 17, 18, 19
+4 - mutation operators
+9, 10 - general GA
+11 - adaptive GA
+13 - adaptive GA, optimization of control params
+16 - textbook for mutation rates
+17, 18 - medical inbreeding stuff
+19 - selection
