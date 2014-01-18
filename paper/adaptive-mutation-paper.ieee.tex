@@ -49,7 +49,7 @@ Proposed is a novel methodology for combinatorial optimization using self-adapti
 \section{Introduction}
 \PARstart{G}{enetic algorithms} (GA) are particularly useful in areas which they can perform stochastic generation of solutions for complex or large combinatorial problems \cite{1,2}. One well-known problem area includes the N-Queen problems. An efficient and common approach to tackle these problems uses genetic algorithms, encoding positions of the N-Queens on the chessboard into the chromosome. As with any genetic algorithm, evaluating the fitness of the chromosomes is required to determine the quality of candidate solutions \cite{8}, but the N-Queen problems are different in that only those candidates with perfect fitness are considered correct solutions to the problem. 
 
-Tuning up control parameters has a crucial effect on the GA's performance, which can increase or decrease based on the landscape and size of the problem encountered \cite{12,15,7}. We have found that by replacing the traditional GA's static mutation probability with a self-adaptive variable mutation probability, better performance can be achieved when solving the N-Queen problems from both a single and multi-objective perspective. Our objectives focus on generating the most solutions possible within a fixed budget, and/or generating the first solution as quickly as possible. The new approach adapts based on the similarity of chromosomes in the population each generation. The increase in performance is compounded in larger versions of the problem where the search space grows extremely large, such as the situation encountered when attempting to solve higher-order N-Queen problems. In this domain, deterministic methods prove useless but our approach prevails.
+Tuning up control parameters has a crucial effect on the GA's performance, which can increase or decrease based on the landscape and size of the problem encountered \cite{12,13,15,7}. We have found that by replacing the traditional GA's static mutation probability with a self-adaptive variable mutation probability, better performance can be achieved when solving the N-Queen problems from both a single and multi-objective perspective. Our objectives focus on generating the most solutions possible within a fixed budget, and/or generating the first solution as quickly as possible. The new approach adapts based on the similarity of chromosomes in the population each generation. The increase in performance is compounded in larger versions of the problem where the search space grows extremely large, such as the situation encountered when attempting to solve higher-order N-Queen problems. In this domain, deterministic methods prove useless but our approach prevails.
 
 Our software solution was written in Java, and is available through GitHub at the following URL: \texttt{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
 
@@ -88,7 +88,6 @@ $N$  & Problem Size ($N!$)      & Distinct Solutions     \\ \hline
 \label{table:numuniquesol}
 \end{table}
 
-
 Table \ref{table:probgrowth} shows the massive increase in problem size as $N$ increases. Further, it shows the proportionally huge increase in the number of distinct solutions. Based on the scale of the problem at higher values of $N$, using deterministic methods is futile - the problem is simply too big. As $N$ increases past 26, the problem becomes completely intractable. The number of distinct solutions for large values of $N$ is unknown, and the problem size becomes enormous. 
 
 % FIGURE - HISTOGRAM
@@ -105,18 +104,18 @@ Table \ref{table:probgrowth} shows the massive increase in problem size as $N$ i
 While finding the most solutions given a fixed number of function calls/generations was the main objective of our proposed approach, fundamentally there are two separate objectives in tackling N-Queen problems; finding the first solution as fast as possible is an alternative goal. The latter problem can be solved in polynomial time through conventional means.
 
 \section{Related Work}
-Deterministic attempts to solve N-Queen problems have been successful only for values of $N$ up to 26[CITE], and attempts to find single solutions quickly have been made for versions of the problem up to {$N = 500000$} [CITE]. There are no known integer sequences or proofs which can represent the number of distinct solutions for $N > 26$, nor is there a deterministic means which can find them all within human time frames, but traditional GA have been used to find multitudinous solutions within fixed time frames. This approach is repeated in our experiments.
+Deterministic attempts to solve N-Queen problems have been successful only for values of $N$ up to 26 \cite{20}, and attempts to find single solutions quickly have been made for versions of the problem up to {$N = 50$} \cite{21}. There are no known integer sequences or proofs which can represent the number of distinct solutions for $N > 26$, nor is there a deterministic means which can find them all within human time frames, but traditional GA have been used to find multitudinous solutions within fixed time frames \cite{9,10}. This approach is repeated in our experiments.
 
-Since tuning control parameters has a profound effect on the evaluation of GA, one might conclude that there is an optimal static mutation probability for solving N-Queen problems using the traditional approach. Hesser and M\"{a}nner \cite{14} attempted to find such a value for GA in general problems but failed - there is no perfect algorithm, and it is rare that there is an optimal control parameter for a very good algorithm which fits all circumstances. This is an important axiom of the No Free Lunch (NFL) theorem \cite{6}. Finding the pragmatic best case scenario for static $M_{c}$ within traditional GA proved to be a useful control and benchmark for our experiments, as can be seen in our results.
+Since tuning control parameters has a profound effect on the evaluation of GA, one might conclude that there is an optimal static mutation probability \cite{4} for solving N-Queen problems using the traditional approach. Hesser and M\"{a}nner \cite{14} attempted to find such a value for GA in general problems but failed - there is no perfect algorithm, and it is rare that there is an optimal control parameter for a very good algorithm which fits all circumstances. This is an important axiom of the No Free Lunch (NFL) theorem \cite{6}. Finding the pragmatic best case scenario for static $M_{c}$ within traditional GA proved to be a useful control and benchmark for our experiments, as can be seen in our results.
 
-Other alternative approaches to enhancing GA for combinatorial optimization sought to increase population diversity in order to overcome wasteful convergence on local optima, which is problematic in N-Queen since it has many local and global optima. Combining standard GA with randomly generated individuals into the population is well studied [CITE], but fails to adapt to suit the problem size. Still, exploring the nature of genetic diversity provides valuable insight into the motivation for increasing diversity among candidate solutions and populations to reach better solutions within smaller budgets.
+Other alternative approaches to enhancing GA for combinatorial optimization sought to increase population diversity in order to overcome wasteful convergence on local optima, which is problematic in N-Queen since it has many local and global optima. Combining standard GA with randomly generated individuals into the population is well studied \cite{12}, but fails to adapt to suit the problem size. Still, exploring the nature of genetic diversity provides valuable insight into the motivation for increasing diversity among candidate solutions and populations to reach better solutions within smaller budgets.
 
-Adaptive GA have historically manipulated control parameters by changing the mutation probability over time \cite{12} such that it is low during exploration, high during exploitation, or vice-versa. Other approaches used the overall mean population fitness to adjust genetic operators independently of time \cite{15,7}. Alternative adaptive approaches changed mutation probabilities between two values based on fitness \cite{15}, while others attempted to individually specify genetic operator probabilities into each phenotype, encoded with meta-operators that govern their evaluation \cite{5}. Many previous adaptive approaches sought to yield more fruitful explorations of the problem landscape by tuning GA control parameters, but most approaches have been limited by being na\"{i}ve to either the problem size or the state of exploration and diversity. However, these historical adaptive methodologies yield many advantages over traditional GA in that they preclude the need for \textit{a priori} knowledge about optimal control parameters, mitigating the need to 'tune them up' with protracted test runs prior to long-term evaluation, which saves time.
+Adaptive GA have historically manipulated control parameters by changing the mutation probability over time \cite{12} such that it is low during exploration, high during exploitation, or vice-versa. Other approaches used the overall mean population fitness to adjust genetic operators independently of time \cite{11,15,7}. Alternative adaptive approaches changed mutation probabilities between two values based on fitness \cite{15}, while others attempted to individually specify genetic operator probabilities into each phenotype, encoded with meta-operators that govern their evaluation \cite{5}. Many previous adaptive approaches sought to yield more fruitful explorations of the problem landscape by tuning GA control parameters, but most approaches have been limited by being na\"{i}ve to either the problem size or the state of exploration and diversity. However, these historical adaptive methodologies yield many advantages over traditional GA in that they preclude the need for \textit{a priori} knowledge about optimal control parameters, mitigating the need to 'tune them up' with protracted test runs prior to long-term evaluation, which saves time.
 
 \section{Proposed Approach}\label{params}
-Our main motivation for this new self-adaptive approach was to leverage the observed tendency in nature for mutations to occur as a result of inbreeding with genetically similar specimens[CITE]. Our desire was to replicate this behavior in GA. We noted that mutations that resulted from inbreeding increased genetic diversity in biological organisms, affecting their fitness in nature sometimes for better or for worse. Therefore, it stood to reason that a similar phenomenon might occur in GA. Exploring this idea yielded surprisingly positive results.
+Our main motivation for this new self-adaptive approach was to leverage the observed tendency in nature for mutations to occur as a result of inbreeding with genetically similar specimens \cite{17,18}. Our desire was to replicate this behavior in GA. We noted that mutations that resulted from inbreeding increased genetic diversity in biological organisms, affecting their fitness in nature sometimes for better or for worse. Therefore, it stood to reason that a similar phenomenon might occur in GA. Exploring this idea yielded surprisingly positive results.
 
-We used a GA with an integer encoded chromosome to represent the N-Queen positions on the chessboard. By limiting queens to single rows and columns, our approach includes protective embedded constraints which reduce the dimensionality of the problem. It uses traditional GA operators - selection, mutation, and recombination. Ordinary roulette wheel selection is used in conjunction with single-value uniform mutation and single-point crossover/recombination. 
+We used a GA with an integer encoded chromosome to represent the N-Queen positions on the chessboard. By limiting queens to single rows and columns, our approach includes protective embedded constraints which reduce the dimensionality of the problem. It uses traditional GA operators - selection, mutation, and recombination. Ordinary roulette wheel selection \cite{19} is used in conjunction with single-value uniform mutation and single-point crossover/recombination \cite{16}. 
 
 Chromosome similarity is used as the defining characteristic of our adaptation approach. The probability for the mutation operator is variable, while recombination ($P_{crossover}$) remains at a single static value as in traditional GA. The mutation operator probability delta (per 1 generation) is set to a fixed value. Our experimental values for the genetic operators are seen in Table \ref{table:geneticoperators}.
 
@@ -305,9 +304,14 @@ For $N = 8$ through 16, 30 tests were performed at each $M_{c}$ ($21 \times 30 =
 \section{Results and Analysis}
 The performance difference with respect to solutions generated can be seen in Table \ref{table:distinctsol}. As can be seen in the table, the traditional GA approach performs marginally better in the range of small problems, most of which are most efficiently solved with deterministic methods. This range consists of values of $N$ up until $N = 14$. Our self-adaptive approach yields more solutions for values of $N$ where $N > 14$. As $N$ increases, the difference widens; the self-adaptive approach provides increasingly better results for this objective as the problem size increases.
 
-We observed that there was a proportional inverse relationship between $N$ and the best experimentally determined $M_{c}$. As $N$ increases, the best $M_{c}$ which yielded the most solutions decreases. The point this raises is that there is an unfair advantage for the traditional GA over the self-adaptive approach, since the optimal static $M_{c}$ changes as $N$ changes. Nobody knows the ideal $M_{c}$ for all problems, and generally foreknowledge of the ideal $M_{c}$ is not available in order to exploit this advantage [CITE] but in this case it was experimentally determined for this problem. Optimally tuned control parameters are critical and provide a major advantage. Still, the self-adaptive approach consistently outperforms traditional GA with optimized parameters for the large problem sizes, even as the parameters are adjusted to suit the problem better. Our conclusion is that the self-adaptive approach will continue to outperform the traditional GA method as $N$ grows based on the increasing gap in performance.
+We observed that there was a proportional inverse relationship between $N$ and the best experimentally determined $M_{c}$. As $N$ increases, the best $M_{c}$ which yielded the most solutions decreases. The point this raises is that there is an unfair advantage for the traditional GA over the self-adaptive approach, since the optimal static $M_{c}$ changes as $N$ changes. Nobody knows the ideal $M_{c}$ for all problems, and generally foreknowledge of the ideal $M_{c}$ is not available in order to exploit this advantage \cite{14} but in this case it was experimentally determined for this problem. Optimally tuned control parameters are critical and provide a major advantage. Still, the self-adaptive approach consistently outperforms traditional GA with optimized parameters for the large problem sizes, even as the parameters are adjusted to suit the problem better. Our conclusion is that the self-adaptive approach will continue to outperform the traditional GA method as $N$ grows based on the increasing gap in performance.
 
-Our analysis of the algorithm shows that the self-adaptive approach adjusts the mutation probability throughout the duration of the solution search. Unlike other historical approaches to adaptation, the self-adaptive one does not adapt purely based on one characteristic of the problem, the position of the problem landscape traversal, or fitness values. Our results also show that adaptation occurs every generation since stochastic factors routinely influence the similarity beyond or below $S_{t}$. This behavior can be seen in Figure {FIGURE}, which shows that the similarity adapts towards the specified $S_{t}$.
+Our analysis of the algorithm shows that the self-adaptive approach adjusts the mutation probability throughout the duration of the solution search. Unlike other historical approaches to adaptation, the self-adaptive one does not adapt purely based on one characteristic of the problem, the position of the problem landscape traversal, or fitness values. Our results also show that adaptation occurs every generation since stochastic factors routinely influence the similarity beyond or below $S_{t}$. This behavior can be seen in Figure \ref{fig:sim32q}, which shows that the similarity adapts towards the specified $S_{t}$.
+
+
+\begin{figure}[htp]\label{fig:sim32q}
+\centerline{\includegraphics[width=3.4in]{similarity_variable_32q.png}} \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
+\end{figure}
 
 %%PUT IN A FIGURE HERE WHICH SHOWS THE SIMILARITY ADAPTING TOWARD THE SPECIFIED THRESHOLD
 
@@ -342,7 +346,6 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \
 \end{tabular}
 \label{table:mostsol}
 \end{table}
-
 
 \begin{table}\label{table:firstsol}
 \centering
@@ -404,15 +407,13 @@ Conducting a multivariate analysis and sensitivity analysis of tuning other para
 \def\N{no.~}
 \def\pp{pp.~}
 \def\Pot{\it Proc. }
-\def\IJCNN{\it IEEE World Congress On Compulational Intelligence\rm }
+\def\IJCNN{\it IEEE World Congress On Computational Intelligence\rm }
 \def\ACC{\it Beijing International Convention Center\rm }
-\def\SMC{\it IEEE Trans. Systems\rm , \it Man\rm , and \it Cybernetics\rm } %TODO fill out
+\def\SMC{\it IEEE Trans. Systems\rm , \it Man\rm , and \it Cybernetics\rm } 
 
 %TODO fill out
-\def\handb{ \it Handbook of Intelligent Control: Neural\rm , \it
-    Fuzzy\rm , \it and Adaptive Approaches \rm }
 
-\begin{thebibliography}{19}
+\begin{thebibliography}{20}
 
 \bibitem{cit:1} K. Jong and W. Spears, ``Using Genetic Algorithms to Solve NP-complete Problems,"
         {\it Proceedings of the Third International Conference on Genetic Algorithms}, pp. 124-132, George Mason University, USA.
@@ -474,6 +475,13 @@ Conducting a multivariate analysis and sensitivity analysis of tuning other para
 
 \bibitem{cit:19} D. Goldberg and K. Deb, ``A comparative analysis of selection schemes used in genetic algorithms,"
         {\it Urbana}, vol. 51, pp. 61801-2996, 1991.
+
+\bibitem{cit:20} Masehian, Ellips and Akbaripour, Hossein and Mohabbati-Kalejahi, Nasrin, ``Landscape analysis and efficient metaheuristics for solving the n-queens problem,"
+        {\it Computational Optimization and Applications}, vol. 56, pp. 735-764, 1991.
+
+
+\bibitem{cit:21} C.S. Pearson and M.S. Pearson, ``A140450 The count of how many queens must be placed tentatively onto a board while seeking a first solution to the "N-Queens on an N x N chessboard" puzzle,"
+        {\it The Online Encyclopedia of Integer Sequences}, Aug. 2008. [Online]. Available: http://oeis.org/A140450. [Accessed Jan. 10, 2014].
 
 \end{thebibliography}
 
