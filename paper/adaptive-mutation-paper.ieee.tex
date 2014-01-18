@@ -55,10 +55,44 @@ Our software solution was written in Java, and is available through GitHub at th
 
 \section{Background}
 The N-Queen problems are multi-modal, with many local optima and global optima. 
-Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{homaifar1992queens}. The problem is defined by the rules of chess and the protective embedded constraints of the chromosome which prevent queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. Table {REFERENCE} shows the massive increase in problem size as $N$ increases. Further, it shows the proportionally huge increase in the number of distinct solutions. Based on the scale of the problem at higher values of $N$, using deterministic methods is futile - the problem is simply too big. As $N$ increases past 26, the problem becomes completely intractable. The number of distinct solutions for large values of $N$ is unknown, and the problem size becomes enormous. 
+Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{homaifar1992queens}. The problem is defined by the rules of chess and the protective embedded constraints of the chromosome which prevent queens from sharing rows or columns; when two queens share the same diagonal, a collision occurs, meaning that the board state is not a solution. A solution is found when all solutions have been found in which no queens on the board can attack another. This problem is {$O(n!)$} when approached using deterministic methods to find all possible solutions. 
 
 
-% HISTOGRAM
+% TABLE - N QUEENS PROBLEM GROWTH
+\begin{table}[h!]
+\centering
+\caption{N-Queen Problems Distinct Solutions}
+\begin{tabular}{|l|l|l|} \hline
+$N$  & Problem Size ($N!$)      & Distinct Solutions     \\ \hline
+8  & 40320                      & 92                     \\
+9  & 362880                     & 352                    \\
+10 & 3628800                    & 724                    \\
+11 & 39916800                   & 2680                   \\
+12 & 479001600                  & 14,200                 \\
+13 & 6227020800                 & 73,712                 \\
+14 & 87178291200                & 365,596                \\
+15 & $1.307674368\times10^{12}$ & 2,279,184              \\
+16 & $2.092278989\times10^{13}$ & 14,772,512             \\
+17 & $3.556874281\times10^{14}$ & 95,815,104             \\
+18 & $6.402373706\times10^{15}$ & 666,090,624            \\
+19 & $1.216451004\times10^{17}$ & 4,968,057,848          \\
+20 & $2.432902008\times10^{18}$ & 39,029,188,884         \\
+21 & $5.109094217\times10^{19}$ & 314,666,222,712        \\
+22 & $1.124000728\times10^{21}$ & 2,691,008,701,644      \\
+23 & $2.585201674\times10^{22}$ & 24,233,937,684,440     \\
+24 & $6.204484017\times10^{23}$ & 227,514,171,973,736    \\
+25 & $1.551121004\times10^{25}$ & 2,207,893,435,808,352  \\
+26 & $4.032914611\times10^{26}$ & 22,317,699,616,364,044 \\
+\dots & \dots & Unknown				\\
+\hline\end{tabular}
+\label{table:numuniquesol}
+\end{table}
+
+
+Table {REFERENCE} shows the massive increase in problem size as $N$ increases. Further, it shows the proportionally huge increase in the number of distinct solutions. Based on the scale of the problem at higher values of $N$, using deterministic methods is futile - the problem is simply too big. As $N$ increases past 26, the problem becomes completely intractable. The number of distinct solutions for large values of $N$ is unknown, and the problem size becomes enormous. 
+
+
+% FIGURE - HISTOGRAM
 \begin{figure}[h!]
 \centering
 \includegraphics[width=0.45\textwidth]{8_queens_histogram.png}
@@ -246,36 +280,6 @@ Our results for multi-objective optimization toward the N-Queen problems show th
 % TABLES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{table}
-\centering
-\caption{N-Queen Problems Distinct Solutions}
-\begin{tabular}{|l|l|l|} \hline
-$N$  & Problem Size ($N!$)      & Distinct Solutions     \\ \hline
-8  & 40320                      & 92                     \\
-9  & 362880                     & 352                    \\
-10 & 3628800                    & 724                    \\
-11 & 39916800                   & 2680                   \\
-12 & 479001600                  & 14,200                 \\
-13 & 6227020800                 & 73,712                 \\
-14 & 87178291200                & 365,596                \\
-15 & $1.307674368\times10^{12}$ & 2,279,184              \\
-16 & $2.092278989\times10^{13}$ & 14,772,512             \\
-17 & $3.556874281\times10^{14}$ & 95,815,104             \\
-18 & $6.402373706\times10^{15}$ & 666,090,624            \\
-19 & $1.216451004\times10^{17}$ & 4,968,057,848          \\
-20 & $2.432902008\times10^{18}$ & 39,029,188,884         \\
-21 & $5.109094217\times10^{19}$ & 314,666,222,712        \\
-22 & $1.124000728\times10^{21}$ & 2,691,008,701,644      \\
-23 & $2.585201674\times10^{22}$ & 24,233,937,684,440     \\
-24 & $6.204484017\times10^{23}$ & 227,514,171,973,736    \\
-25 & $1.551121004\times10^{25}$ & 2,207,893,435,808,352  \\
-26 & $4.032914611\times10^{26}$ & 22,317,699,616,364,044 \\
-\dots & \dots & Unknown				\\
-\hline\end{tabular}
-\label{table:numuniquesol}
-\end{table}
-
-
 \begin{table}
 \centering
 \caption{Most N-Queens Distinct Solutions}
