@@ -115,8 +115,6 @@ Our main motivation for this new self-adaptive approach was to leverage the obse
 \label{section:chromosomestruct}
 We used a GA with an integer-encoded chromosome to represent the N-Queen positions on the chessboard for all of our tests independent of their approach. Our chromosome structure includes protective embedded constraints which reduce the size of the search space drastically. These constraints are imposed through our data structure, which consists of a 1-dimensional array (of size $N$ with zero-based numbering) that stores the column position of the queens at each array index. The index is used to represent the row position of each queen, preventing more than one queen from appearing in the same row. Values stored inside the array must be between 0 and $N - 1$, preventing a queen from being placed outside the chessboard. However, we do not restrict the values within the array from being repeated, which can occur as a result of the crossover or mutation operators. When repetition occurs within the array, a collision will occur on the respective column. Our implementation uses traditional GA operators - selection, crossover, and mutation. Ordinary roulette wheel selection \cite{cit:19} is used in conjunction with single-value uniform mutation and single-point crossover/recombination \cite{cit:16}. 
 
-Chromosome similarity is used as a main feature in our adaptation approach. The probability for the mutation operator is dynamically adjusted, while recombination ($P_{crossover}$) remains at a single static value as in traditional GA. Our experimental settings for the genetic operators are given in Table \ref{table:geneticoperators}.
-
 % TABLE - EXPERIMENTAL VARIABLES
 % TODO HAVE SHAHRYAR LOOK OVER THE VARIABLES/NAMING USED
 \begin{table}
@@ -135,6 +133,8 @@ Population Size ($P$)&                        $64$ \\ \hline
 \end{table}
 
 \subsection{Self-Adaptive Mutation}
+Chromosome similarity is used as a main feature in our adaptation approach. The probability for the mutation operator is dynamically adjusted, while recombination ($P_{crossover}$) remains at a single static value as in traditional GA. Our experimental settings for the genetic operators are given in Table \ref{table:geneticoperators}.
+
 In order to apply our self-adaptive mutation approach, a two step process is required. First, each generation's chromosomes' similarity must be evaluated. The similarity algorithm is detailed in Algorithm \ref{alg:similarity}. Next, the mutation probability is adjusted accordingly in order to adapt. This allows the population to be diversified when it is required to improve the search.
 
 When the chromosome similarity is less than the specified threshold ($S_{t}$), the population is too dissimilar (high diversity). This means the mutation probability must decrease, because the population is not inbred. For the next generation, the mutation probability is subtracted by $M_{a\Delta}$ indicated in Table \ref{table:geneticoperators}. After application of genetic operations and selection on the population, the next generation is populated and their chromosome similarity is calculated. If the chromosome similarity has increased, and if it is ever above the specified threshold, the population is inbred. $M_{a}$ must increase by the fixed delta in the next generation to adapt.
