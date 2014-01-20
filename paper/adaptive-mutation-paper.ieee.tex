@@ -237,8 +237,7 @@ Candidate solution fitness is evaluated by determining the number of collisions 
         }
         \BlankLine
         
-        $j \leftarrow j + 1$\;
-        $j \leftarrow j \mod{\Length}$\;
+        $j \leftarrow \left(j + 1 \right) \mod{\Length}$\;
       }
     }
     \BlankLine
@@ -258,7 +257,7 @@ Candidate solution fitness is evaluated by determining the number of collisions 
 \subsection{Identifying Distinct Solutions}
 In each generation there is always a strong possibility that some of the chromosomes in the current population are valid solutions - any of the current generation's chromosomes with a fitness of 1 is some sort of solution. Whether it is distinct or not is unknown at first. When a solution is found, it must be compared to the list of previously found solutions to determine whether it is distinct. Symmetry operations are applied to each solution found to generate more distinct solutions based on the symmetrical nature of the chessboard. This may further increase the likelihood that the new population's solutions have already been found previously. Therefore, indistinct solutions are discarded without having symmetry operations applied as their reconfiguration would already be identical to symmetric configurations of previously found distinct solutions. After saving newly found solutions, the new generation replaces the previous generation and the GA continues.
 
-Symmetry operations consist of three $90^{\circ}$ rotations, a horizontal reflection, and then 3 further $90^{\circ}$ rotations of the reflected board. Each symmetrical board configuration is a candidate solution that is checked against the existing distinct solutions. It is discarded if it has already been found previously, because it is indistinct. Each distinct solution can potentially yield up to 8 additional distinct solutions depending on the placement of queens.
+Symmetry operations consist of three $90^{\circ}$ rotations, a horizontal reflection, and then 3 further $90^{\circ}$ rotations of the reflected board. Each symmetrical board configuration is a candidate solution that is checked against the existing distinct solutions. It is discarded if it has already been found previously, because it is indistinct. Each distinct solution can potentially yield up to 7 additional distinct solutions depending on the placement of queens.
 
 \section{Experiments}
 We measured the performance of our self-adaptive approach using an empirical study. Our methodology was to solve N-Queen problems for various values of N with a limited budget of function calls (generations), repeated a multitude of times to ensure accuracy and collect aggregate statistics. Table \ref{table:trials} shows the number of function calls permitted and the number of trials run for each value of N. Special budgets and trial multiplicities were set for $N = 32$ in order to accommodate the exceptionally large problem size.
@@ -299,14 +298,14 @@ The performance difference with respect to the number of found solutions can be 
 We observed that there is a proportional inverse relationship between $N$ and the best experimentally determined $M_{c}$. As $N$ increases, the best $M_{c}$ which yielded the most solutions decreases. The point this raises is that there is an unfair advantage for the traditional GA over the self-adaptive approach, since the optimal static $M_{c}$ changes as $N$ changes. But we know that the ideal $M_{c}$ for all problems are unknown. Generally, foreknowledge of the ideal $M_{c}$ is not available in order to exploit this advantage \cite{cit:14}, but in this case it was experimentally determined. Optimally tuned control parameters are critical and provide a major advantage. Still, the self-adaptive approach consistently outperformed traditional GA with optimized parameters for the large problem sizes, even as the parameters were adjusted to better suit the problem. Our conclusion is that the self-adaptive approach will continue to outperform the traditional GA method as $N$ grows, based on the increasing gap in performance observed. The main reason is that even the most optimal value of the mutation rate remains unchanged during the search process. This is why it cannot compete with our self-adaptive scheme.
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{figures/similarity_variable_32q_3.png}}
+\centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_variable_32q_3.png}}
 \vspace{-6pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:sim32q}
 \end{figure}
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{figures/mutation_32q_1.png}}
+\centerline{\includegraphics[width=0.48\textwidth]{figures/mutation_32q_1.png}}
 \vspace{-6pt}
 \caption{Mutation Probability vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:mutation32q}
@@ -315,7 +314,7 @@ We observed that there is a proportional inverse relationship between $N$ and th
 Our analysis of the algorithm shows that the self-adaptive approach adjusts the mutation probability throughout the duration of the solution search. In contrast to historical approaches, the adaptive approach does not adapt based on one characteristic of the problem, the stage of the search, position of the individuals on the landscape, or fitness values. Our results also show that adaptation occurs every generation, since stochastic factors routinely influence the similarity beyond or below the similarity threshold ($S_{t}$). This behavior can be seen in Figure \ref{fig:sim32q}, which shows that the chromosome similarity changes as a result of the mutation operator to approach the specified $S_{t}$. Figure \ref{fig:mutation32q} shows the corresponding changes in mutation probability over generations based on similarity. Comparatively, Figure \ref{fig:bestfixedn32q} shows the similarity over generations of the most optimal traditional mutation operator found for the 32-Queen problem, $M_{c} = 0.65$. At this mutation probability, traditional GA tends toward a similarity of $25\% \pm 1\%$, with lower and upper extrema at 1.8\% and 26.4\%. This lies in stark contrast to the self-adaptive approach which tended toward the specified $S_{t}$ at 15\%, using adaptive mutation probabilities that tended toward 73.7\% with lower and upper extrema at 70.8\% and 74.5\%.
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{figures/similarity_0.65_32q_3.png}}
+\centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_0.65_32q_3.png}}
 \vspace{-6pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Traditional GA, $M_{c} = 0.65$)} 
 \label{fig:bestfixedn32q}
