@@ -1,4 +1,3 @@
-
 \documentclass[conference]{IEEEtran}
 \usepackage{stmaryrd}
 \usepackage{amsfonts}
@@ -51,7 +50,7 @@ This paper proposes a novel algorithm for solving combinatorial optimization pro
 
 Tuning up control parameters has a crucial effect on the GA's performance \cite{cit:12,cit:13,cit:15,cit:7}. We have found that by replacing the traditional GA's static mutation probability with a self-adaptive mutation probability, a better performance can be achieved when solving the N-Queen problems by considering different performance perspectives. Our objectives focus on 1) finding as many solutions as possible within a fixed budget, and 2) finding the first solution as quickly as possible. The proposed approach adapts based on the similarity of chromosomes in the population. The increase in performance is compounded in larger versions of the problem where the search space grows extremely large, such as the situation encountered when attempting to solve higher-order N-Queen problems. In this domain, deterministic methods prove useless. The number of queens that must be placed tentatively onto the board while seeking even the first solution becomes enormous very quickly \cite{cit:21}, but our approach prevails.
 
-Our software solution was written in Java, and is available through GitHub at the following URL: \texttt{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
+Our software solution was written in Java, and is available through GitHub at the following URL: \url{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
 
 \section{Background Review}
 The N-Queen problems require that a number of queens, $N$, are placed on an $N \times N$ chessboard such that they will not attack each other. The N-Queen problems are multi-modal, with many local optima and global optima. Like many other complex optimization problems, the N-Queen problems become staggeringly complex as the problem size increases \cite{cit:3}. The problem is bound by the rules of chess. Our solution includes protective embedded constraints which restrict the structure of the chromosome - this prevents queens from sharing rows or columns, allowing only for queens to attack each other on the diagonal. When two queens share the same diagonal, a collision occurs for each queen, meaning that the board state is not a solution. A solution is found when no queens on the board can attack another. This search space size is {$N!$} when an exhaustive method is applied to find all possible solutions. 
