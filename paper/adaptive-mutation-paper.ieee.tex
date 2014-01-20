@@ -90,7 +90,7 @@ Table \ref{table:probgrowth} shows the massive exponential increase in problem s
 % FIGURE - HISTOGRAM
 \begin{figure}[h!]
 \centerline{\includegraphics[width=0.45\textwidth]{figures/8_queens_histogram.png}}
-\vspace{-12pt}
+%\vspace{-12pt}
 \caption{8-Queen Problem Collisions Histogram, Showing Distribution Based on Fitness Values}
 \label{fig:histogram}
 \end{figure}
@@ -110,6 +110,15 @@ Adaptive GAs have historically manipulated control parameters by changing the mu
 
 \section{Proposed Approach}
 Our main motivation for this new self-adaptive approach was to leverage the observed tendency in nature for mutations to occur as a result of inbreeding with genetically similar specimens \cite{cit:17,cit:18}. Nature adjusts the mutation rate based on the diversity of the population. Our desire was to replicate this behavior in GA. We noted that mutations that resulted from inbreeding increased genetic diversity in biological organisms, affecting their fitness in nature sometimes for better or for worse. Therefore, it stood to reason that a similar phenomenon might occur in GA. Exploring this idea yielded surprisingly positive results.
+
+Figure \ref{fig:flowchart} shows the flowchart for the self-adaptive mutation approach. Areas where this algorithm differs from traditional GA are highlighted in blue.
+
+% FIGURE - Flowchart
+\begin{figure}[h!]
+\centerline{\includegraphics[width=0.45\textwidth]{figures/flowchart.png}}
+\caption{Self-Adaptive GA Flowchart}
+\label{fig:flowchart}
+\end{figure}
 
 \subsection{Chromosome Structure}
 \label{section:chromosomestruct}
@@ -302,14 +311,14 @@ We observed that there is a proportional inverse relationship between $N$ and th
 
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_variable_32q_3.png}}
-\vspace{-6pt}
+%\vspace{-6pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:sim32q}
 \end{figure}
 
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/mutation_32q_2.png}}
-\vspace{-6pt}
+%\vspace{-6pt}
 \caption{Mutation Probability vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:mutation32q}
 \end{figure}
@@ -318,7 +327,7 @@ Our analysis of the algorithm shows that the self-adaptive approach adjusts the 
 
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_065_32q_3.png}}
-\vspace{-6pt}
+%\vspace{-6pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Traditional GA, $M_{c} = 0.65$)} 
 \label{fig:bestfixedn32q}
 \end{figure}
