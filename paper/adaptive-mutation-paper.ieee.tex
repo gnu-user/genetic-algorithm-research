@@ -90,7 +90,7 @@ Table \ref{table:probgrowth} shows the massive exponential increase in problem s
 % FIGURE - HISTOGRAM
 \begin{figure}[h!]
 \centering
-\includegraphics[width=0.45\textwidth]{8_queens_histogram.png}
+\includegraphics[width=0.45\textwidth]{figures/8_queens_histogram.png}
 \vspace{-12pt}
 \caption{8-Queen Problem Collisions Histogram}
 \label{fig:histogram}
@@ -300,14 +300,14 @@ The performance difference with respect to the number of found solutions can be 
 We observed that there is a proportional inverse relationship between $N$ and the best experimentally determined $M_{c}$. As $N$ increases, the best $M_{c}$ which yielded the most solutions decreases. The point this raises is that there is an unfair advantage for the traditional GA over the self-adaptive approach, since the optimal static $M_{c}$ changes as $N$ changes. But we know that the ideal $M_{c}$ for all problems are unknown. Generally, foreknowledge of the ideal $M_{c}$ is not available in order to exploit this advantage \cite{cit:14}, but in this case it was experimentally determined. Optimally tuned control parameters are critical and provide a major advantage. Still, the self-adaptive approach consistently outperformed traditional GA with optimized parameters for the large problem sizes, even as the parameters were adjusted to better suit the problem. Our conclusion is that the self-adaptive approach will continue to outperform the traditional GA method as $N$ grows, based on the increasing gap in performance observed. The main reason is that even the most optimal value of the mutation rate remains unchanged during the search process. This is why it cannot compete with our self-adaptive scheme.
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{similarity_variable_32q_1.png}}
+\centerline{\includegraphics[width=0.50\textwidth]{figures/similarity_variable_32q_1.png}}
 \vspace{-12pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:sim32q}
 \end{figure}
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{mutation_32q_1.png}}
+\centerline{\includegraphics[width=0.50\textwidth]{figures/mutation_32q_1.png}}
 \vspace{-12pt}
 \caption{Mutation Probability vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:mutation32q}
@@ -319,7 +319,7 @@ Our analysis of the algorithm shows that the self-adaptive approach adjusts the 
 %TODO REPLACE THIS GRAPHIC (URGENT)
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.50\textwidth]{similarity_0.65_32q_2.png}}
+\centerline{\includegraphics[width=0.50\textwidth]{figures/similarity_0.65_32q_2.png}}
 \vspace{-12pt}
 \caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Traditional GA, $M_{c} = 0.65$)} 
 \label{fig:bestfixedn32q}
