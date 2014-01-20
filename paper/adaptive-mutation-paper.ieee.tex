@@ -121,13 +121,14 @@ We used a GA with an integer-encoded chromosome to represent the N-Queen positio
 \centering
 \caption{Experimental Control Parameters}
 \begin{tabular}{|l|l|} \hline
-Variable&                                     Value \\ \hline
-Similarity Threshold ($S_{t}$)&               $15\%$ \\ \hline
-Adaptive Mutation Bounds ($M_{a}$)&           $[1, 99]$ \\ \hline   
-Adaptive Mutation Increment ($M_{a\Delta}$)&  $1$ \\ \hline
-Crossover Probability ($P_{crossover}$)&      $70\%$ \\ \hline
-Cloning Probability ($P_{cloning}$)&          $30\%$ \\ \hline
-Population Size ($P$)&                        $64$ \\ \hline      
+Variable&                                         Value \\ \hline
+Similarity Threshold ($S_{t}$)&                   $15\%$ \\ \hline
+Adaptive Mutation Bounds ($M_{a}$)&               $[1, 99]$ \\ \hline   
+Adaptive Mutation Increment ($M_{a\Delta}$)&      $1$ \\ \hline
+Crossover Probability ($P_{crossover}$)&          $70\%$ \\ \hline
+Cloning Probability ($P_{cloning}$)&              $30\%$ \\ \hline
+Adaptive Mutation Probability ($P_{adaptive}$)&   $variable$ \\ \hline
+Population Size ($P$)&                            $64$ \\ \hline
 \end{tabular}
 \label{table:geneticoperators}
 \end{table}
@@ -307,7 +308,7 @@ We observed that there is a proportional inverse relationship between $N$ and th
 \end{figure}
 
 \begin{figure}[htp]
-\centerline{\includegraphics[width=0.48\textwidth]{figures/mutation_32q_1.png}}
+\centerline{\includegraphics[width=0.48\textwidth]{figures/mutation_32q_2.png}}
 \vspace{-6pt}
 \caption{Mutation Probability vs Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:mutation32q}
