@@ -8,6 +8,7 @@
 \usepackage{graphicx,times,amsmath} % Add all your packages here
 \usepackage{epstopdf}
 \usepackage{algorithm2e}
+\usepackage{array}
 \usepackage{multirow}
 \usepackage[hidelinks]{hyperref}
 % correct bad hyphenation here
@@ -22,6 +23,9 @@
 \evensidemargin -7mm
 \topmargin -6mm
 \columnsep 5mm
+
+\newcommand{\thickline}{\noalign{\global\arrayrulewidth1pt}\hline
+                      \noalign{\global\arrayrulewidth1pt}}
 
 \begin{document}
 
@@ -359,30 +363,67 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \
 \label{table:distinctsol}
 \end{table}
 
+
 \begin{table}
 \centering
 \caption{First N-Queens Distinct Solution}
 \begin{tabular}{|l|l|l|l|l|} \hline
 &               &  \multicolumn{2}{c|}{Number of Generations}& \\ \cline{3-4}
 $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \hline
- 8&     0.75&               45&                     91&                     $-$102.22\%\\ \hline
- 9&     0.8&                121&                    186&                    $-$53.72\%\\ \hline
-10&     0.8&                261&                    417&                    $-$59.77\%\\ \hline
-11&     0.7&                444&                    364&                    $+$18.02\%\\ \hline
-12&     0.65&               457&                    463&                    $-$1.31\%\\ \hline
-13&     0.7&                448&                    582&                    $-$29.91\%\\ \hline
-14&     0.65&               494&                    609&                    $-$23.28\%\\ \hline
-15&     0.65&               598&                    513&                    $+$14.21\%\\ \hline
-16&     0.65&               662&                    606&                    $+$8.46\%\\ \hline
-18&     0.65&               911&                    688&                    $+$24.48\%\\ \hline
-20&     0.55&               889&                    862&                    $+$3.04\%\\ \hline
-22&     0.5&                1,234&                  1,211&                  $+$1.86\%\\ \hline
-24&     0.4&                1,209&                  1,182&                  $+$2.23\%\\ \hline
-26&     0.45&               1,599&                  942&                    $+$41.09\%\\ \hline
-32&     0.5&                2,298&                  1,995&                  $+$13.19\%\\ \hline
+ 8&     0.75&               45&                     91&                     $ -50.55\% $\\ \hline
+ 9&     0.8&                121&                    186&                    $ -34.95\% $\\ \hline
+10&     0.8&                261&                    417&                    $ -37.41\% $\\ \hline
+11&     0.7&                444&                    364&                    $ +21.98\% $\\ \hline
+12&     0.65&               457&                    463&                    $ -1.30\%  $\\ \hline
+13&     0.7&                448&                    582&                    $ -23.02\% $\\ \hline
+14&     0.65&               494&                    609&                    $ -18.88\% $\\ \hline
+15&     0.65&               598&                    513&                    $ +16.57\% $\\ \hline
+16&     0.65&               662&                    606&                    $ +9.24\%  $\\ \hline
+18&     0.65&               911&                    688&                    $ +32.41\% $\\ \hline
+20&     0.55&               889&                    862&                    $ +3.13\%  $\\ \hline
+22&     0.5&                1,234&                  1,211&                  $ +1.90\%  $\\ \hline
+24&     0.4&                1,209&                  1,182&                  $ +2.28\%  $\\ \hline
+26&     0.45&               1,599&                  942&                    $ +69.75\% $\\ \hline
+32&     0.5&                2,298&                  1,995&                  $ +15.19\% $\\ \hline
 \end{tabular}
 \label{table:firstsol}
 \end{table}
+
+
+\begin{table}
+\centering
+\caption{First 32-Queens Distinct Solution -- All Mutation Rates}
+% =========== INCREASE HEIGHT OF TABLE ROWS ===========
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|} \hline
+$M_{c}$&    Number of Generations&            Difference ($M_{c}$ - $M_{a}$)\\ \hline
+0.01&            168,977&                    $ +8,370.03\% $ \\ \hline
+0.05&            18,961&                     $ +850.43\% $ \\ \hline
+0.1&             14,286&                     $ +616.09\% $ \\ \hline
+0.15&            9,590&                      $ +380.70\% $ \\ \hline
+0.2&             6,628&                      $ +232.23\% $ \\ \hline
+0.25&            4,563&                      $ +128.72\% $ \\ \hline
+0.3&             3,480&                      $ +74.44\% $ \\ \hline
+0.35&            3,548&                      $ +77.84\% $ \\ \hline
+0.4&             3,290&                      $ +64.91\% $ \\ \hline
+0.45&            2,310&                      $ +15.79\% $ \\ \hline
+0.5&             2,298&                      $ +15.19\% $ \\ \hline
+0.55&            9,143&                      $ +358.30\% $ \\ \hline
+0.6&             63,428&                     $ +3,079.35\% $ \\ \hline
+0.65&            4,321,895&                  $ +2.17\times10^{5}\% $ \\ \hline
+0.7&             36,873,976&                 $ +1.85\times10^{6}\% $ \\ \hline
+0.75&            50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+0.8&             50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+0.85&            50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+0.9&             50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+0.95&            50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+0.95&            50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline
+1.0&             50,000,000 (No Solution)&   $ +2.51\times10^{6}\% $ \\ \hline \hline
+Self-Adaptive&   1,995&                      $ Avg. = +8.93\times10^{5}\% $ \\ \hline
+\end{tabular}}
+\label{table:firstsol_32q}
+\end{table}
+
 
 \subsection{Testing Against Multi-Perspective Challenges}
 While our primary goal was to compare which approach generated as many solutions as possible on a fixed budget, the secondary aim of the N-Queens problem is to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods \cite{cit:22,cit:23}, but when the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
