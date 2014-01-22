@@ -381,10 +381,13 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \
 
 
 \begin{table}
-\centering
 \caption{First N-Queens Distinct Solution}
+\begin{minipage}{\columnwidth}%
+\centering
+\renewcommand\footnoterule{ \kern -2ex}
+\renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
 \begin{tabular}{|l|l|l|l|l|} \hline
-&               &  \multicolumn{2}{c|}{Number of Generations}& \\ \cline{3-4}
+&               &  \multicolumn{2}{c|}{Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}}& \\ \cline{3-4}
 $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \hline
  8&     0.75&               45&                     91&                     $ -50.55\% $\\ \hline
  9&     0.8&                121&                    186&                    $ -34.95\% $\\ \hline
@@ -403,6 +406,7 @@ $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \h
 32&     0.5&                2,298&                  1,995&                  $ +15.19\% $\\ \hline
 \end{tabular}
 \label{table:firstsol}
+\end{minipage}
 \end{table}
 
 
@@ -440,12 +444,15 @@ $N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
 
 
 \begin{table}
-\centering
 \caption{First 32-Queens Distinct Solution -- All Mutation Rates}
+\begin{minipage}{\columnwidth}%
+\centering
+\renewcommand\footnoterule{ \kern -2ex}
+\renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|} \hline
-$M_{c}$&         Number of Generations&      Difference ($M_{c}$ - $M_{a}$)\\ \hline
+$M_{c}$&         Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                        Difference ($M_{c}$ - $M_{a}$)\\ \hline
 0.01&            168,977&                    $ +8,370.03\% $ \\ \hline
 0.05&            18,961&                     $ +850.43\% $ \\ \hline
 0.1&             14,286&                     $ +616.09\% $ \\ \hline
@@ -471,6 +478,7 @@ $M_{c}$&         Number of Generations&      Difference ($M_{c}$ - $M_{a}$)\\ \h
 Self-Adaptive&   1,995&                      $ Avg. = +8.93\times10^{5}\% $ \\ \hline
 \end{tabular}}
 \label{table:firstsol_32q}
+\end{minipage}
 \end{table}
 
 % TODO DISCUSS THE RESULTS OF THIS TABLE
