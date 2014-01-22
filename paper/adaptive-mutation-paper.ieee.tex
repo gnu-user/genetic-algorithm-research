@@ -188,7 +188,7 @@ Chromosome similarity is calculated using a deterministic algorithm, presented i
   \Length $\leftarrow$ length of $chromosomes$\;
   \BlankLine
   
-  \tcp{Sort using an arbitrary sorting algorithm}
+  \tcp{Use arbitrary sorting algorithm}
   \Sorted $\leftarrow$ \Sort{$chromosomes$}\;
   \BlankLine
   
@@ -206,7 +206,7 @@ Chromosome similarity is calculated using a deterministic algorithm, presented i
     }
     \BlankLine
     
-    \tcp{Case where the last item is a match}
+    \tcp{Check: last item is a match}
     \If{\Matched and $\left(i + 1 == \Length - 1 \right)$}
     {
       \Similar $\leftarrow$ \Similar + 1\;
@@ -215,7 +215,7 @@ Chromosome similarity is calculated using a deterministic algorithm, presented i
   \BlankLine
   \KwRet{\Similar / \Length}
   }
-\caption{Chromosome similarity evaluation function}
+\caption{Chromosome Similarity Evaluation Function}
 \label{alg:similarity}
 \end{algorithm}
 
@@ -242,7 +242,7 @@ Candidate solution fitness is evaluated by determining the number of collisions 
     
     \For{$i \leftarrow 0$ \KwTo $\Length -1$}
     {
-      \tcp{Check each gene against the current}
+      \tcp{Compare each gene}
       $j \leftarrow \left( i + 1 \right) \mod{\Length}$\;
       \While{$j$ != $i$}
       {
@@ -250,14 +250,14 @@ Candidate solution fitness is evaluated by determining the number of collisions 
         \Yj $\leftarrow \Chromosome{j}$\;
         \BlankLine
         
-        \tcp{Check for vertical collision}
+        \tcp{Check: column queens}
         \If{\Yi == \Yj}
         {
           \Collisions $\leftarrow \Collisions + 1$\; 
         }
         \BlankLine
         
-        \tcp{Check for diagonal collision}
+        \tcp{Check: diagonal queens}
         \If{\Abs{$\left(i - j \right)$ / $\left(\Yi - \Yj \right)$} == 1}
         {
           \Collisions $\leftarrow \Collisions + 1$\;
@@ -277,7 +277,7 @@ Candidate solution fitness is evaluated by determining the number of collisions 
       \KwRet{1 / \Collisions}\;
     }
   }
-\caption{Fitness function}
+\caption{Fitness Function}
 \label{alg:fitness}
 \end{algorithm}
 
@@ -326,14 +326,14 @@ We observed that there is a proportional inverse relationship between $N$ and th
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_variable_32q_3.png}}
 %\vspace{-6pt}
-\caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Self-Adaptive)} 
+\caption{Chromosome Similarity vs. Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:sim32q}
 \end{figure}
 
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/mutation_32q_3.png}}
 %\vspace{-6pt}
-\caption{Mutation Probability vs Generations for the 32-Queen Problem (Self-Adaptive)} 
+\caption{Mutation Probability vs. Generations for the 32-Queen Problem (Self-Adaptive)} 
 \label{fig:mutation32q}
 \end{figure}
 
@@ -342,7 +342,7 @@ Our analysis of the algorithm shows that the self-adaptive approach adjusts the 
 \begin{figure}[htp]
 \centerline{\includegraphics[width=0.48\textwidth]{figures/similarity_065_32q_3.png}}
 %\vspace{-6pt}
-\caption{Chromosome Similarity vs Generations for the 32-Queen Problem (Traditional GA, $M_{c} = 0.65$)} 
+\caption{Chromosome Similarity vs. Generations for the 32-Queen Problem (Traditional GA, $M_{c} = 0.65$)} 
 \label{fig:bestfixedn32q}
 \end{figure}
 
@@ -408,7 +408,7 @@ $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    \% Difference\\
 \renewcommand\footnoterule{ \kern -2ex}
 \renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
-{\renewcommand{\arraystretch}{1.2}
+{\renewcommand{\arraystretch}{1.2}t c
 \begin{tabular}{|l|l|l|l|} \hline
 &       \multicolumn{2}{c|}{Number of Function Calls (\emph{NFC})}& \\ \cline{2-3}
 $N$&    Deterministic \cite{cit:21}&  Self-Adaptive\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                       \% Difference \\ \hline
