@@ -57,7 +57,22 @@ Tuning up control parameters has a crucial effect on the GA's performance \cite{
 Our software solution was written in Java, and is available through GitHub at the following URL: \url{http://git.io/RKfAvQ}. It is open source licensed under the \textit{GNU General Public License, Version 3}.
 
 \section{Background Review}
-The N-Queens problem requires that a number of queens, $N$, are placed on an $N \times N$ chessboard such that they will not attack each other. The N-Queens problem is multi-modal, with many local optima and global optima. Like many other complex optimization problems, the N-Queens problem becomes staggeringly complex as the problem size increases \cite{cit:3}. The problem is bound by the rules of chess. Our solution includes protective embedded constraints which restrict the structure of the chromosome - this prevents queens from sharing rows, allowing only for queens to attack each other on a shared column or the diagonal. When two queens share the same diagonal, a collision occurs for each queen, meaning that the board state is not a solution. A solution is found when no queens on the board can attack another. The search space size is {$N!$} when an exhaustive method is applied to find all possible solutions. 
+The N-Queens problem requires that a number of queens, $N$, are placed on an $N \times N$ chessboard such that they will not attack each other. The N-Queens problem is multi-modal, with many local optima and global optima. Like many other complex optimization problems, the N-Queens problem becomes staggeringly complex as the problem size increases \cite{cit:3}. The problem is bound by the rules of chess. 
+
+
+% FIGURE - 8 QUEENS DISTINCT SOLUTION
+\begin{figure}[h!]
+\centerline{\includegraphics[width=0.35\textwidth]{figures/8_queens_solution.png}}
+%\vspace{-12pt}
+\caption{Distinct Solution to the 8-Queens Problem}
+\label{fig:solution}
+\end{figure}
+
+% TODO CHECK THAT IMAGE MAKES SENSE WHERE IT'S PLACED IN THE TEXT, 
+% PERHAPS ADD A SMALL REFERENCE TO FIGURE IN TEXT
+
+
+Our solution includes protective embedded constraints which restrict the structure of the chromosome - this prevents queens from sharing rows, allowing only for queens to attack each other on a shared column or the diagonal. When two queens share the same diagonal, a collision occurs for each queen, meaning that the board state is not a solution. A solution is found when no queens on the board can attack another. The search space size is {$N!$} when an exhaustive method is applied to find all possible solutions. 
 
 % TABLE - N QUEENS PROBLEM GROWTH
 \begin{table}[h!]
@@ -95,7 +110,7 @@ Table \ref{table:probgrowth} shows the massive exponential increase in problem s
 \begin{figure}[h!]
 \centerline{\includegraphics[width=0.45\textwidth]{figures/8_queens_histogram.png}}
 %\vspace{-12pt}
-\caption{8-Queen Problem Collisions Histogram, Showing Distribution Based on Fitness Values}
+\caption{8-Queens Problem Collisions Histogram, Showing Distribution Based on Fitness Values}
 \label{fig:histogram}
 \end{figure}
 
@@ -423,6 +438,11 @@ Self-Adaptive&   1,995&                      $ Avg. = +8.93\times10^{5}\% $ \\ \
 \end{tabular}}
 \label{table:firstsol_32q}
 \end{table}
+
+% TODO DISCUSS THE RESULTS OF THIS TABLE
+
+
+
 
 
 \subsection{Testing Against Multi-Perspective Challenges}
