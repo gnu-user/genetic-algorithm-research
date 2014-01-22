@@ -359,7 +359,7 @@ The self-adaptive approach increases diversity and generates more diverse candid
 \caption{Most N-Queens Distinct Solutions}
 \begin{tabular}{|l|l|l|l|l|} \hline
 &               &  \multicolumn{2}{c|}{Distinct Solutions Found}& \\ \cline{3-4}
-$N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \hline
+$N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive&    \% Difference\\ \hline
 8&  0.95&          92&              92&                         $\pm$ 0\% \\ \hline                        
 9&  0.95&          352&             352&                        $\pm$ 0\% \\ \hline
 10& 0.9&           724&             724&                        $\pm$ 0\% \\ \hline
@@ -388,7 +388,7 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \
 \renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
 \begin{tabular}{|l|l|l|l|l|} \hline
 &               &  \multicolumn{2}{c|}{Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}}& \\ \cline{3-4}
-$N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \hline
+$N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    \% Difference\\ \hline
  8&     0.75&               45&                     91&                     $ -50.55\% $\\ \hline
  9&     0.8&                121&                    186&                    $ -34.95\% $\\ \hline
 10&     0.8&                261&                    417&                    $ -37.41\% $\\ \hline
@@ -417,7 +417,7 @@ $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \h
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|l|} \hline
 &       \multicolumn{2}{c|}{Number of Function Calls (\emph{NFC})}& \\ \cline{2-3}
-$N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
+$N$&    Deterministic&  Self-Adaptive&  \% Difference \\ \hline
 8&      876&            5,824&          $ -84.96\% $ \\ \hline
 9&      333&            11,904&         $ -97.20\% $ \\ \hline
 10&     975&            26,688&         $ -96.35\% $ \\ \hline
@@ -452,7 +452,7 @@ $N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|} \hline
-$M_{c}$&         Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                        Difference ($M_{c}$ - $M_{a}$)\\ \hline
+$M_{c}$&         Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                        \% Difference \\ \hline
 0.01&            168,977&                    $ +8,370.03\% $ \\ \hline
 0.05&            18,961&                     $ +850.43\% $ \\ \hline
 0.1&             14,286&                     $ +616.09\% $ \\ \hline
