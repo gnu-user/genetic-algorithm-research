@@ -407,11 +407,44 @@ $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \h
 
 \begin{table}
 \centering
+\caption{First N-Queens Distinct Solution -- Deterministic}
+% =========== INCREASE HEIGHT OF TABLE ROWS ===========
+{\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|l|l|} \hline
+&       \multicolumn{2}{c|}{Number of Function Calls (\emph{NFC})}& \\ \cline{2-3}
+$N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
+8&      876&            5,824&          $ -84.96\% $ \\ \hline
+9&      333&            11,904&         $ -97.20\% $ \\ \hline
+10&     975&            26,688&         $ -96.35\% $ \\ \hline
+11&     517&            23,296&         $ -97.78\% $ \\ \hline
+12&     3,066&          29,632&         $ -89.65\% $ \\ \hline
+13&     1,365&          37,248&         $ -96.34\% $ \\ \hline
+14&     26,495&         38,976&         $ -32.02\% $ \\ \hline
+15&     20,280&         32,832&         $ -38.23\% $ \\ \hline
+16&     160,712&        38,784&         $ +314.38\% $ \\ \hline
+18&     743,229&        44,032&         $ +1,587.93\% $ \\ \hline
+20&     3,992,510&      55,168&         $ +7,137.00\% $ \\ \hline
+22&     38,217,905&     77,504&         $ +4.92\times10^{4}\% $ \\ \hline
+24&     9,878,316&      75,648&         $ +12.96\times10^{4}\% $ \\ \hline
+26&     10,339,849&     60,288&         $ +17.10\times10^{4}\% $ \\ \hline
+32&     2,799,725,104&  127,680&        $ +2.19\times10^{6}\% $ \\ \hline
+\end{tabular}}
+\label{table:firstsol_deterministic}
+\end{table}
+
+% TODO DISCUSS RESULTS OF THIS TABLE
+% TODO DEFINE NFC, NUMBER OF FUNCTION CALLS (CALLS TO THE FITNESS FUNCTION USED TO
+% DETERMINE IF SOLUTION) FOR GA NFC = # GENERATIONS * POPULATION SIZE
+
+
+
+\begin{table}
+\centering
 \caption{First 32-Queens Distinct Solution -- All Mutation Rates}
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|} \hline
-$M_{c}$&    Number of Generations&            Difference ($M_{c}$ - $M_{a}$)\\ \hline
+$M_{c}$&         Number of Generations&      Difference ($M_{c}$ - $M_{a}$)\\ \hline
 0.01&            168,977&                    $ +8,370.03\% $ \\ \hline
 0.05&            18,961&                     $ +850.43\% $ \\ \hline
 0.1&             14,286&                     $ +616.09\% $ \\ \hline
@@ -440,7 +473,6 @@ Self-Adaptive&   1,995&                      $ Avg. = +8.93\times10^{5}\% $ \\ \
 \end{table}
 
 % TODO DISCUSS THE RESULTS OF THIS TABLE
-
 
 
 
