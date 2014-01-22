@@ -51,7 +51,7 @@ This paper proposes a novel algorithm for solving combinatorial optimization pro
 % no key words
 
 \section{Introduction}
-\PARstart{G}{enetic algorithms} (GA) are particularly effective to solve complex or large size combinatorial problems \cite{cit:1,cit:2}. One well-known problem is the N-Queens problem. An efficient and common approach to tackle these problems (especially for large values of $N$) are genetic algorithms, by encoding positions of the N-Queens on the chessboard into the chromosome. As with any genetic algorithm, evaluating the fitness of the chromosomes is required to determine the quality of candidate solutions \cite{cit:8}, but the N-Queens problem is different in that only those candidates with perfect fitness are considered correct solutions to the problem, which means a zero attack chessboard. 
+\PARstart{G}{enetic algorithms} (GA) are particularly effective to solve complex or large size combinatorial problems \cite{cit:1,cit:2}. One well-known problem is the N-Queens problem. An efficient and common approach to tackle these problems (especially for large values of $N$) are genetic algorithms, by encoding positions of the N-Queens on the chessboard into the chromosome. As with any genetic algorithm, evaluating the fitness of the chromosomes is required to determine the quality of candidate solutions \cite{cit:8}, but the N-Queens problem is different in that only those candidates with perfect fitness are considered correct solutions to the problem, which means a zero-attack chessboard (seen in Figure \ref{fig:solution}. 
 
 Tuning up control parameters has a crucial effect on the GA's performance \cite{cit:12,cit:13,cit:15,cit:7}. We have found that by replacing the traditional GA's static mutation probability with a self-adaptive mutation probability, a better performance can be achieved when solving the N-Queens problem by considering different performance perspectives. Our objectives focus on 1) finding as many solutions as possible within a fixed budget, and 2) finding the first solution as quickly as possible. The proposed approach adapts based on the similarity of chromosomes in the population. The increase in performance is compounded in larger versions of the problem where the search space grows extremely large, such as the situation encountered when attempting to solve higher-order N-Queens. In this domain, deterministic methods prove useless. The number of queens that must be placed tentatively onto the board while seeking even the first solution becomes enormous very quickly \cite{cit:21}, but our approach prevails.
 
@@ -68,10 +68,6 @@ The N-Queens problem requires that a number of queens, $N$, are placed on an $N 
 \caption{A Distinct Solution to the 8-Queens Problem (Zero-Attack Chessboard)}
 \label{fig:solution}
 \end{figure}
-
-% TODO CHECK THAT IMAGE MAKES SENSE WHERE IT'S PLACED IN THE TEXT, 
-% PERHAPS ADD A SMALL REFERENCE TO FIGURE IN TEXT
-
 
 Our solution includes protective embedded constraints which restrict the structure of the chromosome - this prevents queens from sharing rows, allowing only for queens to attack each other on a shared column or the diagonal. When two queens share the same diagonal, a collision occurs for each queen, meaning that the board state is not a solution. A solution is found when no queens on the board can attack another. The search space size is {$N!$} when an exhaustive method is applied to find all possible solutions. 
 
@@ -145,7 +141,6 @@ Figure \ref{fig:flowchart} shows the flowchart for the self-adaptive mutation ap
 We used a GA with an integer-encoded chromosome to represent the N-Queens positions on the chessboard for all of our tests independent of their approach. Our chromosome structure includes protective embedded constraints which reduce the size of the search space drastically. These constraints are imposed through our data structure, which consists of a 1-dimensional array (of size $N$ with zero-based numbering) that stores the column position of the queens at each array index. The index is used to represent the row position of each queen, preventing more than one queen from appearing in the same row. Values stored inside the array must be between 0 and $N - 1$, preventing a queen from being placed outside the chessboard. However, we do not restrict the values within the array from being repeated, which can occur as a result of the crossover or mutation operators. When repetition occurs within the array, a collision will occur on the respective column. Our implementation uses traditional GA operators - selection, crossover, and mutation. Ordinary roulette wheel selection \cite{cit:19} is used in conjunction with single-value uniform mutation and single-point crossover/recombination \cite{cit:16}. 
 
 % TABLE - EXPERIMENTAL VARIABLES
-% TODO HAVE SHAHRYAR LOOK OVER THE VARIABLES/NAMING USED
 \begin{table}
 \centering
 \caption{Experimental Control Parameters}
@@ -292,12 +287,11 @@ In each generation there is always a strong possibility that some of the chromos
 Symmetry operations consist of three $90^{\circ}$ rotations, a horizontal reflection, and then 3 further $90^{\circ}$ rotations of the reflected board. Each symmetrical board configuration is a candidate solution that is checked against the existing distinct solutions. It is discarded if it has already been found previously, because it is indistinct. Each distinct solution can potentially yield up to 7 additional distinct solutions depending on the placement of queens, giving 8 solutions in total.
 
 \section{Experiments}
-We measured the performance of our self-adaptive approach using an empirical study. Our methodology was to solve N-Queens for various values of N with a limited budget of generations. Number of function calls (NFC) is given as $P \times Generations$ where $P = 64$ as specified in Table \ref{table:geneticoperators}, as the fitness evaluation function is called $P$ times per generation. Each experiment was repeated a multitude of times to ensure accuracy and collect aggregate statistics. Table \ref{table:trials} shows the number of generations permitted and the number of trials run for each value of $N$. Special budgets and trial multiplicities were set for $N = 32$ in order to accommodate the exceptionally large problem size.
+We measured the performance of our self-adaptive approach using an empirical study. Our methodology was to solve N-Queens for various values of N with a limited budget of generations. Number of function calls (\emph{NFC}) is given as $P \times Generations$ where $P = 64$ as specified in Table \ref{table:geneticoperators}, as the fitness evaluation function is called $P$ times per generation. Each experiment was repeated a multitude of times to ensure accuracy and collect aggregate statistics. Table \ref{table:trials} shows the number of generations permitted and the number of trials run for each value of $N$. Special budgets and trial multiplicities were set for $N = 32$ in order to accommodate the exceptionally large problem size.
 
 Our control used traditional GA with fixed mutation probabilities ($M_{c}$) of $M_{c}$ = 1\%, 5\%, 10\% to 100\% (with a step size of 5\%) to solve each N-Queens problem. These trials were run with the same multiplicity and budget as our self-adaptive approach. The goal of the control trials was to approximately determine the optimal $M_{c}$ for finding the most solutions for each problem in the given time budget, and finding the first solution fastest. Our aim was to test our new approach against a reasonable approximation of the best possible performance that the traditional GA approach can provide. Optimized control parameters for mutation would be determined and used as a benchmark, similar to Hesser and M\"{a}nner's study \cite{cit:14}.
 
 % TABLE - EXPERIMENTAL TRIALS/TESTS
-% TODO HAVE SHAHRYAR LOOK OVER THE VARIABLES/NAMING USED
 \begin{table}
 \centering
 \caption{Experimental Trials}
@@ -384,7 +378,7 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive&            \% Difference\\ 
 \centering
 \caption{First N-Queens Distinct Solution}
 \begin{tabular}{|l|l|l|l|l|} \hline
-&               &  \multicolumn{2}{c|}{Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}}& \\ \cline{3-4}
+&               &  \multicolumn{2}{c|}{Number of Generations}& \\ \cline{3-4}
 $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    \% Difference\\ \hline
  8&     0.75&               45&                     91&                     $ -50.55\% $\\ \hline
  9&     0.8&                121&                    186&                    $ -34.95\% $\\ \hline
@@ -438,13 +432,7 @@ $N$&    Deterministic&  Self-Adaptive\footnote{\emph{NFC} is given as $P \times 
 \end{minipage}
 \end{table}
 
-% TODO DISCUSS RESULTS OF THIS TABLE
-% TODO DEFINE NFC, NUMBER OF FUNCTION CALLS (CALLS TO THE FITNESS FUNCTION USED TO
-% DETERMINE IF SOLUTION) FOR GA NFC = # GENERATIONS * POPULATION SIZE
-
-
-
-\begin{table}
+\begin{table}[!h]
 \centering
 \caption{First 32-Queens Distinct Solution -- All Mutation Rates}
 \begin{minipage}{\columnwidth}%
@@ -482,11 +470,6 @@ Self-Adaptive&   1,995&                      $ Avg. = +8.92\times10^{5}\% $ \\ \
 \label{table:firstsol_32q}
 \end{minipage}
 \end{table}
-
-% TODO DISCUSS THE RESULTS OF THIS TABLE
-
-
-
 
 \subsection{Testing Against Multi-Perspective Challenges}
 While our primary goal was to compare which approach generated as many solutions as possible on a fixed budget, the secondary aim of the N-Queens problem is to generate a single solution as quickly as possible. This can theoretically be performed in polynomial time using deterministic methods \cite{cit:22,cit:23}, and is shown to be most efficient in our results presented in Table \ref{table:firstsol_deterministic}. When the problem size is very large this is nowhere near as fast or efficient as stochastic approaches.
