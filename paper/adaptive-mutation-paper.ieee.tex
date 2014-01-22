@@ -381,11 +381,8 @@ $N$&  Best $M_{c}$&  Best $M_{c}$&    Self-Adaptive ($M_{a}$)&    Difference\\ \
 
 
 \begin{table}
-\caption{First N-Queens Distinct Solution}
-\begin{minipage}{\columnwidth}%
 \centering
-\renewcommand\footnoterule{ \kern -2ex}
-\renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
+\caption{First N-Queens Distinct Solution}
 \begin{tabular}{|l|l|l|l|l|} \hline
 &               &  \multicolumn{2}{c|}{Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}}& \\ \cline{3-4}
 $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \hline
@@ -406,18 +403,21 @@ $N$&    Fastest $M_{c}$&    Fastest $M_{c}$&   Self-Adaptive&    Difference\\ \h
 32&     0.5&                2,298&                  1,995&                  $ +15.19\% $\\ \hline
 \end{tabular}
 \label{table:firstsol}
-\end{minipage}
 \end{table}
 
 
 \begin{table}
 \centering
 \caption{First N-Queens Distinct Solution -- Deterministic}
+\begin{minipage}{0.9\columnwidth}%
+\centering
+\renewcommand\footnoterule{ \kern -2ex}
+\renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|l|} \hline
 &       \multicolumn{2}{c|}{Number of Function Calls (\emph{NFC})}& \\ \cline{2-3}
-$N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
+$N$&    Deterministic&  Self-Adaptive\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                       Difference \\ \hline
 8&      876&            5,824&          $ -84.96\% $ \\ \hline
 9&      333&            11,904&         $ -97.20\% $ \\ \hline
 10&     975&            26,688&         $ -96.35\% $ \\ \hline
@@ -435,6 +435,7 @@ $N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
 32&     2,799,725,104&  127,680&        $ +2.19\times10^{6}\% $ \\ \hline
 \end{tabular}}
 \label{table:firstsol_deterministic}
+\end{minipage}
 \end{table}
 
 % TODO DISCUSS RESULTS OF THIS TABLE
@@ -444,15 +445,12 @@ $N$&    Deterministic&  Self-Adaptive&  Difference \\ \hline
 
 
 \begin{table}
-\caption{First 32-Queens Distinct Solution -- All Mutation Rates}
-\begin{minipage}{\columnwidth}%
 \centering
-\renewcommand\footnoterule{ \kern -2ex}
-\renewcommand{\thempfootnote}{\fnsymbol{mpfootnote}}
+\caption{First 32-Queens Distinct Solution -- All Mutation Rates}
 % =========== INCREASE HEIGHT OF TABLE ROWS ===========
 {\renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|l|l|l|} \hline
-$M_{c}$&         Number of Generations\footnote{\emph{NFC} is given as $P \times Generations$, where $P = 64$.}&                        Difference ($M_{c}$ - $M_{a}$)\\ \hline
+$M_{c}$&         Number of Generations&      Difference ($M_{c}$ - $M_{a}$)\\ \hline
 0.01&            168,977&                    $ +8,370.03\% $ \\ \hline
 0.05&            18,961&                     $ +850.43\% $ \\ \hline
 0.1&             14,286&                     $ +616.09\% $ \\ \hline
@@ -478,7 +476,6 @@ $M_{c}$&         Number of Generations\footnote{\emph{NFC} is given as $P \times
 Self-Adaptive&   1,995&                      $ Avg. = +8.92\times10^{5}\% $ \\ \hline
 \end{tabular}}
 \label{table:firstsol_32q}
-\end{minipage}
 \end{table}
 
 % TODO DISCUSS THE RESULTS OF THIS TABLE
